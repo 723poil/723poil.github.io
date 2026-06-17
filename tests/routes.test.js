@@ -33,4 +33,11 @@ describe('static routes', () => {
     assert.match(html, /<link\b(?=[^>]*\brel=["']stylesheet["'])(?=[^>]*\bhref=["']assets\/styles\.css["'])[^>]*>/);
     assert.match(html, /<script\b[^>]*\btype=["']module["']/);
   });
+
+  it('home page exposes key content regions', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+    assert.match(html, /id="strengths"/);
+    assert.match(html, /id="featured-projects"/);
+    assert.match(html, /id="recent-records"/);
+  });
 });
