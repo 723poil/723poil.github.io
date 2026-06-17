@@ -112,4 +112,12 @@ describe('static routes', () => {
     assert.match(html, /모니터링 및 로그 조회 환경/);
     assert.match(html, /서비스 운영 및 개발 업무 참여/);
   });
+
+  it('home page describes companies before listing personal work', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /AI 기술을 기반으로 사용자 서비스와 디지털 콘텐츠 제품을 운영하는 회사입니다/);
+    assert.match(html, /프랜차이즈 매장의 주문, 결제, POS·KIOSK, 정산 운영을 지원하는 매장 운영 솔루션 회사입니다/);
+    assert.doesNotMatch(html, /company-summary">[^<]*(다뤘습니다|개발했습니다|참여했습니다)/);
+  });
 });
