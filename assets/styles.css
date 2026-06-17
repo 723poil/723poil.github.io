@@ -438,6 +438,13 @@ a {
   line-height: 1.4;
 }
 
+.career-project .project-period {
+  margin: 0 0 10px;
+  color: var(--red);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
 .career-project p {
   margin: 0;
   color: #495057;
