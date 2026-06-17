@@ -98,37 +98,83 @@
 
       <section class="section section-gray" id="experience">
         <h2 class="section-title">CAREER</h2>
-        <div class="timeline site-shell">
-          <article class="timeline-item">
-            <p class="eyebrow">2026 - 현재 · 씨앤에이아이</p>
-            <h3>백엔드 개발자</h3>
-            <p>Toss·PayPal 결제 안정성 구조를 중심으로 승인, 내부 처리, 실패 보상 흐름을 나누어 결제 데이터 불일치 가능성을 줄였습니다.</p>
-            <ul class="career-points">
-              <li>단건 결제와 구독 결제 흐름 분리</li>
-              <li>Redis Lock과 멱등키 기반 중복 처리 제어</li>
-              <li>내부 처리 실패 시 PG 취소 API로 보상 처리</li>
-            </ul>
-            <div class="meta">
-              <span class="tag">NestJS</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">Redis</span>
-              <span class="tag">Payment</span>
+        <div class="career-timeline site-shell">
+          <article class="career-card">
+            <div class="company-icon" aria-hidden="true">CA</div>
+            <div class="career-card-body">
+              <header class="company-header">
+                <h3>씨앤에이아이</h3>
+                <p class="career-period">2026 - 현재 · 백엔드 개발자</p>
+                <p class="company-summary">AI 기반 서비스의 결제 흐름에서 중복 승인, 구독 결제, 내부 처리 실패처럼 금전 데이터와 직접 연결되는 백엔드 안정성 문제를 다뤘습니다.</p>
+                <div class="meta career-skills">
+                  <span class="tag">NestJS</span>
+                  <span class="tag">PostgreSQL</span>
+                  <span class="tag">Redis</span>
+                  <span class="tag">Payment</span>
+                </div>
+              </header>
+              <div class="career-projects">
+                <section class="career-project">
+                  <h4>Toss·PayPal 결제 안정성 구조</h4>
+                  <p>PG 승인, 내부 주문 처리, 실패 보상 단계를 분리해 결제 데이터 불일치 가능성을 줄였습니다.</p>
+                  <ul class="career-points">
+                    <li>Redis Lock과 멱등키 기반 중복 처리 제어</li>
+                    <li>내부 처리 실패 시 PG 취소 API로 보상 처리</li>
+                  </ul>
+                </section>
+                <section class="career-project">
+                  <h4>구독 결제 및 실패 보상 처리</h4>
+                  <p>단건 결제와 구독 결제 흐름을 분리하고, 실패 상황을 추적 가능한 상태로 남기도록 처리 단계를 정리했습니다.</p>
+                  <ul class="career-points">
+                    <li>구독 결제 승인 흐름과 일반 결제 승인 흐름 분리</li>
+                    <li>실패 시 재처리와 보상 처리가 가능한 구조 구성</li>
+                  </ul>
+                </section>
+              </div>
             </div>
           </article>
-          <article class="timeline-item">
-            <p class="eyebrow">2023 - 2026 · 샵체인</p>
-            <h3>풀스택 개발자</h3>
-            <p>PG 결제 내역 자동 대조, 정산 대행 플랫폼, POS·KIOSK 결제 연동처럼 운영자가 매일 마주하는 결제·정산 흐름을 개발했습니다.</p>
-            <ul class="career-points">
-              <li>정산 검증 업무 1시간~1일에서 30분 이내로 단축</li>
-              <li>월 매출 약 5천만 원 규모 정산 대행 플랫폼 운영</li>
-              <li>모니터링과 로그 조회 환경으로 장애 확인 시간 단축</li>
-            </ul>
-            <div class="meta">
-              <span class="tag">NestJS</span>
-              <span class="tag">Vue3</span>
-              <span class="tag">MySQL</span>
-              <span class="tag">Ops</span>
+          <article class="career-card">
+            <div class="company-icon" aria-hidden="true">SC</div>
+            <div class="career-card-body">
+              <header class="company-header">
+                <h3>샵체인</h3>
+                <p class="career-period">2023 - 2026 · 풀스택 개발자</p>
+                <p class="company-summary">프랜차이즈 매장 운영에 필요한 주문, 결제, 정산, POS·KIOSK 연동과 운영 모니터링을 다루며 백엔드와 관리자 화면을 함께 개발했습니다.</p>
+                <div class="meta career-skills">
+                  <span class="tag">NestJS</span>
+                  <span class="tag">Vue3</span>
+                  <span class="tag">MySQL</span>
+                  <span class="tag">PHP</span>
+                  <span class="tag">Java(Android)</span>
+                  <span class="tag">Grafana</span>
+                </div>
+              </header>
+              <div class="career-projects">
+                <section class="career-project">
+                  <h4>PG 결제 내역 자동 대조</h4>
+                  <p>PG 결제 내역과 내부 결제 데이터를 자동으로 대조해 운영자의 수기 검증 시간을 줄였습니다.</p>
+                  <ul class="career-points">
+                    <li>결제 내역 조회 60초 이상에서 10초 이내로 단축</li>
+                    <li>정산 검증 업무 1시간~1일에서 30분 이내로 단축</li>
+                  </ul>
+                </section>
+                <section class="career-project">
+                  <h4>정산 대행 플랫폼</h4>
+                  <p>고객사별 수수료율과 지급 기준을 정산 생성 시점의 스냅샷으로 보존해 과거 정산 기준이 흔들리지 않게 구성했습니다.</p>
+                  <ul class="career-points">
+                    <li>월 매출 약 5천만 원 규모 정산 대행 플랫폼 운영</li>
+                    <li>정산 도메인 모델과 관리자 운영 기능 구현</li>
+                  </ul>
+                </section>
+                <section class="career-project">
+                  <h4>POS·KIOSK 네이버페이 결제</h4>
+                  <p>기존 신용카드·현금 결제 흐름을 유지하면서 POS와 KIOSK에 네이버페이 결제 진입점을 추가했습니다.</p>
+                </section>
+                <section class="career-project">
+                  <h4>모니터링 및 로그 조회 환경</h4>
+                  <p>Grafana, Prometheus, Loki 기반으로 서버 메트릭과 로그를 한 화면에서 확인할 수 있는 운영 환경을 구성했습니다.</p>
+                </section>
+              </div>
             </div>
           </article>
         </div>

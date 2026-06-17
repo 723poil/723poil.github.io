@@ -78,13 +78,29 @@ describe('static routes', () => {
   it('home page shows clearer career details', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
 
-    assert.match(html, /2026 - 현재 · 씨앤에이아이/);
+    assert.match(html, /<h3>씨앤에이아이<\/h3>/);
+    assert.match(html, /2026 - 현재 · 백엔드 개발자/);
     assert.match(html, /백엔드 개발자/);
     assert.match(html, /Toss·PayPal 결제 안정성 구조/);
     assert.match(html, /구독 결제/);
-    assert.match(html, /2023 - 2026 · 샵체인/);
+    assert.match(html, /<h3>샵체인<\/h3>/);
+    assert.match(html, /2023 - 2026 · 풀스택 개발자/);
     assert.match(html, /풀스택 개발자/);
     assert.match(html, /PG 결제 내역 자동 대조/);
     assert.match(html, /정산 대행 플랫폼/);
+  });
+
+  it('home page groups multiple projects inside each company career card', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /class="career-timeline site-shell"/);
+    assert.match(html, /class="company-icon"/);
+    assert.match(html, /class="career-period"/);
+    assert.match(html, /class="company-summary"/);
+    assert.match(html, /class="career-projects"/);
+    assert.match(html, /class="career-project"/);
+    assert.match(html, /구독 결제 및 실패 보상 처리/);
+    assert.match(html, /POS·KIOSK 네이버페이 결제/);
+    assert.match(html, /모니터링 및 로그 조회 환경/);
   });
 });
