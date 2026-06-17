@@ -48,7 +48,7 @@ describe('static routes', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
     assert.match(html, /안녕하세요/);
     assert.match(html, /운영에서 반복되는 문제를 구조적으로 줄이는/);
-    assert.match(html, /기록은 따로 모아두었습니다/);
+    assert.match(html, /백엔드 개발자입니다/);
   });
 
   it('home page uses reference-style primary section titles without small helper labels', () => {
@@ -63,5 +63,15 @@ describe('static routes', () => {
     assert.doesNotMatch(html, /terminal-label/);
     assert.doesNotMatch(html, /class="lead"/);
     assert.doesNotMatch(html, /class="section-lead"/);
+  });
+
+  it('home page shows requested about me profile details', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /이름/);
+    assert.match(html, /이상협/);
+    assert.match(html, /leetkdguq73@naver\.com/);
+    assert.match(html, /학력/);
+    assert.match(html, /경북대학교\(컴퓨터학부\)/);
   });
 });
