@@ -36,8 +36,18 @@ describe('static routes', () => {
 
   it('home page exposes key content regions', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
-    assert.match(html, /id="strengths"/);
+    assert.match(html, /id="about-snapshot"/);
+    assert.match(html, /id="core-skills"/);
     assert.match(html, /id="featured-projects"/);
+    assert.match(html, /id="project-archive-preview"/);
+    assert.match(html, /id="experience"/);
     assert.match(html, /id="recent-records"/);
+  });
+
+  it('home page uses a warmer narrative tone', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+    assert.match(html, /안녕하세요/);
+    assert.match(html, /이런 일을 해왔습니다/);
+    assert.match(html, /기록은 따로 모아두었습니다/);
   });
 });

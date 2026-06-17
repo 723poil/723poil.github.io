@@ -33,32 +33,32 @@ if (!project) {
     <section class="section case-study">
       <div>
         <div class="case-section">
-          <h2>Problem</h2>
+          <h2>풀고 싶었던 문제</h2>
           <p>${escapeHtml(project.problem)}</p>
         </div>
         <div class="case-section">
-          <h2>Approach</h2>
+          <h2>접근 방식</h2>
           <p>${escapeHtml(project.approach)}</p>
         </div>
         <div class="case-section">
-          <h2>Implementation</h2>
+          <h2>구현한 것</h2>
           <p>${escapeHtml(project.implementation)}</p>
         </div>
         <div class="case-section">
-          <h2>Result</h2>
+          <h2>달라진 점</h2>
           <p>${escapeHtml(project.result)}</p>
         </div>
       </div>
       <aside class="card compact">
-        <h3>Role</h3>
+        <h3>맡은 역할</h3>
         <p>${escapeHtml(project.role)}</p>
-        <h3>Metric</h3>
+        <h3>눈에 보인 변화</h3>
         <p>${escapeHtml(project.metric)}</p>
       </aside>
     </section>
     <section class="section">
       <div class="section-heading">
-        <h2>Related Records</h2>
+        <h2>이어지는 기록</h2>
         <a href="/records/">전체 기록 보기</a>
       </div>
       <div class="grid two">

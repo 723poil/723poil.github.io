@@ -23,10 +23,13 @@ export function renderProjectCard(project, { detailed = false } = {}) {
   const metric = project.metric ? `<p><strong>${escapeHtml(project.metric)}</strong></p>` : '';
 
   return `
-    <article class="card">
+    <article class="card project-card">
+      <div class="project-card-top">
+        <p class="eyebrow">${escapeHtml(project.company)} · ${escapeHtml(project.period)}</p>
+      </div>
       <h3><a href="${href}">${escapeHtml(project.title)}</a></h3>
       <p>${escapeHtml(project.summary)}</p>
-      ${detailed ? metric : ''}
+      ${detailed ? `<div class="metric">${metric}</div>` : ''}
       <div class="meta">${tags}</div>
     </article>
   `;
