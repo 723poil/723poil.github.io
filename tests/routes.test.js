@@ -120,4 +120,14 @@ describe('static routes', () => {
     assert.match(html, /프랜차이즈 매장의 주문, 결제, POS·KIOSK, 정산 운영을 지원하는 매장 운영 솔루션 회사입니다/);
     assert.doesNotMatch(html, /company-summary">[^<]*(다뤘습니다|개발했습니다|참여했습니다)/);
   });
+
+  it('home page uses company logo images in the career timeline', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.ok(isFile(join(root, 'assets/logos/shopchain.png')));
+    assert.ok(isFile(join(root, 'assets/logos/cnai.png')));
+    assert.match(html, /<img src="assets\/logos\/cnai\.png" alt="씨앤에이아이 로고">/);
+    assert.match(html, /<img src="assets\/logos\/shopchain\.png" alt="샵체인 로고">/);
+    assert.doesNotMatch(html, /<div class="company-icon" aria-hidden="true">(CA|SC)<\/div>/);
+  });
 });
