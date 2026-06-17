@@ -74,4 +74,17 @@ describe('static routes', () => {
     assert.match(html, /학력/);
     assert.match(html, /경북대학교\(컴퓨터학부\)/);
   });
+
+  it('home page shows clearer career details', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /2026 - 현재 · 씨앤에이아이/);
+    assert.match(html, /백엔드 개발자/);
+    assert.match(html, /Toss·PayPal 결제 안정성 구조/);
+    assert.match(html, /구독 결제/);
+    assert.match(html, /2023 - 2026 · 샵체인/);
+    assert.match(html, /풀스택 개발자/);
+    assert.match(html, /PG 결제 내역 자동 대조/);
+    assert.match(html, /정산 대행 플랫폼/);
+  });
 });
