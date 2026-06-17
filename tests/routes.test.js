@@ -47,17 +47,20 @@ describe('static routes', () => {
   it('home page uses a warmer narrative tone', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
     assert.match(html, /안녕하세요/);
-    assert.match(html, /이런 일을 해왔습니다/);
+    assert.match(html, /운영에서 반복되는 문제를 구조적으로 줄이는/);
     assert.match(html, /기록은 따로 모아두었습니다/);
   });
 
-  it('home page does not render document-style labels above section titles', () => {
+  it('home page uses reference-style primary section titles without small helper labels', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /<h2 class="section-title">ABOUT ME<\/h2>/);
+    assert.match(html, /<h2 class="section-title">SKILLS<\/h2>/);
+    assert.match(html, /<h2 class="section-title">PROJECTS<\/h2>/);
+    assert.match(html, /<h2 class="section-title">CAREER<\/h2>/);
 
     assert.doesNotMatch(html, /section-index/);
     assert.doesNotMatch(html, /terminal-label/);
-    assert.doesNotMatch(html, /Backend Developer · Payment & Settlement/);
-    assert.doesNotMatch(html, /<p class="eyebrow">(About me|Core skills|Featured projects|Project archive|Experience|Records)<\/p>/);
     assert.doesNotMatch(html, /class="lead"/);
     assert.doesNotMatch(html, /class="section-lead"/);
   });
