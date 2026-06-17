@@ -50,4 +50,15 @@ describe('static routes', () => {
     assert.match(html, /이런 일을 해왔습니다/);
     assert.match(html, /기록은 따로 모아두었습니다/);
   });
+
+  it('home page does not render document-style labels above section titles', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.doesNotMatch(html, /section-index/);
+    assert.doesNotMatch(html, /terminal-label/);
+    assert.doesNotMatch(html, /Backend Developer · Payment & Settlement/);
+    assert.doesNotMatch(html, /<p class="eyebrow">(About me|Core skills|Featured projects|Project archive|Experience|Records)<\/p>/);
+    assert.doesNotMatch(html, /class="lead"/);
+    assert.doesNotMatch(html, /class="section-lead"/);
+  });
 });
