@@ -619,14 +619,20 @@ a {
 
 .career-project-row {
   display: grid;
-  grid-template-columns: 140px 220px minmax(0, 1fr);
-  align-items: center;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: start;
   gap: 14px;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: var(--pill-radius);
   background: rgba(255, 255, 255, 0.76);
   padding: 14px 16px;
+}
+
+.career-project-copy {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
 }
 
 .career-project-row strong {
@@ -646,9 +652,8 @@ a {
 .career-project-row p {
   margin: 0;
   color: #495057;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.65;
+  white-space: normal;
 }
 
 .case-study {

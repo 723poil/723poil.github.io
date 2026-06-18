@@ -262,6 +262,8 @@ describe('shared browser helpers', () => {
     assert.match(html, /class="career-skill-card"/);
     assert.match(html, /class="career-skill-row"/);
     assert.match(html, /class="career-project-row"/);
+    assert.match(html, /class="career-project-copy"/);
+    assert.match(html, /<strong>Project one<\/strong>/);
     assert.match(html, /One line summary/);
     assert.doesNotMatch(html, /career-skill-section/);
     assert.doesNotMatch(html, /career-project"/);

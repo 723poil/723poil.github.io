@@ -271,8 +271,10 @@ function renderCareerProject(project) {
   return `
     <section class="career-project-row">
       <span class="project-period">${escapeHtml(project.period)}</span>
-      <strong>${escapeHtml(project.title)}</strong>
-      <p>${escapeHtml(project.summary)}</p>
+      <div class="career-project-copy">
+        <strong>${escapeHtml(project.title)}</strong>
+        <p>${escapeHtml(project.summary)}</p>
+      </div>
     </section>
   `;
 }
