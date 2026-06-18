@@ -8,7 +8,13 @@ export const careerItems = [
       src: 'assets/logos/cnai.png',
       alt: '씨앤에이아이 로고',
     },
-    skills: ['NestJS', 'PostgreSQL', 'Redis'],
+    skillGroups: [
+      { title: 'Framework', skills: ['NestJS'] },
+      { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
+      { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
+      { title: 'Monitoring', skills: ['Grafana'] },
+      { title: 'Tools', skills: ['JIRA', 'Slack'] },
+    ],
     projects: [
       {
         title: 'Toss·PayPal 결제 안정성 구조',
@@ -39,7 +45,12 @@ export const careerItems = [
       src: 'assets/logos/shopchain.png',
       alt: '샵체인 로고',
     },
-    skills: ['NestJS', 'Vue3', 'MySQL', 'PHP', 'Java(Android)', 'Grafana', 'Prometheus'],
+    skillGroups: [
+      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
+      { title: 'Database', skills: ['MySQL'] },
+      { title: 'Infra', skills: ['NCP(네이버클라우드)', 'Docker'] },
+      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki', 'Promtail'] },
+    ],
     projects: [
       {
         title: 'PG 결제 내역 자동 대조',
@@ -80,12 +91,15 @@ export const careerItems = [
       src: 'assets/logos/shopchain.png',
       alt: '샵체인 로고',
     },
-    skills: ['PHP', 'Java(Android)', 'MySQL'],
+    skillGroups: [
+      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP'] },
+      { title: 'Database', skills: ['MySQL'] },
+    ],
     projects: [
       {
-        title: '서비스 운영 및 개발 업무 참여',
+        title: '관리 콘솔 리뉴얼',
         period: '2023.06 - 2024.01',
-        summary: '매장 운영 서비스의 기존 기능과 데이터 흐름을 파악하며 유지보수와 기능 개선 업무를 보조했습니다.',
+        summary: '관리 콘솔 리뉴얼 프로젝트를 진행했습니다.',
       },
     ],
   },

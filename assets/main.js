@@ -196,6 +196,24 @@ export function renderCareerTimeline(items) {
   return items.map(renderCareerItem).join('');
 }
 
+function renderCareerSkillGroups(item) {
+  const groups = item.skillGroups?.length
+    ? item.skillGroups
+    : [{ title: 'Skills', skills: item.skills ?? [] }];
+
+  return groups
+    .filter((group) => group.skills?.length)
+    .map(
+      (group) => `
+        <section class="career-skill-section">
+          <h4>${escapeHtml(group.title)}</h4>
+          <div class="meta">${renderTags(group.skills)}</div>
+        </section>
+      `,
+    )
+    .join('');
+}
+
 function renderCareerItem(item) {
   return `
     <article class="career-card">
@@ -205,7 +223,7 @@ function renderCareerItem(item) {
           <h3>${escapeHtml(item.company)}</h3>
           <p class="career-period">${escapeHtml(item.period)} · ${escapeHtml(item.role)}</p>
           <p class="company-summary">${escapeHtml(item.summary)}</p>
-          <div class="meta career-skills">${renderTags(item.skills)}</div>
+          <div class="career-skills">${renderCareerSkillGroups(item)}</div>
         </header>
         <div class="career-projects">
           ${item.projects.map(renderCareerProject).join('')}

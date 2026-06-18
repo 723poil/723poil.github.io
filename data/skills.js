@@ -2,7 +2,7 @@ export const fallbackSkill = {
   color: '#2f74c0',
 };
 
-export const resumeSkillNames = [
+export const portfolioSkillNames = [
   'NestJS',
   'Vue',
   'Vue3',
@@ -23,10 +23,14 @@ export const resumeSkillNames = [
   'Loki',
   'Promtail',
   'node_exporter',
+  'Kafka',
+  'NCP(네이버클라우드)',
   'Codex',
   'Obsidian',
   'Markdown',
 ];
+
+export const resumeSkillNames = portfolioSkillNames;
 
 export const skillRegistry = {
   NestJS: { color: '#e0234e' },
@@ -49,6 +53,8 @@ export const skillRegistry = {
   Loki: { color: '#5f6bff' },
   Promtail: { color: '#5f6bff' },
   node_exporter: { color: '#30a26e' },
+  Kafka: { color: '#231f20' },
+  'NCP(네이버클라우드)': { color: '#03c75a' },
   Codex: { color: '#212529' },
   Obsidian: { color: '#7c3aed' },
   Markdown: { color: '#495057' },

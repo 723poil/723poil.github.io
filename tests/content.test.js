@@ -6,7 +6,7 @@ import { careerItems } from '../data/career.js';
 import { homeContent } from '../data/home.js';
 import { profile, profileCards } from '../data/profile.js';
 import { pageContent, secondaryNav } from '../data/site.js';
-import { getSkill, resumeSkillNames, skillRegistry } from '../data/skills.js';
+import { getSkill, portfolioSkillNames, skillRegistry } from '../data/skills.js';
 
 describe('project content', () => {
   it('starts with expected project categories', () => {
@@ -81,7 +81,7 @@ describe('profile and home content', () => {
     assert.deepEqual(profileCards.map((item) => item.label), ['이름', '이메일', '학력']);
   });
 
-  it('keeps home labels and resume-based skill groups in data modules', () => {
+  it('keeps home labels and portfolio skill groups in data modules', () => {
     assert.deepEqual(homeContent.nav.map((item) => item.label), ['About me', 'Skills', 'Projects', 'Career']);
     assert.equal(homeContent.sections.about.title, 'ABOUT ME');
     assert.equal(homeContent.sections.skills.title, 'SKILLS');
@@ -110,24 +110,53 @@ describe('profile and home content', () => {
     assert.ok(careerItems.every((item) => item.projects.length > 0));
     assert.ok(careerItems.some((item) => item.projects.some((project) => project.title === '구독 결제 및 실패 보상 처리')));
   });
+
+  it('groups career skills by company context', () => {
+    const [cnai, shopchain, intern] = careerItems;
+
+    assert.deepEqual(cnai.skillGroups, [
+      { title: 'Framework', skills: ['NestJS'] },
+      { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
+      { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
+      { title: 'Monitoring', skills: ['Grafana'] },
+      { title: 'Tools', skills: ['JIRA', 'Slack'] },
+    ]);
+
+    assert.deepEqual(shopchain.skillGroups, [
+      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
+      { title: 'Database', skills: ['MySQL'] },
+      { title: 'Infra', skills: ['NCP(네이버클라우드)', 'Docker'] },
+      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki', 'Promtail'] },
+    ]);
+
+    assert.deepEqual(intern.skillGroups, [
+      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP'] },
+      { title: 'Database', skills: ['MySQL'] },
+    ]);
+    assert.deepEqual(intern.skillGroups.flatMap((group) => group.skills), ['NestJS', 'Vue3', 'PHP', 'MySQL']);
+    assert.equal(intern.projects[0].title, '관리 콘솔 리뉴얼');
+    assert.equal(intern.projects[0].summary, '관리 콘솔 리뉴얼 프로젝트를 진행했습니다.');
+  });
 });
 
 describe('skill registry', () => {
   const projectSkillNames = projects.flatMap((project) => project.technologies);
   const homeSkillNames = homeContent.skillGroups.flatMap((group) => group.skills);
-  const careerSkillNames = careerItems.flatMap((item) => item.skills);
+  const careerSkillNames = careerItems.flatMap((item) => item.skillGroups.flatMap((group) => group.skills));
 
-  it('only registers skills and tools explicitly named in the resume', () => {
-    assert.deepEqual(Object.keys(skillRegistry).sort(), resumeSkillNames.toSorted());
+  it('only registers approved portfolio skills and tools', () => {
+    assert.deepEqual(Object.keys(skillRegistry).sort(), portfolioSkillNames.toSorted());
     assert.ok(!skillRegistry.Backend);
     assert.ok(!skillRegistry['Data reliability']);
     assert.ok(!skillRegistry['백엔드 개발']);
     assert.ok(!skillRegistry.Idempotency);
     assert.ok(!skillRegistry['Knowledge Base']);
     assert.ok(!skillRegistry['AI Tools']);
+    assert.ok(skillRegistry.Kafka);
+    assert.ok(skillRegistry['NCP(네이버클라우드)']);
   });
 
-  it('defines a color for every resume skill used by content data', () => {
+  it('defines a color for every portfolio skill used by content data', () => {
     for (const name of [...projectSkillNames, ...homeSkillNames, ...careerSkillNames]) {
       assert.ok(skillRegistry[name], `${name} should be registered`);
       assert.match(skillRegistry[name].color, /^#[0-9a-f]{6}$/i);
