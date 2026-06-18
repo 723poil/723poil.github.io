@@ -32,15 +32,34 @@ export function renderTags(labels) {
   return labels.map(createTag).join('');
 }
 
-export function partitionProjectCards(projects, activeProjectType = '', visibleCount = 3) {
-  if (!activeProjectType) {
+function createProjectTypeSet(projectTypes) {
+  if (!projectTypes) return new Set();
+  if (projectTypes instanceof Set) return projectTypes;
+  if (Array.isArray(projectTypes)) return new Set(projectTypes.filter(Boolean));
+  return new Set([projectTypes].filter(Boolean));
+}
+
+export function toggleProjectTypeSelection(selectedTypes, type) {
+  if (selectedTypes.has(type)) {
+    selectedTypes.delete(type);
+  } else {
+    selectedTypes.add(type);
+  }
+
+  return selectedTypes;
+}
+
+export function partitionProjectCards(projects, activeProjectTypes = '', visibleCount = 3) {
+  const selectedTypes = createProjectTypeSet(activeProjectTypes);
+
+  if (selectedTypes.size === 0) {
     return {
       primaryItems: projects.filter((project) => project.featured),
       secondaryItems: projects.filter((project) => !project.featured),
     };
   }
 
-  const filteredItems = projects.filter((project) => project.type === activeProjectType);
+  const filteredItems = projects.filter((project) => selectedTypes.has(project.type));
 
   return {
     primaryItems: filteredItems.slice(0, visibleCount),
@@ -53,7 +72,9 @@ export function renderProjectCard(project, { detailed = false, actionMode = 'lin
   const href = canOpenDetail ? `/projects/${encodeURIComponent(project.slug)}/` : '';
   const tags = renderTags((project.technologies ?? []).slice(0, 3));
   const metric = project.metric ? `<p><strong>${escapeHtml(project.metric)}</strong></p>` : '';
-  const type = project.type ? `<span class="project-kind">${escapeHtml(project.type)}</span>` : '';
+  const type = project.type
+    ? `<span class="project-kind" data-project-type="${escapeAttribute(project.type)}">${escapeHtml(project.type)}</span>`
+    : '';
   const metaLine = [project.company, project.period].filter(Boolean).join(' · ');
   const eyebrow = metaLine ? `<p class="eyebrow">${escapeHtml(metaLine)}</p>` : '';
   const detailAction = actionMode === 'modal' && project.slug

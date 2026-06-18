@@ -30,7 +30,7 @@ describe('static routes', () => {
     assert.ok(isFile(homePath), 'index.html should exist');
 
     const html = readFileSync(homePath, 'utf8');
-    assert.match(html, /<link\b(?=[^>]*\brel=["']stylesheet["'])(?=[^>]*\bhref=["']assets\/styles\.css["'])[^>]*>/);
+    assert.match(html, /<link\b(?=[^>]*\brel=["']stylesheet["'])(?=[^>]*\bhref=["']assets\/styles\.css(?:\?[^"']*)?["'])[^>]*>/);
     assert.match(html, /<script\b[^>]*\btype=["']module["']/);
   });
 

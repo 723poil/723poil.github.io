@@ -262,10 +262,14 @@ a {
   min-height: 28px;
   padding: 4px 10px;
   border-radius: var(--pill-radius);
-  background: var(--black);
+  background: #2f74c0;
   color: var(--white);
   font-size: 0.78rem;
   font-weight: 800;
+}
+
+.project-kind[data-project-type="팀 프로젝트"] {
+  background: #2f8f5b;
 }
 
 .project-filter-list {
@@ -292,9 +296,27 @@ a {
   cursor: pointer;
 }
 
+.project-filter-button[data-project-type="회사 프로젝트"] {
+  border-color: #2f74c0;
+  color: #2f74c0;
+}
+
+.project-filter-button[data-project-type="팀 프로젝트"] {
+  border-color: #2f8f5b;
+  color: #2f8f5b;
+}
+
 .project-filter-button[aria-pressed="true"] {
   background: var(--black);
   color: var(--white);
+}
+
+.project-filter-button[data-project-type="회사 프로젝트"][aria-pressed="true"] {
+  background: #2f74c0;
+}
+
+.project-filter-button[data-project-type="팀 프로젝트"][aria-pressed="true"] {
+  background: #2f8f5b;
 }
 
 .card-actions {

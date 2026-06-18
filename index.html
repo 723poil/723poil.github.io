@@ -6,7 +6,7 @@
     <title></title>
     <meta name="description" content="">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/styles.css?v=20260618-project-type-filter">
   </head>
   <body>
     <header class="site-header">
@@ -79,7 +79,8 @@
         renderProjectModal,
         renderSkillGroups,
         partitionProjectCards,
-      } from '/assets/main.js?v=20260618-project-filter';
+        toggleProjectTypeSelection,
+      } from '/assets/main.js?v=20260618-project-type-filter';
 
       applyDocumentMeta(profile);
       byId('brand-link').textContent = profile.brand;
@@ -97,7 +98,7 @@
       byId('career-list').innerHTML = renderCareerTimeline(careerItems, homeContent.sections.career);
 
       const projectTypes = [...new Set(projects.map((project) => project.type).filter(Boolean))];
-      let activeProjectType = '';
+      const activeProjectTypes = new Set();
       let showSecondaryItems = false;
       const projectTypeFilters = byId('project-type-filters');
       const featuredProjectList = byId('featured-project-list');
@@ -119,14 +120,15 @@
           button.className = 'project-filter-button';
           button.type = 'button';
           button.dataset.projectTypeFilter = type;
-          button.setAttribute('aria-pressed', String(type === activeProjectType));
+          button.dataset.projectType = type;
+          button.setAttribute('aria-pressed', String(activeProjectTypes.has(type)));
           button.textContent = type;
           projectTypeFilters.append(button);
         });
       };
 
       const renderFilteredItems = () => {
-        const { primaryItems, secondaryItems } = partitionProjectCards(projects, activeProjectType);
+        const { primaryItems, secondaryItems } = partitionProjectCards(projects, activeProjectTypes);
         const renderProject = (project) => renderProjectCard(project, {
           detailed: true,
           actionMode: 'modal',
@@ -157,7 +159,7 @@
       projectTypeFilters.addEventListener('click', (event) => {
         const filterButton = event.target.closest('[data-project-type-filter]');
         if (!filterButton) return;
-        activeProjectType = filterButton.dataset.projectTypeFilter;
+        toggleProjectTypeSelection(activeProjectTypes, filterButton.dataset.projectTypeFilter);
         showSecondaryItems = false;
         renderProjectTypeFilters();
         renderFilteredItems();
