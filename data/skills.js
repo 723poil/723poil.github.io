@@ -4,7 +4,6 @@ export const fallbackSkill = {
 
 export const portfolioSkillNames = [
   'NestJS',
-  'Vue',
   'Vue3',
   'MySQL',
   'TypeScript',
@@ -32,7 +31,6 @@ export const resumeSkillNames = portfolioSkillNames;
 
 export const skillRegistry = {
   NestJS: { color: '#e0234e' },
-  Vue: { color: '#42b883' },
   Vue3: { color: '#42b883' },
   MySQL: { color: '#4479a1' },
   TypeScript: { color: '#3178c6' },

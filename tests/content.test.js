@@ -5,7 +5,7 @@ import { projectCategories, projects } from '../data/projects.js';
 import { recordCategories, records } from '../data/records.js';
 import { careerItems } from '../data/career.js';
 import { homeContent } from '../data/home.js';
-import { profile, profileCards } from '../data/profile.js';
+import { aboutPage, profile, profileCards } from '../data/profile.js';
 import { pageContent, secondaryNav } from '../data/site.js';
 import { getSkill, portfolioSkillNames, skillRegistry } from '../data/skills.js';
 
@@ -122,6 +122,9 @@ describe('profile and home content', () => {
     assert.deepEqual(homeContent.skillGroups.map((group) => group.title), ['Languages & Frameworks', 'Database & Infra', 'Tools']);
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('GitLab')));
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Slack')));
+    assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Vue3')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Vue')));
+    assert.ok(aboutPage.sections.every((section) => section.cards.every((card) => !card.skills?.includes('Vue'))));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Pushgateway')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Loki')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Obsidian')));
@@ -257,6 +260,7 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry.Markdown);
     assert.ok(!skillRegistry.Codex);
     assert.ok(!skillRegistry['NCP(네이버클라우드)']);
+    assert.ok(!skillRegistry.Vue);
   });
 
   it('defines a color for every portfolio skill used by content data', () => {

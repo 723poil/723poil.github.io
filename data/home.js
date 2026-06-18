@@ -42,7 +42,7 @@ export const homeContent = {
   skillGroups: [
     {
       title: 'Languages & Frameworks',
-      skills: ['NestJS', 'TypeScript', 'Vue', 'Vue3', 'PHP', 'Java(Android)'],
+      skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'],
     },
     {
       title: 'Database & Infra',
