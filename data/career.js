@@ -48,7 +48,7 @@ export const careerItems = [
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Loki', 'GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Pushgateway', 'Loki', 'GitLab'] },
     ],
     projects: [
       {

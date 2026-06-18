@@ -133,7 +133,7 @@ describe('profile and home content', () => {
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Loki', 'GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Pushgateway', 'Loki', 'GitLab'] },
     ]);
 
     assert.deepEqual(intern.skillGroups, [
@@ -162,6 +162,7 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry.Promtail);
     assert.ok(!skillRegistry.node_exporter);
     assert.ok(skillRegistry.Kafka);
+    assert.ok(skillRegistry.Pushgateway);
     assert.ok(!skillRegistry['NCP(네이버클라우드)']);
   });
 
