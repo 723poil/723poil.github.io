@@ -12,8 +12,7 @@ export const careerItems = [
       { title: 'Framework', skills: ['NestJS'] },
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
-      { title: 'Monitoring', skills: ['Grafana'] },
-      { title: 'Tools', skills: ['GitLab', 'JIRA', 'Slack'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
     ],
     projects: [
       {
@@ -46,11 +45,10 @@ export const careerItems = [
       alt: '샵체인 로고',
     },
     skillGroups: [
-      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
+      { title: 'Frameworks & Language', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki'] },
-      { title: 'Tools', skills: ['GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Loki', 'GitLab'] },
     ],
     projects: [
       {
@@ -93,7 +91,7 @@ export const careerItems = [
       alt: '샵체인 로고',
     },
     skillGroups: [
-      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP'] },
+      { title: 'Frameworks & Language', skills: ['NestJS', 'Vue3', 'PHP'] },
       { title: 'Database', skills: ['MySQL'] },
     ],
     projects: [

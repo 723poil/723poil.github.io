@@ -118,20 +118,18 @@ describe('profile and home content', () => {
       { title: 'Framework', skills: ['NestJS'] },
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
-      { title: 'Monitoring', skills: ['Grafana'] },
-      { title: 'Tools', skills: ['GitLab', 'JIRA', 'Slack'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
     ]);
 
     assert.deepEqual(shopchain.skillGroups, [
-      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
+      { title: 'Frameworks & Language', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki'] },
-      { title: 'Tools', skills: ['GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Loki', 'GitLab'] },
     ]);
 
     assert.deepEqual(intern.skillGroups, [
-      { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP'] },
+      { title: 'Frameworks & Language', skills: ['NestJS', 'Vue3', 'PHP'] },
       { title: 'Database', skills: ['MySQL'] },
     ]);
     assert.deepEqual(intern.skillGroups.flatMap((group) => group.skills), ['NestJS', 'Vue3', 'PHP', 'MySQL']);
