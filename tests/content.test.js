@@ -134,7 +134,7 @@ describe('profile and home content', () => {
 
   it('keeps career companies and nested projects in a dedicated data module', () => {
     assert.deepEqual(careerItems.map((item) => item.company), ['씨앤에이아이', '샵체인', '샵체인']);
-    assert.deepEqual(careerItems.map((item) => item.period), ['2026.04 - 현재', '2024.01 - 2026.03', '2023.06 - 2024.01']);
+    assert.deepEqual(careerItems.map((item) => item.period), ['2026.04 - 재직중', '2024.01 - 2026.03', '2023.06 - 2024.01']);
     assert.equal(
       careerItems[0].summary,
       'AI 휴먼과 LLM 기반 인터랙션 기술을 바탕으로 AI 휴먼 생성·영상 제작 서비스를 제공하는 AI 기술 기업',

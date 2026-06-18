@@ -241,7 +241,7 @@ describe('shared browser helpers', () => {
       [
         {
           company: 'Company',
-          period: '2026.01 - 현재',
+          period: '2026.01 - 재직중',
           role: 'Backend',
           summary: 'Company summary',
           logo: { src: '/logo.png', alt: 'logo' },

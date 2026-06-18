@@ -1,7 +1,7 @@
 export const careerItems = [
   {
     company: '씨앤에이아이',
-    period: '2026.04 - 현재',
+    period: '2026.04 - 재직중',
     role: '백엔드 개발자',
     summary: 'AI 휴먼과 LLM 기반 인터랙션 기술을 바탕으로 AI 휴먼 생성·영상 제작 서비스를 제공하는 AI 기술 기업',
     logo: {
