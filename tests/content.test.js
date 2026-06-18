@@ -6,7 +6,7 @@ import { careerItems } from '../data/career.js';
 import { homeContent } from '../data/home.js';
 import { profile, profileCards } from '../data/profile.js';
 import { pageContent, secondaryNav } from '../data/site.js';
-import { getSkill, skillRegistry } from '../data/skills.js';
+import { getSkill, resumeSkillNames, skillRegistry } from '../data/skills.js';
 
 describe('project content', () => {
   it('starts with expected project categories', () => {
@@ -81,7 +81,7 @@ describe('profile and home content', () => {
     assert.deepEqual(profileCards.map((item) => item.label), ['이름', '이메일', '학력']);
   });
 
-  it('keeps home labels and skill groups in data modules', () => {
+  it('keeps home labels and resume-based skill groups in data modules', () => {
     assert.deepEqual(homeContent.nav.map((item) => item.label), ['About me', 'Skills', 'Projects', 'Career']);
     assert.equal(homeContent.sections.about.title, 'ABOUT ME');
     assert.equal(homeContent.sections.skills.title, 'SKILLS');
@@ -89,6 +89,11 @@ describe('profile and home content', () => {
     assert.equal(homeContent.sections.archive.title, 'ARCHIVING');
     assert.equal(homeContent.sections.career.title, 'CAREER');
     assert.ok(homeContent.skillGroups.every((group) => group.skills.length > 0));
+    assert.deepEqual(homeContent.skillGroups.map((group) => group.title), ['Languages & Frameworks', 'Database & Infra', 'Tools']);
+    assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('GitLab')));
+    assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Slack')));
+    assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Codex')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('백엔드 개발')));
   });
 
   it('keeps secondary page navigation and page labels in a data module', () => {
@@ -108,15 +113,22 @@ describe('profile and home content', () => {
 });
 
 describe('skill registry', () => {
-  const projectSkillNames = projects.flatMap((project) => [...project.categories, ...project.technologies]);
-  const recordSkillNames = records.flatMap((record) => record.tags);
+  const projectSkillNames = projects.flatMap((project) => project.technologies);
   const homeSkillNames = homeContent.skillGroups.flatMap((group) => group.skills);
   const careerSkillNames = careerItems.flatMap((item) => item.skills);
-  const allSkillNames = [...projectCategories, ...projectSkillNames, ...recordSkillNames, ...homeSkillNames, ...careerSkillNames]
-    .filter((name) => name !== 'All');
 
-  it('defines a color for every named skill or tag used by content data', () => {
-    for (const name of allSkillNames) {
+  it('only registers skills and tools explicitly named in the resume', () => {
+    assert.deepEqual(Object.keys(skillRegistry).sort(), resumeSkillNames.toSorted());
+    assert.ok(!skillRegistry.Backend);
+    assert.ok(!skillRegistry['Data reliability']);
+    assert.ok(!skillRegistry['백엔드 개발']);
+    assert.ok(!skillRegistry.Idempotency);
+    assert.ok(!skillRegistry['Knowledge Base']);
+    assert.ok(!skillRegistry['AI Tools']);
+  });
+
+  it('defines a color for every resume skill used by content data', () => {
+    for (const name of [...projectSkillNames, ...homeSkillNames, ...careerSkillNames]) {
       assert.ok(skillRegistry[name], `${name} should be registered`);
       assert.match(skillRegistry[name].color, /^#[0-9a-f]{6}$/i);
     }

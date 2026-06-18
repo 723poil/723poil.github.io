@@ -8,7 +8,7 @@ export const careerItems = [
       src: 'assets/logos/cnai.png',
       alt: '씨앤에이아이 로고',
     },
-    skills: ['NestJS', 'PostgreSQL', 'Redis', 'Payment'],
+    skills: ['NestJS', 'PostgreSQL', 'Redis'],
     projects: [
       {
         title: 'Toss·PayPal 결제 안정성 구조',
@@ -39,7 +39,7 @@ export const careerItems = [
       src: 'assets/logos/shopchain.png',
       alt: '샵체인 로고',
     },
-    skills: ['NestJS', 'Vue3', 'MySQL', 'PHP', 'Java(Android)', 'Grafana'],
+    skills: ['NestJS', 'Vue3', 'MySQL', 'PHP', 'Java(Android)', 'Grafana', 'Prometheus'],
     projects: [
       {
         title: 'PG 결제 내역 자동 대조',
@@ -80,7 +80,7 @@ export const careerItems = [
       src: 'assets/logos/shopchain.png',
       alt: '샵체인 로고',
     },
-    skills: ['PHP', 'Java(Android)', 'MySQL', 'Operations'],
+    skills: ['PHP', 'Java(Android)', 'MySQL'],
     projects: [
       {
         title: '서비스 운영 및 개발 업무 참여',

@@ -38,7 +38,7 @@ export const aboutPage = {
         },
         {
           title: 'Skills',
-          skills: ['NestJS', 'TypeScript', 'Vue3', 'MySQL', 'PostgreSQL', 'Redis', 'Grafana', 'Prometheus'],
+          skills: ['NestJS', 'TypeScript', 'Vue', 'MySQL', 'PostgreSQL', 'Redis', 'GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'AWS', 'Docker', 'JIRA', 'Slack'],
         },
         {
           title: 'Education',

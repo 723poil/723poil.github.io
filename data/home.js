@@ -35,16 +35,16 @@ export const homeContent = {
   },
   skillGroups: [
     {
-      title: 'Backend',
-      skills: ['NestJS', 'TypeScript', 'Node.js', 'Scheduler'],
+      title: 'Languages & Frameworks',
+      skills: ['NestJS', 'TypeScript', 'Vue', 'Vue3', 'PHP', 'Java(Android)'],
     },
     {
-      title: 'Data reliability',
-      skills: ['MySQL', 'PostgreSQL', 'Redis', 'Idempotency'],
+      title: 'Database & Infra',
+      skills: ['MySQL', 'PostgreSQL', 'Redis', 'AWS', 'Docker'],
     },
     {
-      title: 'Operations',
-      skills: ['Grafana', 'Prometheus', 'Loki', 'Knowledge Base'],
+      title: 'Tools',
+      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'Loki', 'Promtail', 'node_exporter', 'JIRA', 'Slack', 'Codex', 'Obsidian', 'Markdown'],
     },
   ],
 };
