@@ -1,10 +1,16 @@
+import { profile } from '../data/profile.js';
 import { projects, projectCategories } from '../data/projects.js';
-import { byId, renderProjectCard } from './main.js';
+import { pageContent, secondaryNav } from '../data/site.js';
+import { applyPageMeta, byId, renderProjectCard, renderSimpleHero, renderSiteChrome } from './main.js';
 
 const filters = byId('project-filters');
 const list = byId('project-list');
 
 let activeCategory = 'All';
+
+applyPageMeta(pageContent.projects);
+renderSiteChrome({ profile, navItems: secondaryNav, currentHref: '/projects/' });
+byId('page-hero').innerHTML = renderSimpleHero(pageContent.projects.hero);
 
 export function renderFilters(container, categories, selectedCategory) {
   const buttons = categories.map((category) => {

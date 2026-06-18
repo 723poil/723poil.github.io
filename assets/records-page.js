@@ -1,10 +1,16 @@
+import { profile } from '../data/profile.js';
 import { records, recordCategories } from '../data/records.js';
-import { byId, renderRecordCard } from './main.js';
+import { pageContent, secondaryNav } from '../data/site.js';
+import { applyPageMeta, byId, renderRecordCard, renderSimpleHero, renderSiteChrome } from './main.js';
 
 const filters = byId('record-filters');
 const list = byId('record-list');
 
 let activeCategory = 'All';
+
+applyPageMeta(pageContent.records);
+renderSiteChrome({ profile, navItems: secondaryNav, currentHref: '/records/' });
+byId('page-hero').innerHTML = renderSimpleHero(pageContent.records.hero);
 
 export function renderFilters(container, categories, selectedCategory) {
   const buttons = categories.map((category) => {
@@ -27,7 +33,7 @@ function renderRecords() {
 
   list.innerHTML = visible.length
     ? visible.map(renderRecordCard).join('')
-    : '<article class="card compact"><p>아직 이 분류의 기록이 없습니다.</p></article>';
+    : `<article class="card compact"><p>${pageContent.records.emptyMessage}</p></article>`;
 }
 
 filters.addEventListener('click', (event) => {

@@ -3,221 +3,89 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>723poil | Backend Developer</title>
-    <meta name="description" content="운영에서 반복되는 문제를 구조적으로 줄이는 백엔드 개발자 이상협의 포트폴리오입니다.">
+    <title></title>
+    <meta name="description" content="">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body>
     <header class="site-header">
       <div class="site-shell nav">
-        <a class="brand" href="#top">723poil</a>
-        <nav class="nav-links" aria-label="Primary navigation">
-          <a href="#about-snapshot" data-section-link>About me</a>
-          <a href="#core-skills" data-section-link>Skills</a>
-          <a href="#featured-projects" data-section-link>Projects</a>
-          <a href="#experience" data-section-link>Career</a>
-        </nav>
+        <a class="brand" id="brand-link" href="#top"></a>
+        <nav class="nav-links" id="site-nav" aria-label="Primary navigation"></nav>
       </div>
     </header>
 
     <main>
       <section class="hero" id="top">
-        <div class="hero-copy">
-          <h1>이상협<br>백엔드 개발자 포트폴리오</h1>
-          <p>안녕하세요.<br>운영에서 반복되는 문제를 구조적으로 줄이는<br>백엔드 개발자입니다.</p>
-          <div class="actions">
-            <a class="button" href="#about-snapshot">더 알아보기</a>
-          </div>
-        </div>
+        <div class="hero-copy" id="hero-content"></div>
       </section>
 
       <section class="section section-white" id="about-snapshot">
-        <h2 class="section-title">ABOUT ME</h2>
-        <div class="grid three site-shell">
-          <article class="card compact">
-            <h3>이름</h3>
-            <p>이상협</p>
-          </article>
-          <article class="card compact">
-            <h3>이메일</h3>
-            <p><a href="mailto:leetkdguq73@naver.com">leetkdguq73@naver.com</a></p>
-          </article>
-          <article class="card compact">
-            <h3>학력</h3>
-            <p>경북대학교(컴퓨터학부)</p>
-          </article>
-        </div>
+        <h2 class="section-title" id="about-title"></h2>
+        <div class="grid three site-shell" id="about-list"></div>
       </section>
 
       <section class="section section-yellow" id="core-skills">
-        <h2 class="section-title">SKILLS</h2>
-        <div class="skill-card">
-          <article class="skill-row">
-            <h3>Backend</h3>
-            <div class="meta">
-              <span class="tag">NestJS</span>
-              <span class="tag">TypeScript</span>
-              <span class="tag">Node.js</span>
-              <span class="tag">Scheduler</span>
-            </div>
-          </article>
-          <article class="skill-row">
-            <h3>Data reliability</h3>
-            <div class="meta">
-              <span class="tag">MySQL</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">Redis</span>
-              <span class="tag">Idempotency</span>
-            </div>
-          </article>
-          <article class="skill-row">
-            <h3>Operations</h3>
-            <div class="meta">
-              <span class="tag">Grafana</span>
-              <span class="tag">Prometheus</span>
-              <span class="tag">Loki</span>
-              <span class="tag">Knowledge Base</span>
-            </div>
-          </article>
-        </div>
+        <h2 class="section-title" id="skills-title"></h2>
+        <div class="skill-card" id="skill-list"></div>
       </section>
 
       <section class="section section-gray" id="featured-projects">
         <div class="section-heading site-shell">
-          <h2 class="section-title">PROJECTS</h2>
-          <a class="text-link" href="#project-archive-preview">전체 프로젝트 보기</a>
+          <h2 class="section-title" id="projects-title"></h2>
+          <a class="text-link" id="project-archive-link" href="#project-archive-preview"></a>
         </div>
         <div class="grid three site-shell" id="featured-project-list"></div>
       </section>
 
       <section class="section section-dark" id="project-archive-preview">
-        <h2 class="section-title">ARCHIVING</h2>
+        <h2 class="section-title" id="archive-title"></h2>
         <div class="archive-list site-shell" id="archive-project-list"></div>
       </section>
 
       <section class="section section-gray" id="experience">
-        <h2 class="section-title">CAREER</h2>
-        <div class="career-timeline site-shell">
-          <article class="career-card">
-            <div class="company-icon"><img src="assets/logos/cnai.png" alt="씨앤에이아이 로고"></div>
-            <div class="career-card-body">
-              <header class="company-header">
-                <h3>씨앤에이아이</h3>
-                <p class="career-period">2026.04 - 현재 · 백엔드 개발자</p>
-                <p class="company-summary">AI 기술을 기반으로 사용자 서비스와 디지털 콘텐츠 제품을 운영하는 회사입니다.</p>
-                <div class="meta career-skills">
-                  <span class="tag">NestJS</span>
-                  <span class="tag">PostgreSQL</span>
-                  <span class="tag">Redis</span>
-                  <span class="tag">Payment</span>
-                </div>
-              </header>
-              <div class="career-projects">
-                <section class="career-project">
-                  <h4>Toss·PayPal 결제 안정성 구조</h4>
-                  <p class="project-period">2026.04 - 2026.05</p>
-                  <p>PG 승인, 내부 주문 처리, 실패 보상 단계를 분리해 결제 데이터 불일치 가능성을 줄였습니다.</p>
-                  <ul class="career-points">
-                    <li>Redis Lock과 멱등키 기반 중복 처리 제어</li>
-                    <li>내부 처리 실패 시 PG 취소 API로 보상 처리</li>
-                  </ul>
-                </section>
-                <section class="career-project">
-                  <h4>구독 결제 및 실패 보상 처리</h4>
-                  <p class="project-period">2026.04 - 현재</p>
-                  <p>단건 결제와 구독 결제 흐름을 분리하고, 실패 상황을 추적 가능한 상태로 남기도록 처리 단계를 정리했습니다.</p>
-                  <ul class="career-points">
-                    <li>구독 결제 승인 흐름과 일반 결제 승인 흐름 분리</li>
-                    <li>실패 시 재처리와 보상 처리가 가능한 구조 구성</li>
-                  </ul>
-                </section>
-              </div>
-            </div>
-          </article>
-          <article class="career-card">
-            <div class="company-icon"><img src="assets/logos/shopchain.png" alt="샵체인 로고"></div>
-            <div class="career-card-body">
-              <header class="company-header">
-                <h3>샵체인</h3>
-                <p class="career-period">2024.01 - 2026.03 · 풀스택 개발자</p>
-                <p class="company-summary">프랜차이즈 매장의 주문, 결제, POS·KIOSK, 정산 운영을 지원하는 매장 운영 솔루션 회사입니다.</p>
-                <div class="meta career-skills">
-                  <span class="tag">NestJS</span>
-                  <span class="tag">Vue3</span>
-                  <span class="tag">MySQL</span>
-                  <span class="tag">PHP</span>
-                  <span class="tag">Java(Android)</span>
-                  <span class="tag">Grafana</span>
-                </div>
-              </header>
-              <div class="career-projects">
-                <section class="career-project">
-                  <h4>PG 결제 내역 자동 대조</h4>
-                  <p class="project-period">2024.12 - 2025.02</p>
-                  <p>PG 결제 내역과 내부 결제 데이터를 자동으로 대조해 운영자의 수기 검증 시간을 줄였습니다.</p>
-                  <ul class="career-points">
-                    <li>결제 내역 조회 60초 이상에서 10초 이내로 단축</li>
-                    <li>정산 검증 업무 1시간~1일에서 30분 이내로 단축</li>
-                  </ul>
-                </section>
-                <section class="career-project">
-                  <h4>정산 대행 플랫폼</h4>
-                  <p class="project-period">2025.08 - 2025.12</p>
-                  <p>고객사별 수수료율과 지급 기준을 정산 생성 시점의 스냅샷으로 보존해 과거 정산 기준이 흔들리지 않게 구성했습니다.</p>
-                  <ul class="career-points">
-                    <li>월 매출 약 5천만 원 규모 정산 대행 플랫폼 운영</li>
-                    <li>정산 도메인 모델과 관리자 운영 기능 구현</li>
-                  </ul>
-                </section>
-                <section class="career-project">
-                  <h4>POS·KIOSK 네이버페이 결제</h4>
-                  <p class="project-period">2025.01 - 2025.04</p>
-                  <p>기존 신용카드·현금 결제 흐름을 유지하면서 POS와 KIOSK에 네이버페이 결제 진입점을 추가했습니다.</p>
-                </section>
-                <section class="career-project">
-                  <h4>모니터링 및 로그 조회 환경</h4>
-                  <p class="project-period">2024.10 - 2024.11</p>
-                  <p>Grafana, Prometheus, Loki 기반으로 서버 메트릭과 로그를 한 화면에서 확인할 수 있는 운영 환경을 구성했습니다.</p>
-                </section>
-              </div>
-            </div>
-          </article>
-          <article class="career-card">
-            <div class="company-icon"><img src="assets/logos/shopchain.png" alt="샵체인 로고"></div>
-            <div class="career-card-body">
-              <header class="company-header">
-                <h3>샵체인</h3>
-                <p class="career-period">2023.06 - 2024.01 · 인턴</p>
-                <p class="company-summary">프랜차이즈 매장의 주문, 결제, POS·KIOSK, 정산 운영을 지원하는 매장 운영 솔루션 회사입니다.</p>
-                <div class="meta career-skills">
-                  <span class="tag">PHP</span>
-                  <span class="tag">Java(Android)</span>
-                  <span class="tag">MySQL</span>
-                  <span class="tag">Operations</span>
-                </div>
-              </header>
-              <div class="career-projects">
-                <section class="career-project">
-                  <h4>서비스 운영 및 개발 업무 참여</h4>
-                  <p class="project-period">2023.06 - 2024.01</p>
-                  <p>매장 운영 서비스의 기존 기능과 데이터 흐름을 파악하며 유지보수와 기능 개선 업무를 보조했습니다.</p>
-                </section>
-              </div>
-            </div>
-          </article>
-        </div>
+        <h2 class="section-title" id="career-title"></h2>
+        <div class="career-timeline site-shell" id="career-list"></div>
       </section>
-
     </main>
 
     <footer class="site-footer">
-      <div class="site-shell">© <span id="year"></span> 723poil</div>
+      <div class="site-shell">© <span id="year"></span> <span id="footer-brand"></span></div>
     </footer>
 
     <script type="module">
+      import { careerItems } from '/data/career.js';
+      import { homeContent } from '/data/home.js';
+      import { profile, profileCards } from '/data/profile.js';
       import { projects } from '/data/projects.js';
-      import { byId, renderProjectCard } from '/assets/main.js';
+      import {
+        applyDocumentMeta,
+        byId,
+        renderArchiveProject,
+        renderCareerTimeline,
+        renderHero,
+        renderNavLinks,
+        renderProfileCards,
+        renderProjectCard,
+        renderSkillGroups,
+      } from '/assets/main.js';
+
+      applyDocumentMeta(profile);
+      byId('brand-link').textContent = profile.brand;
+      byId('footer-brand').textContent = profile.brand;
+      byId('site-nav').innerHTML = renderNavLinks(homeContent.nav);
+      byId('hero-content').innerHTML = renderHero(homeContent.hero);
+      byId('about-title').textContent = homeContent.sections.about.title;
+      byId('about-list').innerHTML = renderProfileCards(profileCards);
+      byId('skills-title').textContent = homeContent.sections.skills.title;
+      byId('skill-list').innerHTML = renderSkillGroups(homeContent.skillGroups);
+      byId('projects-title').textContent = homeContent.sections.projects.title;
+      byId('project-archive-link').textContent = homeContent.sections.projects.archiveLinkLabel;
+      byId('project-archive-link').href = homeContent.sections.projects.archiveLinkHref;
+      byId('archive-title').textContent = homeContent.sections.archive.title;
+      byId('career-title').textContent = homeContent.sections.career.title;
+      byId('career-list').innerHTML = renderCareerTimeline(careerItems);
 
       byId('featured-project-list').innerHTML = projects
         .filter((project) => project.featured)
@@ -226,14 +94,8 @@
 
       byId('archive-project-list').innerHTML = projects
         .filter((project) => !project.featured)
-        .slice(0, 5)
-        .map((project) => `
-          <article class="archive-item">
-            <span>${project.period}</span>
-            <strong>${project.title}</strong>
-            <em>${project.metric}</em>
-          </article>
-        `)
+        .slice(0, homeContent.sections.archive.limit)
+        .map(renderArchiveProject)
         .join('');
 
       const navLinks = [...document.querySelectorAll('[data-section-link]')];

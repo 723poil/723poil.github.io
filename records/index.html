@@ -3,34 +3,27 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Records | 723poil</title>
-    <meta name="description" content="프로젝트 작업일지, 학습 기록, 회고를 정리하는 기록 공간입니다.">
+    <title></title>
+    <meta name="description" content="">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/assets/styles.css">
   </head>
   <body>
     <header class="site-header">
       <div class="site-shell nav">
-        <a class="brand" href="/">723poil</a>
-        <nav class="nav-links" aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/projects/">Projects</a>
-          <a href="/records/" aria-current="page">Records</a>
-          <a href="/about/">About</a>
-        </nav>
+        <a class="brand" href="/" id="brand-link"></a>
+        <nav class="nav-links" id="site-nav" aria-label="Primary navigation"></nav>
       </div>
     </header>
     <main class="site-shell">
-      <section class="hero">
-        <h1 class="page-title">완성된 결과 뒤에 남은 생각들을 따로 쌓습니다.</h1>
-      </section>
+      <section class="hero" id="page-hero"></section>
       <section class="section">
         <div class="filters" id="record-filters" aria-label="Record filters"></div>
         <div class="grid two" id="record-list"></div>
       </section>
     </main>
     <footer class="site-footer">
-      <div class="site-shell">© <span id="year"></span> 723poil</div>
+      <div class="site-shell">© <span id="year"></span> <span id="footer-brand"></span></div>
     </footer>
     <script type="module" src="/assets/records-page.js"></script>
   </body>

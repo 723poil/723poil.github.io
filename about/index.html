@@ -3,58 +3,29 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About | 723poil</title>
-    <meta name="description" content="백엔드 개발자 이상협의 경력, 기술, 자격 정보를 압축한 소개 페이지입니다.">
+    <title></title>
+    <meta name="description" content="">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/assets/styles.css">
   </head>
   <body>
     <header class="site-header">
       <div class="site-shell nav">
-        <a class="brand" href="/">723poil</a>
-        <nav class="nav-links" aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/projects/">Projects</a>
-          <a href="/records/">Records</a>
-          <a href="/about/" aria-current="page">About</a>
-        </nav>
+        <a class="brand" href="/" id="brand-link"></a>
+        <nav class="nav-links" id="site-nav" aria-label="Primary navigation"></nav>
       </div>
     </header>
     <main class="site-shell">
-      <section class="hero">
-        <h1 class="page-title">운영 가까이에 있는 문제를 백엔드 구조로 풀어왔습니다.</h1>
-      </section>
+      <section class="hero" id="about-hero"></section>
+      <div id="about-sections"></div>
       <section class="section">
-        <div class="section-heading">
-          <h2>Profile</h2>
-        </div>
-        <div class="grid two">
-          <article class="card compact">
-            <h3>Career</h3>
-            <p>씨앤에이아이 백엔드 개발자, 샵체인 풀스택 개발자로 일했습니다.</p>
-          </article>
-          <article class="card compact">
-            <h3>Skills</h3>
-            <p>NestJS, TypeScript, Vue3, MySQL, PostgreSQL, Redis, Docker, AWS, Grafana, Prometheus</p>
-          </article>
-          <article class="card compact">
-            <h3>Education</h3>
-            <p>경북대학교 컴퓨터학부 심화컴퓨터전공을 졸업했습니다.</p>
-          </article>
-          <article class="card compact">
-            <h3>Certifications</h3>
-            <p>정보처리기사, SQL 개발자, 데이터분석준전문가</p>
-          </article>
-        </div>
-      </section>
-      <section class="section">
-        <h2>Contact</h2>
-        <p class="lead"><a href="mailto:leetkdguq73@naver.com">leetkdguq73@naver.com</a></p>
+        <h2 id="about-contact-title"></h2>
+        <p class="lead"><a id="about-contact-link" href=""></a></p>
       </section>
     </main>
     <footer class="site-footer">
-      <div class="site-shell">© <span id="year"></span> 723poil</div>
+      <div class="site-shell">© <span id="year"></span> <span id="footer-brand"></span></div>
     </footer>
-    <script type="module" src="/assets/main.js"></script>
+    <script type="module" src="/assets/about-page.js"></script>
   </body>
 </html>
