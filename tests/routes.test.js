@@ -82,6 +82,7 @@ describe('static routes', () => {
     assert.match(html, /id="skills-title"/);
     assert.match(html, /id="skill-list"/);
     assert.match(html, /id="projects-title"/);
+    assert.match(html, /id="project-type-filters"/);
     assert.match(html, /id="featured-project-list"/);
     assert.match(html, /id="additional-projects"/);
     assert.match(html, /id="additional-project-list"/);

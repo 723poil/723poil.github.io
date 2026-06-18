@@ -34,6 +34,7 @@
       <section class="section section-gray" id="featured-projects">
         <div class="section-heading site-shell">
           <h2 class="section-title" id="projects-title"></h2>
+          <div class="project-filter-list" id="project-type-filters"></div>
         </div>
         <div class="grid three site-shell" id="featured-project-list"></div>
         <div class="project-more site-shell" id="additional-projects" hidden>
@@ -89,12 +90,17 @@
       byId('skills-title').textContent = homeContent.sections.skills.title;
       byId('skill-list').innerHTML = renderSkillGroups(homeContent.skillGroups);
       byId('projects-title').textContent = homeContent.sections.projects.title;
+      byId('project-type-filters').setAttribute('aria-label', homeContent.sections.projects.filterLabel);
       byId('archive-title').textContent = homeContent.sections.archive.title;
       byId('career-title').textContent = homeContent.sections.career.title;
       byId('career-list').innerHTML = renderCareerTimeline(careerItems, homeContent.sections.career);
 
-      const primaryItems = projects.filter((project) => project.featured);
-      const secondaryItems = projects.filter((project) => !project.featured);
+      const projectTypes = [...new Set(projects.map((project) => project.type).filter(Boolean))];
+      let activeProjectType = projectTypes[0] ?? '';
+      let showSecondaryItems = false;
+      const projectTypeFilters = byId('project-type-filters');
+      const featuredProjectList = byId('featured-project-list');
+      const additionalProjectList = byId('additional-project-list');
       const secondaryItemsSection = byId('additional-projects');
       const projectMoreButton = byId('project-more-button');
       const projectModal = byId('project-modal');
@@ -103,35 +109,67 @@
         closeButtonLabel: pageContent.projectDetail.closeButtonLabel,
       };
 
-      byId('featured-project-list').innerHTML = primaryItems
-        .map((project) => renderProjectCard(project, {
-          detailed: true,
-          actionMode: 'modal',
-          detailLabel: pageContent.projectDetail.detailButtonLabel,
-        }))
-        .join('');
+      const renderProjectTypeFilters = () => {
+        projectTypeFilters.innerHTML = '';
+        projectTypeFilters.hidden = projectTypes.length === 0;
 
-      byId('additional-project-list').innerHTML = secondaryItems
-        .map((project) => renderProjectCard(project, {
-          detailed: true,
-          actionMode: 'modal',
-          detailLabel: pageContent.projectDetail.detailButtonLabel,
-        }))
-        .join('');
-
-      if (secondaryItems.length) {
-        projectMoreButton.textContent = homeContent.sections.projects.moreButtonLabel;
-        projectMoreButton.addEventListener('click', () => {
-          const expanded = projectMoreButton.getAttribute('aria-expanded') === 'true';
-          secondaryItemsSection.hidden = expanded;
-          projectMoreButton.setAttribute('aria-expanded', String(!expanded));
-          projectMoreButton.textContent = expanded
-            ? homeContent.sections.projects.moreButtonLabel
-            : homeContent.sections.projects.lessButtonLabel;
+        projectTypes.forEach((type) => {
+          const button = document.createElement('button');
+          button.className = 'project-filter-button';
+          button.type = 'button';
+          button.dataset.projectTypeFilter = type;
+          button.setAttribute('aria-pressed', String(type === activeProjectType));
+          button.textContent = type;
+          projectTypeFilters.append(button);
         });
-      } else {
-        projectMoreButton.hidden = true;
-      }
+      };
+
+      const renderFilteredItems = () => {
+        const filteredItems = activeProjectType
+          ? projects.filter((project) => project.type === activeProjectType)
+          : projects;
+        const primaryItems = filteredItems.filter((project) => project.featured);
+        const secondaryItems = filteredItems.filter((project) => !project.featured);
+        const renderProject = (project) => renderProjectCard(project, {
+          detailed: true,
+          actionMode: 'modal',
+          detailLabel: pageContent.projectDetail.detailButtonLabel,
+        });
+
+        featuredProjectList.innerHTML = primaryItems.map(renderProject).join('');
+        additionalProjectList.innerHTML = secondaryItems.map(renderProject).join('');
+
+        if (secondaryItems.length) {
+          projectMoreButton.hidden = false;
+          secondaryItemsSection.hidden = !showSecondaryItems;
+          projectMoreButton.setAttribute('aria-expanded', String(showSecondaryItems));
+          projectMoreButton.textContent = showSecondaryItems
+            ? homeContent.sections.projects.lessButtonLabel
+            : homeContent.sections.projects.moreButtonLabel;
+        } else {
+          showSecondaryItems = false;
+          secondaryItemsSection.hidden = true;
+          projectMoreButton.hidden = true;
+          projectMoreButton.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      renderProjectTypeFilters();
+      renderFilteredItems();
+
+      projectTypeFilters.addEventListener('click', (event) => {
+        const filterButton = event.target.closest('[data-project-type-filter]');
+        if (!filterButton) return;
+        activeProjectType = filterButton.dataset.projectTypeFilter;
+        showSecondaryItems = false;
+        renderProjectTypeFilters();
+        renderFilteredItems();
+      });
+
+      projectMoreButton.addEventListener('click', () => {
+        showSecondaryItems = !showSecondaryItems;
+        renderFilteredItems();
+      });
 
       byId('archive-project-list').innerHTML = homeContent.sections.archive.items.length
         ? homeContent.sections.archive.items.map((item) => renderProjectCard(item)).join('')

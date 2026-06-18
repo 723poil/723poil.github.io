@@ -22,6 +22,7 @@ export const homeContent = {
     },
     projects: {
       title: 'PROJECTS',
+      filterLabel: '프로젝트 유형 필터',
       moreButtonLabel: '다른 프로젝트 더보기',
       lessButtonLabel: '중요 프로젝트만 보기',
     },
