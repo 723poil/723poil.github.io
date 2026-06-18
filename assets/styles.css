@@ -636,9 +636,7 @@ a {
 
 .career-project-row {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr);
-  align-items: start;
-  gap: 14px;
+  gap: 8px;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: var(--pill-radius);
@@ -663,7 +661,7 @@ a {
   color: var(--red);
   font-size: 0.86rem;
   font-weight: 800;
-  white-space: nowrap;
+  line-height: 1.5;
 }
 
 .career-project-row p {

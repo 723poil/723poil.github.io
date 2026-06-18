@@ -252,7 +252,7 @@ describe('shared browser helpers', () => {
           projects: [
             {
               title: 'Project one',
-              period: '2026.01',
+              period: '2024년 하반기 - 2025년 상반기',
               summary: 'One line summary',
               points: ['Hidden detail point'],
             },
@@ -272,6 +272,7 @@ describe('shared browser helpers', () => {
     assert.match(html, /More skills/);
     assert.match(html, /Less skills/);
     assert.match(html, /class="career-project-row"/);
+    assert.match(html, /2024년 하반기 - 2025년 상반기/);
     assert.match(html, /class="career-project-copy"/);
     assert.match(html, /<strong>Project one<\/strong>/);
     assert.match(html, /One line summary/);
