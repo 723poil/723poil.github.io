@@ -671,11 +671,11 @@ a {
   display: grid;
   min-width: 0;
   border-bottom: 1px solid #d7d7d7;
-  padding: 0 0 24px 28px;
+  padding: 0 0 16px 24px;
 }
 
 .career-project-row + .career-project-row {
-  padding-top: 24px;
+  padding-top: 16px;
 }
 
 .career-project-row::before {
@@ -690,12 +690,12 @@ a {
 }
 
 .career-project-row + .career-project-row::before {
-  top: 28px;
+  top: 20px;
 }
 
 .career-project-copy {
   display: grid;
-  gap: 8px;
+  gap: 5px;
   min-width: 0;
 }
 
@@ -872,15 +872,15 @@ main.site-shell .section {
   }
 
   .career-project-row {
-    padding: 0 0 22px 24px;
+    padding: 0 0 16px 22px;
   }
 
   .career-project-row + .career-project-row {
-    padding-top: 22px;
+    padding-top: 16px;
   }
 
   .career-project-row + .career-project-row::before {
-    top: 26px;
+    top: 20px;
   }
 
   .career-project-row p {
