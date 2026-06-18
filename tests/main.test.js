@@ -195,7 +195,7 @@ describe('shared browser helpers', () => {
     assert.doesNotMatch(html, /undefined/);
   });
 
-  it('renders project detail content inside a modal', async () => {
+  it('keeps project modal body and skill area empty for manual editing', async () => {
     const { renderProjectModal } = await import('../assets/main.js');
     const html = renderProjectModal(
       {
@@ -225,7 +225,13 @@ describe('shared browser helpers', () => {
     assert.match(html, /aria-label="Close"/);
     assert.match(html, /Project &lt;Modal&gt;/);
     assert.match(html, /Company &lt;One&gt;/);
-    assert.match(html, /Detail is empty/);
+    assert.match(html, /data-project-detail-body/);
+    assert.match(html, /data-project-skill-list/);
+    assert.doesNotMatch(html, /Summary/);
+    assert.doesNotMatch(html, /NestJS/);
+    assert.doesNotMatch(html, /Detail is empty/);
+    assert.doesNotMatch(html, /Role/);
+    assert.doesNotMatch(html, /Metric/);
     assert.doesNotMatch(html, /<Modal>/);
   });
 });

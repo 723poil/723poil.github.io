@@ -378,6 +378,10 @@ a {
   gap: 24px;
 }
 
+.project-modal-body-empty {
+  min-height: 240px;
+}
+
 .meta {
   display: flex;
   flex-wrap: wrap;

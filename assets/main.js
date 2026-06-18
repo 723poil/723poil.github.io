@@ -176,21 +176,10 @@ export function renderProjectModal(project, labels) {
       <header class="project-modal-header">
         <p class="eyebrow">${escapeHtml(project.company)} · ${escapeHtml(project.period)}</p>
         <h2 id="project-modal-title">${escapeHtml(project.title)}</h2>
-        <p>${escapeHtml(project.summary)}</p>
-        <div class="meta">
-          ${renderTags([...(project.categories ?? []), ...(project.technologies ?? [])])}
-        </div>
       </header>
-      <div class="project-modal-body">
-        <div class="modal-case">
-          ${renderCaseStudySections(project, labels)}
-        </div>
-        <aside class="card compact">
-          <h3>${escapeHtml(labels.role)}</h3>
-          <p>${escapeHtml(project.role)}</p>
-          <h3>${escapeHtml(labels.metric)}</h3>
-          <p>${escapeHtml(project.metric)}</p>
-        </aside>
+      <div class="project-modal-body project-modal-body-empty">
+        <div class="modal-case" data-project-detail-body></div>
+        <aside class="modal-skill-list" data-project-skill-list></aside>
       </div>
     </section>
   `;
