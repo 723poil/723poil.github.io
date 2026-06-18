@@ -20,13 +20,8 @@ export const portfolioSkillNames = [
   'Slack',
   'PHP',
   'Java(Android)',
-  'Loki',
   // Kafka는 학습 중이라 포트폴리오 노출에서 잠시 제외합니다.
   // 'Kafka',
-  'Pushgateway',
-  'Codex',
-  'Obsidian',
-  'Markdown',
 ];
 
 export const resumeSkillNames = portfolioSkillNames;
@@ -49,12 +44,7 @@ export const skillRegistry = {
   Slack: { color: '#4a154b' },
   PHP: { color: '#777bb4' },
   'Java(Android)': { color: '#30a26e' },
-  Loki: { color: '#5f6bff' },
   // Kafka: { color: '#231f20' },
-  Pushgateway: { color: '#e6522c' },
-  Codex: { color: '#212529' },
-  Obsidian: { color: '#7c3aed' },
-  Markdown: { color: '#495057' },
 };
 
 export function getSkill(name) {

@@ -1,8 +1,8 @@
-import { projects } from '/data/projects.js';
+import { projects } from '/data/projects.js?v=20260618-skill-cleanup';
 import { records } from '/data/records.js';
 import { profile } from '/data/profile.js';
 import { pageContent, secondaryNav } from '/data/site.js';
-import { applyPageMeta, byId, escapeHtml, renderProjectDetailPage, renderSiteChrome } from '/assets/main.js';
+import { applyPageMeta, byId, escapeHtml, renderProjectDetailPage, renderSiteChrome } from '/assets/main.js?v=20260618-skill-cleanup';
 
 const slug = document.body.dataset.projectSlug;
 const project = projects.find((item) => item.slug === slug);

@@ -106,7 +106,11 @@ describe('profile and home content', () => {
     assert.deepEqual(homeContent.skillGroups.map((group) => group.title), ['Languages & Frameworks', 'Database & Infra', 'Tools']);
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('GitLab')));
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Slack')));
-    assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Codex')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Pushgateway')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Loki')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Obsidian')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Markdown')));
+    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Codex')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('백엔드 개발')));
   });
 
@@ -201,7 +205,7 @@ describe('profile and home content', () => {
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Pushgateway', 'Loki', 'GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'GitLab'] },
     ]);
 
     assert.deepEqual(intern.skillGroups, [
@@ -231,7 +235,11 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry.Promtail);
     assert.ok(!skillRegistry.node_exporter);
     assert.ok(!skillRegistry.Kafka);
-    assert.ok(skillRegistry.Pushgateway);
+    assert.ok(!skillRegistry.Pushgateway);
+    assert.ok(!skillRegistry.Loki);
+    assert.ok(!skillRegistry.Obsidian);
+    assert.ok(!skillRegistry.Markdown);
+    assert.ok(!skillRegistry.Codex);
     assert.ok(!skillRegistry['NCP(네이버클라우드)']);
   });
 

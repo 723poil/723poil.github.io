@@ -1,7 +1,7 @@
 import { profile } from '../data/profile.js';
-import { projects, projectCategories } from '../data/projects.js';
+import { projects, projectCategories } from '../data/projects.js?v=20260618-skill-cleanup';
 import { pageContent, secondaryNav } from '../data/site.js';
-import { applyPageMeta, byId, renderProjectCard, renderProjectModal, renderSimpleHero, renderSiteChrome } from './main.js';
+import { applyPageMeta, byId, renderProjectCard, renderProjectModal, renderSimpleHero, renderSiteChrome } from './main.js?v=20260618-skill-cleanup';
 
 const filters = byId('project-filters');
 const list = byId('project-list');

@@ -62,10 +62,10 @@
     <div class="project-modal" id="project-modal" hidden></div>
 
     <script type="module">
-      import { careerItems } from '/data/career.js?v=20260618-career-periods';
-      import { homeContent } from '/data/home.js';
+      import { careerItems } from '/data/career.js?v=20260618-skill-cleanup';
+      import { homeContent } from '/data/home.js?v=20260618-skill-cleanup';
       import { profile, profileCards } from '/data/profile.js';
-      import { projects } from '/data/projects.js';
+      import { projects } from '/data/projects.js?v=20260618-skill-cleanup';
       import { pageContent } from '/data/site.js';
       import {
         applyDocumentMeta,
@@ -78,7 +78,7 @@
         renderProjectCard,
         renderProjectModal,
         renderSkillGroups,
-      } from '/assets/main.js';
+      } from '/assets/main.js?v=20260618-skill-cleanup';
 
       applyDocumentMeta(profile);
       byId('brand-link').textContent = profile.brand;

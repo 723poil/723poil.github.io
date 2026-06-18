@@ -51,7 +51,7 @@ export const homeContent = {
     },
     {
       title: 'Tools',
-      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'Pushgateway', 'Loki', 'JIRA', 'Slack', 'Codex', 'Obsidian', 'Markdown'],
+      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'JIRA', 'Slack'],
     },
   ],
 };

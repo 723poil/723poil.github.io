@@ -1,4 +1,4 @@
-import { getSkill } from '../data/skills.js';
+import { getSkill } from '../data/skills.js?v=20260618-skill-cleanup';
 
 export function byId(id) {
   if (typeof document === 'undefined') return null;
