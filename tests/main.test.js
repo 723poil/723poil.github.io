@@ -237,30 +237,40 @@ describe('shared browser helpers', () => {
 
   it('renders career skills in one card and projects as compact timeline rows', async () => {
     const { renderCareerTimeline } = await import('../assets/main.js');
-    const html = renderCareerTimeline([
+    const html = renderCareerTimeline(
+      [
+        {
+          company: 'Company',
+          period: '2026.01 - 현재',
+          role: 'Backend',
+          summary: 'Company summary',
+          logo: { src: '/logo.png', alt: 'logo' },
+          skillGroups: [
+            { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
+            { title: 'Database', skills: ['MySQL'] },
+          ],
+          projects: [
+            {
+              title: 'Project one',
+              period: '2026.01',
+              summary: 'One line summary',
+              points: ['Hidden detail point'],
+            },
+          ],
+        },
+      ],
       {
-        company: 'Company',
-        period: '2026.01 - 현재',
-        role: 'Backend',
-        summary: 'Company summary',
-        logo: { src: '/logo.png', alt: 'logo' },
-        skillGroups: [
-          { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
-          { title: 'Database', skills: ['MySQL'] },
-        ],
-        projects: [
-          {
-            title: 'Project one',
-            period: '2026.01',
-            summary: 'One line summary',
-            points: ['Hidden detail point'],
-          },
-        ],
+        skillMoreLabel: 'More skills',
+        skillLessLabel: 'Less skills',
       },
-    ]);
+    );
 
-    assert.match(html, /class="career-skill-card"/);
+    assert.match(html, /class="career-skill-card is-collapsed"/);
     assert.match(html, /class="career-skill-row"/);
+    assert.match(html, /data-career-skill-toggle/);
+    assert.match(html, /aria-expanded="false"/);
+    assert.match(html, /More skills/);
+    assert.match(html, /Less skills/);
     assert.match(html, /class="career-project-row"/);
     assert.match(html, /class="career-project-copy"/);
     assert.match(html, /<strong>Project one<\/strong>/);

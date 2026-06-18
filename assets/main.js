@@ -226,17 +226,20 @@ export function renderProjectDetailPage(project, relatedRecords, labels) {
   `;
 }
 
-export function renderCareerTimeline(items) {
-  return items.map(renderCareerItem).join('');
+export function renderCareerTimeline(items, labels = {}) {
+  return items.map((item, index) => renderCareerItem(item, labels, index)).join('');
 }
 
-function renderCareerSkillGroups(item) {
+function getCareerSkillGroups(item) {
   const groups = item.skillGroups?.length
     ? item.skillGroups
     : [{ title: 'Skills', skills: item.skills ?? [] }];
 
+  return groups.filter((group) => group.skills?.length);
+}
+
+function renderCareerSkillGroups(groups) {
   return groups
-    .filter((group) => group.skills?.length)
     .map(
       (group) => `
         <div class="career-skill-row">
@@ -248,7 +251,29 @@ function renderCareerSkillGroups(item) {
     .join('');
 }
 
-function renderCareerItem(item) {
+function renderCareerSkillToggle(groups, labels, index) {
+  if (groups.length <= 1) return '';
+
+  const expandLabel = labels.skillMoreLabel ?? '스킬 더보기';
+  const collapseLabel = labels.skillLessLabel ?? '스킬 접기';
+
+  return `
+    <button
+      class="career-skill-toggle"
+      type="button"
+      data-career-skill-toggle
+      data-expand-label="${escapeAttribute(expandLabel)}"
+      data-collapse-label="${escapeAttribute(collapseLabel)}"
+      aria-expanded="false"
+      aria-controls="career-skill-card-${index}"
+    >${escapeHtml(expandLabel)}</button>
+  `;
+}
+
+function renderCareerItem(item, labels, index) {
+  const skillGroups = getCareerSkillGroups(item);
+  const collapsedClass = skillGroups.length > 1 ? ' is-collapsed' : '';
+
   return `
     <article class="career-card">
       <div class="company-icon"><img src="${escapeAttribute(item.logo.src)}" alt="${escapeAttribute(item.logo.alt)}"></div>
@@ -257,7 +282,8 @@ function renderCareerItem(item) {
           <h3>${escapeHtml(item.company)}</h3>
           <p class="career-period">${escapeHtml(item.period)} · ${escapeHtml(item.role)}</p>
           <p class="company-summary">${escapeHtml(item.summary)}</p>
-          <section class="career-skill-card">${renderCareerSkillGroups(item)}</section>
+          <section class="career-skill-card${collapsedClass}" id="career-skill-card-${index}">${renderCareerSkillGroups(skillGroups)}</section>
+          ${renderCareerSkillToggle(skillGroups, labels, index)}
         </header>
         <div class="career-projects">
           ${item.projects.map(renderCareerProject).join('')}

@@ -97,6 +97,8 @@ describe('profile and home content', () => {
     assert.deepEqual(homeContent.sections.archive.items, []);
     assert.equal(homeContent.sections.archive.emptyMessage, '아직 공개된 아카이빙이 없습니다.');
     assert.equal(homeContent.sections.career.title, 'CAREER');
+    assert.equal(homeContent.sections.career.skillMoreLabel, '스킬 더보기');
+    assert.equal(homeContent.sections.career.skillLessLabel, '스킬 접기');
     assert.ok(homeContent.skillGroups.every((group) => group.skills.length > 0));
     assert.deepEqual(homeContent.skillGroups.map((group) => group.title), ['Languages & Frameworks', 'Database & Infra', 'Tools']);
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('GitLab')));

@@ -32,6 +32,8 @@ export const homeContent = {
     },
     career: {
       title: 'CAREER',
+      skillMoreLabel: '스킬 더보기',
+      skillLessLabel: '스킬 접기',
     },
   },
   skillGroups: [

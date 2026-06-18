@@ -592,6 +592,10 @@ a {
   margin-top: 22px;
 }
 
+.career-skill-card.is-collapsed .career-skill-row:nth-child(n + 2) {
+  display: none;
+}
+
 .career-skill-row {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr);
@@ -609,6 +613,19 @@ a {
 
 .career-skill-row .meta {
   margin: 0;
+}
+
+.career-skill-toggle {
+  display: table;
+  margin: 12px auto 0;
+  min-height: 36px;
+  border: 0;
+  border-radius: var(--pill-radius);
+  background: var(--yellow);
+  color: var(--black);
+  padding: 0 18px;
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .career-projects {

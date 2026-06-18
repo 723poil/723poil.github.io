@@ -91,7 +91,7 @@
       byId('projects-title').textContent = homeContent.sections.projects.title;
       byId('archive-title').textContent = homeContent.sections.archive.title;
       byId('career-title').textContent = homeContent.sections.career.title;
-      byId('career-list').innerHTML = renderCareerTimeline(careerItems);
+      byId('career-list').innerHTML = renderCareerTimeline(careerItems, homeContent.sections.career);
 
       const primaryItems = projects.filter((project) => project.featured);
       const secondaryItems = projects.filter((project) => !project.featured);
@@ -153,6 +153,19 @@
       };
 
       document.addEventListener('click', (event) => {
+        const careerSkillToggle = event.target.closest('[data-career-skill-toggle]');
+        if (careerSkillToggle) {
+          const skillCard = byId(careerSkillToggle.getAttribute('aria-controls'));
+          if (!skillCard) return;
+          const expanded = careerSkillToggle.getAttribute('aria-expanded') === 'true';
+          skillCard.classList.toggle('is-collapsed', expanded);
+          careerSkillToggle.setAttribute('aria-expanded', String(!expanded));
+          careerSkillToggle.textContent = expanded
+            ? careerSkillToggle.dataset.expandLabel
+            : careerSkillToggle.dataset.collapseLabel;
+          return;
+        }
+
         const detailButton = event.target.closest('[data-project-detail]');
         if (detailButton) {
           openProjectModal(detailButton.dataset.projectDetail);
