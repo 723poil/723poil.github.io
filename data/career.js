@@ -18,7 +18,7 @@ export const careerItems = [
     projects: [
       {
         title: 'Toss·PayPal 결제 안정성 구조',
-        period: '2026.04 - 2026.05',
+        period: '2026년 상반기',
         summary: 'PG 승인, 내부 주문 처리, 실패 보상 단계를 분리해 결제 데이터 불일치 가능성을 줄였습니다.',
         points: [
           'Redis Lock과 멱등키 기반 중복 처리 제어',
@@ -27,7 +27,7 @@ export const careerItems = [
       },
       {
         title: '구독 결제 및 실패 보상 처리',
-        period: '2026.04 - 현재',
+        period: '2026년 상반기 - 현재',
         summary: '단건 결제와 구독 결제 흐름을 분리하고, 실패 상황을 추적 가능한 상태로 남기도록 처리 단계를 정리했습니다.',
         points: [
           '구독 결제 승인 흐름과 일반 결제 승인 흐름 분리',
@@ -54,7 +54,7 @@ export const careerItems = [
     projects: [
       {
         title: 'PG 결제 내역 자동 대조',
-        period: '2024.12 - 2025.02',
+        period: '2024년 하반기 - 2025년 상반기',
         summary: 'PG 결제 내역과 내부 결제 데이터를 자동으로 대조해 운영자의 수기 검증 시간을 줄였습니다.',
         points: [
           '결제 내역 조회 60초 이상에서 10초 이내로 단축',
@@ -63,7 +63,7 @@ export const careerItems = [
       },
       {
         title: '정산 대행 플랫폼',
-        period: '2025.08 - 2025.12',
+        period: '2025년 하반기',
         summary: '고객사별 수수료율과 지급 기준을 정산 생성 시점의 스냅샷으로 보존해 과거 정산 기준이 흔들리지 않게 구성했습니다.',
         points: [
           '월 매출 약 5천만 원 규모 정산 대행 플랫폼 운영',
@@ -72,12 +72,12 @@ export const careerItems = [
       },
       {
         title: 'POS·KIOSK 네이버페이 결제',
-        period: '2025.01 - 2025.04',
+        period: '2025년 상반기',
         summary: '기존 신용카드·현금 결제 흐름을 유지하면서 POS와 KIOSK에 네이버페이 결제 진입점을 추가했습니다.',
       },
       {
         title: '모니터링 및 로그 조회 환경',
-        period: '2024.10 - 2024.11',
+        period: '2024년 하반기',
         summary: 'Grafana, Prometheus, Loki 기반으로 서버 메트릭과 로그를 한 화면에서 확인할 수 있는 운영 환경을 구성했습니다.',
       },
     ],
@@ -98,7 +98,7 @@ export const careerItems = [
     projects: [
       {
         title: '관리 콘솔 리뉴얼',
-        period: '2023.06 - 2024.01',
+        period: '2023년 상반기 - 2024년 상반기',
         summary: '관리 콘솔 리뉴얼 프로젝트를 진행했습니다.',
       },
     ],

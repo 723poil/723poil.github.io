@@ -139,6 +139,21 @@ describe('profile and home content', () => {
     assert.ok(careerItems.some((item) => item.projects.some((project) => project.title === '구독 결제 및 실패 보상 처리')));
   });
 
+  it('uses half-year labels for career project periods', () => {
+    const projectPeriods = careerItems.flatMap((item) => item.projects.map((project) => project.period));
+
+    assert.deepEqual(projectPeriods, [
+      '2026년 상반기',
+      '2026년 상반기 - 현재',
+      '2024년 하반기 - 2025년 상반기',
+      '2025년 하반기',
+      '2025년 상반기',
+      '2024년 하반기',
+      '2023년 상반기 - 2024년 상반기',
+    ]);
+    assert.ok(projectPeriods.every((period) => !/\d{4}\.\d{2}/.test(period)));
+  });
+
   it('groups career skills by company context', () => {
     const [cnai, shopchain, intern] = careerItems;
 
