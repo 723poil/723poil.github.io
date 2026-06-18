@@ -275,8 +275,8 @@ function renderCareerSkillToggle(groups, labels, index) {
 function renderCareerProjectToggle(projects, labels, index) {
   if (projects.length <= CAREER_PROJECT_VISIBLE_COUNT) return '';
 
-  const expandLabel = labels.projectMoreLabel ?? '업무 더보기';
-  const collapseLabel = labels.projectLessLabel ?? '업무 접기';
+  const expandLabel = labels.projectMoreLabel ?? '더보기';
+  const collapseLabel = labels.projectLessLabel ?? '접기';
 
   return `
     <button

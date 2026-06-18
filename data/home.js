@@ -34,8 +34,8 @@ export const homeContent = {
       title: 'CAREER',
       skillMoreLabel: '스킬 더보기',
       skillLessLabel: '스킬 접기',
-      projectMoreLabel: '업무 더보기',
-      projectLessLabel: '업무 접기',
+      projectMoreLabel: '더보기',
+      projectLessLabel: '접기',
     },
   },
   skillGroups: [
