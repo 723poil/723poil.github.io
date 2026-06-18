@@ -133,7 +133,7 @@ describe('profile and home content', () => {
     assert.deepEqual(cnai.skillGroups, [
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
-      { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
+      { title: 'Infra & Messaging', skills: ['AWS', 'Docker'] },
       { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
     ]);
 
@@ -169,7 +169,7 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry['AI Tools']);
     assert.ok(!skillRegistry.Promtail);
     assert.ok(!skillRegistry.node_exporter);
-    assert.ok(skillRegistry.Kafka);
+    assert.ok(!skillRegistry.Kafka);
     assert.ok(skillRegistry.Pushgateway);
     assert.ok(!skillRegistry['NCP(네이버클라우드)']);
   });

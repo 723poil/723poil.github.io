@@ -11,7 +11,8 @@ export const careerItems = [
     skillGroups: [
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
-      { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
+      // Kafka는 학습 중이라 포트폴리오 노출에서 잠시 제외합니다.
+      { title: 'Infra & Messaging', skills: ['AWS', 'Docker'] },
       { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
     ],
     projects: [

@@ -40,7 +40,8 @@ export const homeContent = {
     },
     {
       title: 'Database & Infra',
-      skills: ['MySQL', 'PostgreSQL', 'Redis', 'AWS', 'Docker', 'Kafka'],
+      // Kafka는 학습 중이라 포트폴리오 노출에서 잠시 제외합니다.
+      skills: ['MySQL', 'PostgreSQL', 'Redis', 'AWS', 'Docker'],
     },
     {
       title: 'Tools',
