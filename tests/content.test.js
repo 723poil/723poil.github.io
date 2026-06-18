@@ -138,7 +138,10 @@ describe('profile and home content', () => {
     );
     assert.equal(careerItems[2].summary, careerItems[1].summary);
     assert.ok(careerItems.every((item) => item.projects.length > 0));
-    assert.ok(careerItems.some((item) => item.projects.some((project) => project.title === '구독 결제 및 실패 보상 처리')));
+    assert.deepEqual(
+      careerItems[0].projects.map((project) => project.title),
+      ['Winkand 프로젝트 개발 참여', '결제 도메인 개발 담당'],
+    );
   });
 
   it('uses half-year labels for career project periods', () => {
@@ -146,7 +149,7 @@ describe('profile and home content', () => {
 
     assert.deepEqual(projectPeriods, [
       '2026년 상반기',
-      '2026년 상반기 - 현재',
+      '2026년 상반기',
       '2024년 하반기 - 2025년 상반기',
       '2025년 하반기',
       '2025년 상반기',
