@@ -32,6 +32,22 @@ export function renderTags(labels) {
   return labels.map(createTag).join('');
 }
 
+export function partitionProjectCards(projects, activeProjectType = '', visibleCount = 3) {
+  if (!activeProjectType) {
+    return {
+      primaryItems: projects.filter((project) => project.featured),
+      secondaryItems: projects.filter((project) => !project.featured),
+    };
+  }
+
+  const filteredItems = projects.filter((project) => project.type === activeProjectType);
+
+  return {
+    primaryItems: filteredItems.slice(0, visibleCount),
+    secondaryItems: filteredItems.slice(visibleCount),
+  };
+}
+
 export function renderProjectCard(project, { detailed = false, actionMode = 'link', detailLabel = '상세보기' } = {}) {
   const canOpenDetail = project.detailReady !== false && project.slug;
   const href = canOpenDetail ? `/projects/${encodeURIComponent(project.slug)}/` : '';

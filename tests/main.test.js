@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 
 describe('shared browser helpers', () => {
   it('can be imported and setup in Node without document', async () => {
-    const { createTag, renderEmptyState, renderProjectCard, renderProjectModal, renderRecordCard, setupFooterYear } = await import('../assets/main.js');
+    const { createTag, partitionProjectCards, renderEmptyState, renderProjectCard, renderProjectModal, renderRecordCard, setupFooterYear } = await import('../assets/main.js');
 
     assert.equal(typeof createTag, 'function');
     assert.equal(typeof renderEmptyState, 'function');
     assert.equal(typeof renderProjectCard, 'function');
     assert.equal(typeof renderProjectModal, 'function');
     assert.equal(typeof renderRecordCard, 'function');
+    assert.equal(typeof partitionProjectCards, 'function');
     assert.doesNotThrow(() => setupFooterYear());
   });
 
@@ -233,6 +234,35 @@ describe('shared browser helpers', () => {
     assert.doesNotMatch(html, /Role/);
     assert.doesNotMatch(html, /Metric/);
     assert.doesNotMatch(html, /<Modal>/);
+  });
+
+  it('splits home projects by featured state before a type filter is selected', async () => {
+    const { partitionProjectCards } = await import('../assets/main.js');
+    const result = partitionProjectCards([
+      { title: 'Company featured', type: '회사 프로젝트', featured: true },
+      { title: 'Team project', type: '팀 프로젝트', featured: false },
+      { title: 'Company archive', type: '회사 프로젝트', featured: false },
+    ]);
+
+    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured']);
+    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Team project', 'Company archive']);
+  });
+
+  it('shows the first three filtered projects above the more button regardless of featured state', async () => {
+    const { partitionProjectCards } = await import('../assets/main.js');
+    const result = partitionProjectCards(
+      [
+        { title: 'Company featured', type: '회사 프로젝트', featured: true },
+        { title: 'Company one', type: '회사 프로젝트', featured: false },
+        { title: 'Company two', type: '회사 프로젝트', featured: false },
+        { title: 'Team project', type: '팀 프로젝트', featured: false },
+        { title: 'Company three', type: '회사 프로젝트', featured: false },
+      ],
+      '회사 프로젝트',
+    );
+
+    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured', 'Company one', 'Company two']);
+    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Company three']);
   });
 
   it('renders career skills in one card and projects as compact timeline rows', async () => {

@@ -78,7 +78,8 @@
         renderProjectCard,
         renderProjectModal,
         renderSkillGroups,
-      } from '/assets/main.js?v=20260618-skill-cleanup';
+        partitionProjectCards,
+      } from '/assets/main.js?v=20260618-project-filter';
 
       applyDocumentMeta(profile);
       byId('brand-link').textContent = profile.brand;
@@ -96,7 +97,7 @@
       byId('career-list').innerHTML = renderCareerTimeline(careerItems, homeContent.sections.career);
 
       const projectTypes = [...new Set(projects.map((project) => project.type).filter(Boolean))];
-      let activeProjectType = projectTypes[0] ?? '';
+      let activeProjectType = '';
       let showSecondaryItems = false;
       const projectTypeFilters = byId('project-type-filters');
       const featuredProjectList = byId('featured-project-list');
@@ -125,11 +126,7 @@
       };
 
       const renderFilteredItems = () => {
-        const filteredItems = activeProjectType
-          ? projects.filter((project) => project.type === activeProjectType)
-          : projects;
-        const primaryItems = filteredItems.filter((project) => project.featured);
-        const secondaryItems = filteredItems.filter((project) => !project.featured);
+        const { primaryItems, secondaryItems } = partitionProjectCards(projects, activeProjectType);
         const renderProject = (project) => renderProjectCard(project, {
           detailed: true,
           actionMode: 'modal',
