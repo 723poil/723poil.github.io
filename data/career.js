@@ -45,17 +45,17 @@ export const careerItems = [
         summary: '팀 내 지식 공유와 도메인 문서화를 통해 업무 효율 개선 및 LLM 활용 기반 마련',
       },
       {
-        title: '정산 대행 플랫폼 개발 및 운영 담당',
+        title: '정산 대행 플랫폼 개발',
         period: '2025년 하반기',
         summary: '고객사별 수수료율과 지급 기준을 관리하는 정산 플랫폼 개발·운영',
       },
       {
-        title: '드림페이 개발 및 운영 담당',
+        title: '드림페이 개발',
         period: '2025년 하반기',
         summary: '비사업자 결제·정산 및 현금영수증 발급 서비스 개발',
       },
       {
-        title: '네이버페이 결제 담당',
+        title: '네이버페이 결제 도입',
         period: '2025년 상반기',
         summary: 'POS·KIOSK·테이블오더 환경의 네이버페이 결제 도입',
       },
@@ -65,12 +65,12 @@ export const careerItems = [
         summary: '결제 신규 도입 및 정산에 대한 고도화 및 유지보수 업무 담당',
       },
       {
-        title: '관리 콘솔 리뉴얼 및 유지보수 담당',
+        title: '관리 콘솔 리뉴얼 및 유지보수',
         period: '2024년 상반기 - 퇴사',
         summary: 'NestJS, Vue3 기반 지사, 점주, 프랜차이즈, 어드민 관리 콘솔 리뉴얼 및 유지보수를 담당하여 업무 효율 개선',
       },
       {
-        title: '외부 배달앱 주문 POS 연동 담당',
+        title: '외부 배달앱 주문 POS 연동',
         period: '2024년 상반기',
         summary: '외부 배달앱 주문을 POS 주문·매출 흐름으로 연결하는 연동 작업 진행',
       },
@@ -91,7 +91,7 @@ export const careerItems = [
     ],
     projects: [
       {
-        title: '관리 콘솔 리뉴얼 담당',
+        title: '관리 콘솔 리뉴얼',
         period: '2023년 하반기 - 전환',
         summary: 'NestJS, Vue3 기반 지사용 관리 콘솔 리뉴얼을 담당하여 업무 효율 개선',
       },

@@ -173,12 +173,12 @@ describe('profile and home content', () => {
 
     assert.deepEqual(shopchain.projects.map((project) => project.title), [
       'AX 도입 및 도메인 지식 문서화 담당',
-      '정산 대행 플랫폼 개발 및 운영 담당',
-      '드림페이 개발 및 운영 담당',
-      '네이버페이 결제 담당',
+      '정산 대행 플랫폼 개발',
+      '드림페이 개발',
+      '네이버페이 결제 도입',
       '정산·결제 도메인 담당',
-      '관리 콘솔 리뉴얼 및 유지보수 담당',
-      '외부 배달앱 주문 POS 연동 담당',
+      '관리 콘솔 리뉴얼 및 유지보수',
+      '외부 배달앱 주문 POS 연동',
     ]);
     assert.deepEqual(shopchain.projects.map((project) => project.period), [
       '2026년 상반기 - 퇴사',
@@ -213,7 +213,7 @@ describe('profile and home content', () => {
       { title: 'Database', skills: ['MySQL'] },
     ]);
     assert.deepEqual(intern.skillGroups.flatMap((group) => group.skills), ['NestJS', 'Vue3', 'PHP', 'MySQL']);
-    assert.equal(intern.projects[0].title, '관리 콘솔 리뉴얼 담당');
+    assert.equal(intern.projects[0].title, '관리 콘솔 리뉴얼');
     assert.equal(intern.projects[0].period, '2023년 하반기 - 전환');
     assert.equal(intern.projects[0].summary, 'NestJS, Vue3 기반 지사용 관리 콘솔 리뉴얼을 담당하여 업무 효율 개선');
   });
