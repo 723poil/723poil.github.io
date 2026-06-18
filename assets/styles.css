@@ -279,8 +279,6 @@ a {
   width: min(220px, 100%);
   min-height: 44px;
   padding: 0 24px;
-  background: var(--black);
-  color: var(--white);
   font-size: 0.9rem;
   text-align: center;
 }
