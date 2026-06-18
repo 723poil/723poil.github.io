@@ -150,13 +150,13 @@ describe('profile and home content', () => {
     assert.deepEqual(projectPeriods, [
       '2026년 상반기',
       '2026년 상반기',
-      '2024년 하반기 - 퇴사',
-      '2024년 상반기 - 퇴사',
+      '2026년 상반기 - 퇴사',
+      '2025년 하반기',
       '2025년 하반기',
       '2025년 상반기',
-      '2025년 하반기',
+      '2024년 하반기 - 퇴사',
+      '2024년 상반기 - 퇴사',
       '2024년 상반기',
-      '2026년 상반기 - 퇴사',
       '2023년 하반기 - 전환',
     ]);
     assert.ok(projectPeriods.every((period) => !/\d{4}\.\d{2}/.test(period)));
@@ -166,22 +166,22 @@ describe('profile and home content', () => {
     const shopchain = careerItems[1];
 
     assert.deepEqual(shopchain.projects.map((project) => project.title), [
+      'AX 도입 및 도메인 지식 문서화 담당',
+      '정산 대행 플랫폼 개발 및 운영 담당',
+      '드림페이 개발 및 운영 담당',
+      '네이버페이 결제 담당',
       '정산·결제 도메인 담당',
       '관리 콘솔 리뉴얼 및 유지보수 담당',
-      '정산 대행 플랫폼 개발 및 운영 담당',
-      '네이버페이 결제 담당',
-      '드림페이 개발 및 운영 담당',
       '외부 배달앱 주문 POS 연동 담당',
-      'AX 도입 및 도메인 지식 문서화 담당',
     ]);
     assert.deepEqual(shopchain.projects.map((project) => project.period), [
-      '2024년 하반기 - 퇴사',
-      '2024년 상반기 - 퇴사',
+      '2026년 상반기 - 퇴사',
+      '2025년 하반기',
       '2025년 하반기',
       '2025년 상반기',
-      '2025년 하반기',
+      '2024년 하반기 - 퇴사',
+      '2024년 상반기 - 퇴사',
       '2024년 상반기',
-      '2026년 상반기 - 퇴사',
     ]);
   });
 
