@@ -92,8 +92,8 @@ describe('profile and home content', () => {
     assert.equal(homeContent.sections.skills.title, 'SKILLS');
     assert.equal(homeContent.sections.projects.title, 'PROJECTS');
     assert.equal(homeContent.sections.projects.filterLabel, '프로젝트 유형 필터');
-    assert.equal(homeContent.sections.projects.moreButtonLabel, '다른 프로젝트 더보기');
-    assert.equal(homeContent.sections.projects.lessButtonLabel, '중요 프로젝트만 보기');
+    assert.equal(homeContent.sections.projects.moreButtonLabel, '프로젝트 더보기');
+    assert.equal(homeContent.sections.projects.lessButtonLabel, '접기');
     assert.equal(homeContent.sections.archive.title, 'ARCHIVING');
     assert.deepEqual(homeContent.sections.archive.items, []);
     assert.equal(homeContent.sections.archive.emptyMessage, '아직 공개된 아카이빙이 없습니다.');
