@@ -40,11 +40,11 @@ export const homeContent = {
     },
     {
       title: 'Database & Infra',
-      skills: ['MySQL', 'PostgreSQL', 'Redis', 'AWS', 'Docker'],
+      skills: ['MySQL', 'PostgreSQL', 'Redis', 'AWS', 'Docker', 'Kafka'],
     },
     {
       title: 'Tools',
-      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'Loki', 'JIRA', 'Slack', 'Codex', 'Obsidian', 'Markdown'],
+      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'Pushgateway', 'Loki', 'JIRA', 'Slack', 'Codex', 'Obsidian', 'Markdown'],
     },
   ],
 };

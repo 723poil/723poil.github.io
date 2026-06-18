@@ -96,6 +96,14 @@ describe('profile and home content', () => {
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('백엔드 개발')));
   });
 
+  it('keeps every career skill visible in the top skills section', () => {
+    const topSkillNames = new Set(homeContent.skillGroups.flatMap((group) => group.skills));
+    const careerSkillNames = careerItems.flatMap((item) => item.skillGroups.flatMap((group) => group.skills));
+    const missingSkillNames = [...new Set(careerSkillNames)].filter((skillName) => !topSkillNames.has(skillName));
+
+    assert.deepEqual(missingSkillNames, []);
+  });
+
   it('keeps secondary page navigation and page labels in a data module', () => {
     assert.deepEqual(secondaryNav.map((item) => item.label), ['Home', 'Projects', 'Records', 'About']);
     assert.equal(pageContent.projects.hero.title, '만든 것보다, 왜 그렇게 만들었는지를 더 남기고 싶었습니다.');
