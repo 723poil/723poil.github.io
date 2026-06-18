@@ -48,7 +48,7 @@ export const careerItems = [
     skillGroups: [
       { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
-      { title: 'Infra', skills: ['NCP(네이버클라우드)', 'Docker'] },
+      { title: 'Infra', skills: ['Docker'] },
       { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki'] },
       { title: 'Tools', skills: ['GitLab'] },
     ],

@@ -125,7 +125,7 @@ describe('profile and home content', () => {
     assert.deepEqual(shopchain.skillGroups, [
       { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
-      { title: 'Infra', skills: ['NCP(네이버클라우드)', 'Docker'] },
+      { title: 'Infra', skills: ['Docker'] },
       { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki'] },
       { title: 'Tools', skills: ['GitLab'] },
     ]);
@@ -156,7 +156,7 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry.Promtail);
     assert.ok(!skillRegistry.node_exporter);
     assert.ok(skillRegistry.Kafka);
-    assert.ok(skillRegistry['NCP(네이버클라우드)']);
+    assert.ok(!skillRegistry['NCP(네이버클라우드)']);
   });
 
   it('defines a color for every portfolio skill used by content data', () => {
