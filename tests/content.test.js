@@ -143,7 +143,7 @@ describe('profile and home content', () => {
     assert.ok(careerItems.every((item) => item.projects.length > 0));
     assert.deepEqual(
       careerItems[0].projects.map((project) => project.title),
-      ['Winkand 프로젝트 개발 참여', '결제 도메인 개발 담당'],
+      ['Winkand 프로젝트 개발 참여'],
     );
   });
 
@@ -151,7 +151,6 @@ describe('profile and home content', () => {
     const projectPeriods = careerItems.flatMap((item) => item.projects.map((project) => project.period));
 
     assert.deepEqual(projectPeriods, [
-      '2026년 상반기',
       '2026년 상반기',
       '2026년 상반기 - 퇴사',
       '2025년 하반기',
@@ -212,7 +211,7 @@ describe('profile and home content', () => {
     assert.deepEqual(intern.skillGroups.flatMap((group) => group.skills), ['NestJS', 'Vue3', 'PHP', 'MySQL']);
     assert.equal(intern.projects[0].title, '관리 콘솔 리뉴얼 담당');
     assert.equal(intern.projects[0].period, '2023년 하반기 - 전환');
-    assert.equal(intern.projects[0].summary, '관리 콘솔 리뉴얼을 담당했습니다.');
+    assert.equal(intern.projects[0].summary, 'NestJS, Vue3 기반 지사용 관리 콘솔 리뉴얼을 담당하여 업무 효율 개선');
   });
 });
 
