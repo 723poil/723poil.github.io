@@ -239,10 +239,10 @@ function renderCareerSkillGroups(item) {
     .filter((group) => group.skills?.length)
     .map(
       (group) => `
-        <section class="career-skill-section">
+        <div class="career-skill-row">
           <h4>${escapeHtml(group.title)}</h4>
           <div class="meta">${renderTags(group.skills)}</div>
-        </section>
+        </div>
       `,
     )
     .join('');
@@ -257,7 +257,7 @@ function renderCareerItem(item) {
           <h3>${escapeHtml(item.company)}</h3>
           <p class="career-period">${escapeHtml(item.period)} · ${escapeHtml(item.role)}</p>
           <p class="company-summary">${escapeHtml(item.summary)}</p>
-          <div class="career-skills">${renderCareerSkillGroups(item)}</div>
+          <section class="career-skill-card">${renderCareerSkillGroups(item)}</section>
         </header>
         <div class="career-projects">
           ${item.projects.map(renderCareerProject).join('')}
@@ -268,20 +268,11 @@ function renderCareerItem(item) {
 }
 
 function renderCareerProject(project) {
-  const points = project.points?.length
-    ? `
-      <ul class="career-points">
-        ${project.points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}
-      </ul>
-    `
-    : '';
-
   return `
-    <section class="career-project">
-      <h4>${escapeHtml(project.title)}</h4>
-      <p class="project-period">${escapeHtml(project.period)}</p>
+    <section class="career-project-row">
+      <span class="project-period">${escapeHtml(project.period)}</span>
+      <strong>${escapeHtml(project.title)}</strong>
       <p>${escapeHtml(project.summary)}</p>
-      ${points}
     </section>
   `;
 }

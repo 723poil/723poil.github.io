@@ -234,4 +234,37 @@ describe('shared browser helpers', () => {
     assert.doesNotMatch(html, /Metric/);
     assert.doesNotMatch(html, /<Modal>/);
   });
+
+  it('renders career skills in one card and projects as compact timeline rows', async () => {
+    const { renderCareerTimeline } = await import('../assets/main.js');
+    const html = renderCareerTimeline([
+      {
+        company: 'Company',
+        period: '2026.01 - 현재',
+        role: 'Backend',
+        summary: 'Company summary',
+        logo: { src: '/logo.png', alt: 'logo' },
+        skillGroups: [
+          { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
+          { title: 'Database', skills: ['MySQL'] },
+        ],
+        projects: [
+          {
+            title: 'Project one',
+            period: '2026.01',
+            summary: 'One line summary',
+            points: ['Hidden detail point'],
+          },
+        ],
+      },
+    ]);
+
+    assert.match(html, /class="career-skill-card"/);
+    assert.match(html, /class="career-skill-row"/);
+    assert.match(html, /class="career-project-row"/);
+    assert.match(html, /One line summary/);
+    assert.doesNotMatch(html, /career-skill-section/);
+    assert.doesNotMatch(html, /career-project"/);
+    assert.doesNotMatch(html, /Hidden detail point/);
+  });
 });
