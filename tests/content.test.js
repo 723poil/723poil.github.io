@@ -1,5 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import { projectCategories, projects } from '../data/projects.js';
 import { recordCategories, records } from '../data/records.js';
 import { careerItems } from '../data/career.js';
@@ -14,7 +15,7 @@ describe('project content', () => {
   });
 
   it('contains all resume-derived projects', () => {
-    assert.equal(projects.length, 8);
+    assert.equal(projects.length, 9);
   });
 
   it('has the expected featured projects', () => {
@@ -27,8 +28,23 @@ describe('project content', () => {
   });
 
   it('separates project card metadata from future detail content', () => {
-    assert.ok(projects.every((project) => project.type === '회사 프로젝트'));
+    assert.ok(projects.every((project) => ['회사 프로젝트', '팀 프로젝트'].includes(project.type)));
     assert.ok(projects.every((project) => project.detailReady));
+  });
+
+  it('includes the 알려줄게 team project with a detail page', () => {
+    const project = projects.find((item) => item.slug === 'recycling-guide-app');
+
+    assert.ok(project);
+    assert.equal(project.title, '알려줄게');
+    assert.equal(project.type, '팀 프로젝트');
+    assert.equal(project.role, '서버 구축 및 Android API 연동 담당');
+    assert.ok(project.categories.includes('Android'));
+    assert.ok(project.technologies.includes('Kotlin'));
+    assert.ok(project.technologies.includes('TensorFlow'));
+    assert.ok(project.problem.length > 20);
+    assert.ok(project.implementation.length > 20);
+    assert.ok(existsSync('projects/recycling-guide-app/index.html'));
   });
 
   it('uses stable unique slugs', () => {

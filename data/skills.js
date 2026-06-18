@@ -20,6 +20,10 @@ export const portfolioSkillNames = [
   'Slack',
   'PHP',
   'Java(Android)',
+  'Kotlin',
+  'Node.js',
+  'TensorFlow',
+  'Google Cloud',
   // Kafka는 학습 중이라 포트폴리오 노출에서 잠시 제외합니다.
   // 'Kafka',
 ];
@@ -44,6 +48,10 @@ export const skillRegistry = {
   Slack: { color: '#4a154b' },
   PHP: { color: '#777bb4' },
   'Java(Android)': { color: '#30a26e' },
+  Kotlin: { color: '#7f52ff' },
+  'Node.js': { color: '#339933' },
+  TensorFlow: { color: '#ff6f00' },
+  'Google Cloud': { color: '#4285f4' },
   // Kafka: { color: '#231f20' },
 };
 
