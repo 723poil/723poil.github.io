@@ -41,7 +41,23 @@ describe('static routes', () => {
     assert.match(html, /id="featured-projects"/);
     assert.match(html, /id="project-archive-preview"/);
     assert.match(html, /id="experience"/);
-    assert.match(html, /id="recent-records"/);
+    assert.doesNotMatch(html, /id="recent-records"/);
+  });
+
+  it('home page uses one-page portfolio navigation instead of separate page links', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /<a href="#about-snapshot"[^>]*>About me<\/a>/);
+    assert.match(html, /<a href="#core-skills"[^>]*>Skills<\/a>/);
+    assert.match(html, /<a href="#featured-projects"[^>]*>Projects<\/a>/);
+    assert.match(html, /<a href="#experience"[^>]*>Career<\/a>/);
+    assert.doesNotMatch(html, /<a href="\/projects\/"/);
+    assert.doesNotMatch(html, /<a href="\/records\/"/);
+    assert.doesNotMatch(html, /<a href="\/about\/"/);
+    assert.doesNotMatch(html, /<h2 class="section-title">RECORDS<\/h2>/);
+    assert.doesNotMatch(html, /records\.js/);
+    assert.match(html, /IntersectionObserver/);
+    assert.match(html, /data-section-link/);
   });
 
   it('home page uses a warmer narrative tone', () => {
