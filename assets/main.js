@@ -256,8 +256,8 @@ function renderCareerSkillGroups(groups) {
 function renderCareerSkillToggle(groups, labels, index) {
   if (groups.length <= 1) return '';
 
-  const expandLabel = labels.skillMoreLabel ?? '스킬 더보기';
-  const collapseLabel = labels.skillLessLabel ?? '스킬 접기';
+  const expandLabel = labels.skillMoreLabel ?? '더보기';
+  const collapseLabel = labels.skillLessLabel ?? '접기';
 
   return `
     <button
