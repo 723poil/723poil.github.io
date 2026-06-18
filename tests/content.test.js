@@ -115,14 +115,14 @@ describe('profile and home content', () => {
     const [cnai, shopchain, intern] = careerItems;
 
     assert.deepEqual(cnai.skillGroups, [
-      { title: 'Framework', skills: ['NestJS'] },
+      { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
       { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
     ]);
 
     assert.deepEqual(shopchain.skillGroups, [
-      { title: 'Frameworks & Language', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
+      { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
       { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'Loki', 'GitLab'] },
