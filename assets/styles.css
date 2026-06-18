@@ -269,14 +269,20 @@ a {
 }
 
 .card-actions {
+  display: flex;
+  justify-content: center;
   margin-top: auto;
   padding-top: 24px;
 }
 
 .project-detail-button {
-  min-height: 38px;
-  padding: 0 14px;
+  width: min(220px, 100%);
+  min-height: 44px;
+  padding: 0 24px;
+  background: var(--black);
+  color: var(--white);
   font-size: 0.9rem;
+  text-align: center;
 }
 
 .project-detail-button.disabled {

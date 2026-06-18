@@ -35,7 +35,7 @@ export function renderTags(labels) {
 export function renderProjectCard(project, { detailed = false, actionMode = 'link', detailLabel = '상세보기' } = {}) {
   const canOpenDetail = project.detailReady !== false && project.slug;
   const href = canOpenDetail ? `/projects/${encodeURIComponent(project.slug)}/` : '';
-  const tags = renderTags([...(project.categories ?? []), ...(project.technologies ?? []).slice(0, 3)]);
+  const tags = renderTags((project.technologies ?? []).slice(0, 3));
   const metric = project.metric ? `<p><strong>${escapeHtml(project.metric)}</strong></p>` : '';
   const type = project.type ? `<span class="project-kind">${escapeHtml(project.type)}</span>` : '';
   const metaLine = [project.company, project.period].filter(Boolean).join(' · ');

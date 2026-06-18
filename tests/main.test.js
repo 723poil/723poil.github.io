@@ -52,7 +52,7 @@ describe('shared browser helpers', () => {
     assert.match(html, /Metric A&amp;B &quot;wins&quot;/);
     assert.match(html, /Company &lt;script&gt; · 2026.01/);
     assert.match(html, /회사 &lt;프로젝트&gt;/);
-    assert.match(html, /Ops &lt;script&gt;/);
+    assert.doesNotMatch(html, /Ops &lt;script&gt;/);
     assert.match(html, /Node &quot;JS&quot;/);
     assert.match(html, /&lt;CSS&gt;/);
     assert.match(html, /상세보기/);
