@@ -659,8 +659,7 @@ a {
 
 .career-projects {
   display: grid;
-  gap: 10px;
-  margin-top: 28px;
+  margin-top: 32px;
 }
 
 .career-projects.is-collapsed .career-project-row:nth-child(n + 5) {
@@ -668,39 +667,59 @@ a {
 }
 
 .career-project-row {
+  position: relative;
   display: grid;
-  gap: 8px;
   min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--pill-radius);
-  background: rgba(255, 255, 255, 0.76);
-  padding: 14px 16px;
+  border-bottom: 1px solid #d7d7d7;
+  padding: 0 0 24px 28px;
+}
+
+.career-project-row + .career-project-row {
+  padding-top: 24px;
+}
+
+.career-project-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 6px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--dark);
+}
+
+.career-project-row + .career-project-row::before {
+  top: 28px;
 }
 
 .career-project-copy {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   min-width: 0;
 }
 
 .career-project-row strong {
   min-width: 0;
-  font-size: 0.98rem;
+  color: var(--black);
+  font-size: 1.15rem;
   font-weight: 900;
+  line-height: 1.45;
 }
 
 .career-project-row .project-period {
   margin: 0;
-  color: var(--red);
-  font-size: 0.86rem;
-  font-weight: 800;
+  color: var(--muted);
+  font-size: 0.98rem;
+  font-weight: 700;
   line-height: 1.5;
 }
 
 .career-project-row p {
   margin: 0;
-  color: #495057;
-  line-height: 1.65;
+  color: #343a40;
+  font-size: 1rem;
+  line-height: 1.7;
   white-space: normal;
 }
 
@@ -848,9 +867,20 @@ main.site-shell .section {
     font-size: 1.55rem;
   }
 
-  .career-skill-card,
-  .career-project-row {
+  .career-skill-card {
     padding: 18px;
+  }
+
+  .career-project-row {
+    padding: 0 0 22px 24px;
+  }
+
+  .career-project-row + .career-project-row {
+    padding-top: 22px;
+  }
+
+  .career-project-row + .career-project-row::before {
+    top: 26px;
   }
 
   .career-project-row p {

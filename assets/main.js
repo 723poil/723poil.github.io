@@ -319,9 +319,9 @@ function renderCareerItem(item, labels, index) {
 function renderCareerProject(project) {
   return `
     <section class="career-project-row">
-      <span class="project-period">${escapeHtml(project.period)}</span>
       <div class="career-project-copy">
         <strong>${escapeHtml(project.title)}</strong>
+        <span class="project-period">${escapeHtml(project.period)}</span>
         <p>${escapeHtml(project.summary)}</p>
       </div>
     </section>
