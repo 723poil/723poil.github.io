@@ -3,7 +3,7 @@ export const careerItems = [
     company: '씨앤에이아이',
     period: '2026.04 - 현재',
     role: '백엔드 개발자',
-    summary: 'AI 기술을 기반으로 사용자 서비스와 디지털 콘텐츠 제품을 운영하는 회사입니다.',
+    summary: 'AI 휴먼과 LLM 기반 인터랙션 기술을 바탕으로 AI 휴먼 생성·영상 제작 서비스를 제공하는 AI 기술 기업입니다.',
     logo: {
       src: 'assets/logos/cnai.png',
       alt: '씨앤에이아이 로고',
@@ -39,7 +39,7 @@ export const careerItems = [
     company: '샵체인',
     period: '2024.01 - 2026.03',
     role: '풀스택 개발자',
-    summary: '프랜차이즈 매장의 주문, 결제, POS·KIOSK, 정산 운영을 지원하는 매장 운영 솔루션 회사입니다.',
+    summary: '테이블오더, QR·NFC오더, POS, KIOSK 등 주문·결제 솔루션과 매장 관리 서비스를 제공하는 매장 운영 플랫폼 회사입니다.',
     logo: {
       src: 'assets/logos/shopchain.png',
       alt: '샵체인 로고',
@@ -85,7 +85,7 @@ export const careerItems = [
     company: '샵체인',
     period: '2023.06 - 2024.01',
     role: '인턴',
-    summary: '프랜차이즈 매장의 주문, 결제, POS·KIOSK, 정산 운영을 지원하는 매장 운영 솔루션 회사입니다.',
+    summary: '테이블오더, QR·NFC오더, POS, KIOSK 등 주문·결제 솔루션과 매장 관리 서비스를 제공하는 매장 운영 플랫폼 회사입니다.',
     logo: {
       src: 'assets/logos/shopchain.png',
       alt: '샵체인 로고',

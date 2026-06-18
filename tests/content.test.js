@@ -106,7 +106,15 @@ describe('profile and home content', () => {
   it('keeps career companies and nested projects in a dedicated data module', () => {
     assert.deepEqual(careerItems.map((item) => item.company), ['씨앤에이아이', '샵체인', '샵체인']);
     assert.deepEqual(careerItems.map((item) => item.period), ['2026.04 - 현재', '2024.01 - 2026.03', '2023.06 - 2024.01']);
-    assert.ok(careerItems.every((item) => item.summary.length > 20));
+    assert.equal(
+      careerItems[0].summary,
+      'AI 휴먼과 LLM 기반 인터랙션 기술을 바탕으로 AI 휴먼 생성·영상 제작 서비스를 제공하는 AI 기술 기업입니다.',
+    );
+    assert.equal(
+      careerItems[1].summary,
+      '테이블오더, QR·NFC오더, POS, KIOSK 등 주문·결제 솔루션과 매장 관리 서비스를 제공하는 매장 운영 플랫폼 회사입니다.',
+    );
+    assert.equal(careerItems[2].summary, careerItems[1].summary);
     assert.ok(careerItems.every((item) => item.projects.length > 0));
     assert.ok(careerItems.some((item) => item.projects.some((project) => project.title === '구독 결제 및 실패 보상 처리')));
   });
