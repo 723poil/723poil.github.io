@@ -82,9 +82,15 @@ describe('static routes', () => {
     assert.match(html, /id="skills-title"/);
     assert.match(html, /id="skill-list"/);
     assert.match(html, /id="projects-title"/);
+    assert.match(html, /id="featured-project-list"/);
+    assert.match(html, /id="additional-projects"/);
+    assert.match(html, /id="additional-project-list"/);
+    assert.match(html, /id="project-more-button"/);
     assert.match(html, /id="archive-title"/);
+    assert.match(html, /id="archive-project-list"/);
     assert.match(html, /id="career-title"/);
     assert.match(html, /id="career-list"/);
+    assert.match(html, /id="project-modal"/);
   });
 
   it('home page uses company logo images in the career timeline', () => {

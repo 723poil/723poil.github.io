@@ -22,12 +22,13 @@ export const homeContent = {
     },
     projects: {
       title: 'PROJECTS',
-      archiveLinkLabel: '전체 프로젝트 보기',
-      archiveLinkHref: '#project-archive-preview',
+      moreButtonLabel: '다른 프로젝트 더보기',
+      lessButtonLabel: '중요 프로젝트만 보기',
     },
     archive: {
       title: 'ARCHIVING',
-      limit: 5,
+      items: [],
+      emptyMessage: '아직 공개된 아카이빙이 없습니다.',
     },
     career: {
       title: 'CAREER',

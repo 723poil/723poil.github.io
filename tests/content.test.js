@@ -26,6 +26,11 @@ describe('project content', () => {
     assert.deepEqual(featuredSlugs, ['payment-reliability', 'pg-reconciliation', 'settlement-platform']);
   });
 
+  it('separates project card metadata from future detail content', () => {
+    assert.ok(projects.every((project) => project.type === '회사 프로젝트'));
+    assert.ok(projects.every((project) => project.detailReady));
+  });
+
   it('uses stable unique slugs', () => {
     const slugs = projects.map((project) => project.slug);
     assert.equal(new Set(slugs).size, slugs.length);
@@ -86,7 +91,11 @@ describe('profile and home content', () => {
     assert.equal(homeContent.sections.about.title, 'ABOUT ME');
     assert.equal(homeContent.sections.skills.title, 'SKILLS');
     assert.equal(homeContent.sections.projects.title, 'PROJECTS');
+    assert.equal(homeContent.sections.projects.moreButtonLabel, '다른 프로젝트 더보기');
+    assert.equal(homeContent.sections.projects.lessButtonLabel, '중요 프로젝트만 보기');
     assert.equal(homeContent.sections.archive.title, 'ARCHIVING');
+    assert.deepEqual(homeContent.sections.archive.items, []);
+    assert.equal(homeContent.sections.archive.emptyMessage, '아직 공개된 아카이빙이 없습니다.');
     assert.equal(homeContent.sections.career.title, 'CAREER');
     assert.ok(homeContent.skillGroups.every((group) => group.skills.length > 0));
     assert.deepEqual(homeContent.skillGroups.map((group) => group.title), ['Languages & Frameworks', 'Database & Infra', 'Tools']);
@@ -109,6 +118,9 @@ describe('profile and home content', () => {
     assert.equal(pageContent.projects.hero.title, '만든 것보다, 왜 그렇게 만들었는지를 더 남기고 싶었습니다.');
     assert.equal(pageContent.records.hero.title, '완성된 결과 뒤에 남은 생각들을 따로 쌓습니다.');
     assert.equal(pageContent.projectDetail.fallback, '프로젝트를 찾을 수 없습니다.');
+    assert.equal(pageContent.projectDetail.detailButtonLabel, '상세보기');
+    assert.equal(pageContent.projectDetail.closeButtonLabel, '닫기');
+    assert.equal(pageContent.projectDetail.sections.emptyDetail, '상세 내용은 아직 정리 중입니다.');
   });
 
   it('keeps career companies and nested projects in a dedicated data module', () => {

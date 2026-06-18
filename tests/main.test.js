@@ -3,10 +3,12 @@ import assert from 'node:assert/strict';
 
 describe('shared browser helpers', () => {
   it('can be imported and setup in Node without document', async () => {
-    const { createTag, renderProjectCard, renderRecordCard, setupFooterYear } = await import('../assets/main.js');
+    const { createTag, renderEmptyState, renderProjectCard, renderProjectModal, renderRecordCard, setupFooterYear } = await import('../assets/main.js');
 
     assert.equal(typeof createTag, 'function');
+    assert.equal(typeof renderEmptyState, 'function');
     assert.equal(typeof renderProjectCard, 'function');
+    assert.equal(typeof renderProjectModal, 'function');
     assert.equal(typeof renderRecordCard, 'function');
     assert.doesNotThrow(() => setupFooterYear());
   });
@@ -35,6 +37,9 @@ describe('shared browser helpers', () => {
         title: 'A&B "<script>"',
         summary: 'Summary <script> "quoted"',
         metric: 'Metric A&B "wins"',
+        company: 'Company <script>',
+        period: '2026.01',
+        type: '회사 <프로젝트>',
         categories: ['Ops <script>'],
         technologies: ['Node "JS"', 'A&B', '<CSS>'],
       },
@@ -45,10 +50,58 @@ describe('shared browser helpers', () => {
     assert.match(html, /A&amp;B &quot;&lt;script&gt;&quot;/);
     assert.match(html, /Summary &lt;script&gt; &quot;quoted&quot;/);
     assert.match(html, /Metric A&amp;B &quot;wins&quot;/);
+    assert.match(html, /Company &lt;script&gt; · 2026.01/);
+    assert.match(html, /회사 &lt;프로젝트&gt;/);
     assert.match(html, /Ops &lt;script&gt;/);
     assert.match(html, /Node &quot;JS&quot;/);
     assert.match(html, /&lt;CSS&gt;/);
+    assert.match(html, /상세보기/);
     assert.doesNotMatch(html, /<script>/);
+  });
+
+  it('renders modal project card actions without navigation links', async () => {
+    const { renderProjectCard } = await import('../assets/main.js');
+    const html = renderProjectCard(
+      {
+        slug: 'modal-detail',
+        title: 'Modal detail',
+        summary: 'Summary',
+        categories: [],
+        technologies: [],
+      },
+      { actionMode: 'modal', detailLabel: 'Open detail' },
+    );
+
+    assert.match(html, /<button class="button project-detail-button"/);
+    assert.match(html, /data-project-detail="modal-detail"/);
+    assert.match(html, /Open detail/);
+    assert.doesNotMatch(html, /href="\/projects\/modal-detail\/"/);
+  });
+
+  it('renders disabled project detail actions when detail content is not ready', async () => {
+    const { renderProjectCard } = await import('../assets/main.js');
+    const html = renderProjectCard({
+      detailReady: false,
+      slug: 'future-detail',
+      title: 'Future detail',
+      summary: 'Summary',
+      categories: [],
+      technologies: [],
+    });
+
+    assert.match(html, /상세 준비 중/);
+    assert.match(html, /aria-disabled="true"/);
+    assert.doesNotMatch(html, /href="\/projects\/future-detail\/"/);
+    assert.doesNotMatch(html, /undefined/);
+  });
+
+  it('renders escaped empty states', async () => {
+    const { renderEmptyState } = await import('../assets/main.js');
+    const html = renderEmptyState('Empty <archive>');
+
+    assert.match(html, /class="empty-state"/);
+    assert.match(html, /Empty &lt;archive&gt;/);
+    assert.doesNotMatch(html, /<archive>/);
   });
 
   it('escapes record card text', async () => {
@@ -108,5 +161,71 @@ describe('shared browser helpers', () => {
     assert.match(html, /Project &lt;Title&gt;/);
     assert.match(html, /A&amp;B &lt;Company&gt;/);
     assert.doesNotMatch(html, /<Company>/);
+  });
+
+  it('renders an empty state for project detail pages without case study content', async () => {
+    const { renderProjectDetailPage } = await import('../assets/main.js');
+    const html = renderProjectDetailPage(
+      {
+        company: 'Company',
+        period: '2026.01',
+        title: 'Project',
+        summary: 'Summary',
+        categories: [],
+        technologies: [],
+        role: 'Backend',
+        metric: 'Metric',
+      },
+      [],
+      {
+        problem: 'Problem',
+        approach: 'Approach',
+        implementation: 'Implementation',
+        result: 'Result',
+        emptyDetail: 'Detail is empty',
+        role: 'Role',
+        metric: 'Metric',
+        records: 'Records',
+        allRecords: 'All records',
+        emptyRecords: 'No records',
+      },
+    );
+
+    assert.match(html, /Detail is empty/);
+    assert.doesNotMatch(html, /undefined/);
+  });
+
+  it('renders project detail content inside a modal', async () => {
+    const { renderProjectModal } = await import('../assets/main.js');
+    const html = renderProjectModal(
+      {
+        company: 'Company <One>',
+        period: '2026.01',
+        title: 'Project <Modal>',
+        summary: 'Summary',
+        categories: ['Payment'],
+        technologies: ['NestJS'],
+        role: 'Backend',
+        metric: 'Metric',
+      },
+      {
+        problem: 'Problem',
+        approach: 'Approach',
+        implementation: 'Implementation',
+        result: 'Result',
+        emptyDetail: 'Detail is empty',
+        closeButtonLabel: 'Close',
+        role: 'Role',
+        metric: 'Metric',
+      },
+    );
+
+    assert.match(html, /role="dialog"/);
+    assert.match(html, /aria-modal="true"/);
+    assert.match(html, /aria-label="Close"/);
+    assert.match(html, /Project &lt;Modal&gt;/);
+    assert.match(html, /Company &lt;One&gt;/);
+    assert.match(html, /Detail is empty/);
+    assert.doesNotMatch(html, /<Modal>/);
   });
 });

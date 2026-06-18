@@ -34,9 +34,14 @@
       <section class="section section-gray" id="featured-projects">
         <div class="section-heading site-shell">
           <h2 class="section-title" id="projects-title"></h2>
-          <a class="text-link" id="project-archive-link" href="#project-archive-preview"></a>
         </div>
         <div class="grid three site-shell" id="featured-project-list"></div>
+        <div class="project-more site-shell" id="additional-projects" hidden>
+          <div class="grid three" id="additional-project-list"></div>
+        </div>
+        <div class="project-actions site-shell">
+          <button class="button secondary" id="project-more-button" type="button" aria-expanded="false"></button>
+        </div>
       </section>
 
       <section class="section section-dark" id="project-archive-preview">
@@ -53,21 +58,24 @@
     <footer class="site-footer">
       <div class="site-shell">© <span id="year"></span> <span id="footer-brand"></span></div>
     </footer>
+    <div class="project-modal" id="project-modal" hidden></div>
 
     <script type="module">
       import { careerItems } from '/data/career.js';
       import { homeContent } from '/data/home.js';
       import { profile, profileCards } from '/data/profile.js';
       import { projects } from '/data/projects.js';
+      import { pageContent } from '/data/site.js';
       import {
         applyDocumentMeta,
         byId,
-        renderArchiveProject,
+        renderEmptyState,
         renderCareerTimeline,
         renderHero,
         renderNavLinks,
         renderProfileCards,
         renderProjectCard,
+        renderProjectModal,
         renderSkillGroups,
       } from '/assets/main.js';
 
@@ -81,22 +89,82 @@
       byId('skills-title').textContent = homeContent.sections.skills.title;
       byId('skill-list').innerHTML = renderSkillGroups(homeContent.skillGroups);
       byId('projects-title').textContent = homeContent.sections.projects.title;
-      byId('project-archive-link').textContent = homeContent.sections.projects.archiveLinkLabel;
-      byId('project-archive-link').href = homeContent.sections.projects.archiveLinkHref;
       byId('archive-title').textContent = homeContent.sections.archive.title;
       byId('career-title').textContent = homeContent.sections.career.title;
       byId('career-list').innerHTML = renderCareerTimeline(careerItems);
 
-      byId('featured-project-list').innerHTML = projects
-        .filter((project) => project.featured)
-        .map((project) => renderProjectCard(project, { detailed: true }))
+      const primaryItems = projects.filter((project) => project.featured);
+      const secondaryItems = projects.filter((project) => !project.featured);
+      const secondaryItemsSection = byId('additional-projects');
+      const projectMoreButton = byId('project-more-button');
+      const projectModal = byId('project-modal');
+      const modalLabels = {
+        ...pageContent.projectDetail.sections,
+        closeButtonLabel: pageContent.projectDetail.closeButtonLabel,
+      };
+
+      byId('featured-project-list').innerHTML = primaryItems
+        .map((project) => renderProjectCard(project, {
+          detailed: true,
+          actionMode: 'modal',
+          detailLabel: pageContent.projectDetail.detailButtonLabel,
+        }))
         .join('');
 
-      byId('archive-project-list').innerHTML = projects
-        .filter((project) => !project.featured)
-        .slice(0, homeContent.sections.archive.limit)
-        .map(renderArchiveProject)
+      byId('additional-project-list').innerHTML = secondaryItems
+        .map((project) => renderProjectCard(project, {
+          detailed: true,
+          actionMode: 'modal',
+          detailLabel: pageContent.projectDetail.detailButtonLabel,
+        }))
         .join('');
+
+      if (secondaryItems.length) {
+        projectMoreButton.textContent = homeContent.sections.projects.moreButtonLabel;
+        projectMoreButton.addEventListener('click', () => {
+          const expanded = projectMoreButton.getAttribute('aria-expanded') === 'true';
+          secondaryItemsSection.hidden = expanded;
+          projectMoreButton.setAttribute('aria-expanded', String(!expanded));
+          projectMoreButton.textContent = expanded
+            ? homeContent.sections.projects.moreButtonLabel
+            : homeContent.sections.projects.lessButtonLabel;
+        });
+      } else {
+        projectMoreButton.hidden = true;
+      }
+
+      byId('archive-project-list').innerHTML = homeContent.sections.archive.items.length
+        ? homeContent.sections.archive.items.map((item) => renderProjectCard(item)).join('')
+        : renderEmptyState(homeContent.sections.archive.emptyMessage);
+
+      const closeProjectModal = () => {
+        projectModal.hidden = true;
+        projectModal.innerHTML = '';
+        document.body.classList.remove('modal-open');
+      };
+
+      const openProjectModal = (slug) => {
+        const project = projects.find((item) => item.slug === slug);
+        if (!project) return;
+        projectModal.innerHTML = renderProjectModal(project, modalLabels);
+        projectModal.hidden = false;
+        document.body.classList.add('modal-open');
+        projectModal.querySelector('[data-modal-close]')?.focus();
+      };
+
+      document.addEventListener('click', (event) => {
+        const detailButton = event.target.closest('[data-project-detail]');
+        if (detailButton) {
+          openProjectModal(detailButton.dataset.projectDetail);
+          return;
+        }
+
+        if (event.target.closest('[data-modal-close]')) closeProjectModal();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !projectModal.hidden) closeProjectModal();
+      });
 
       const navLinks = [...document.querySelectorAll('[data-section-link]')];
       const linkedSections = navLinks

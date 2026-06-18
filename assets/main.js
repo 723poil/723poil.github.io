@@ -32,20 +32,34 @@ export function renderTags(labels) {
   return labels.map(createTag).join('');
 }
 
-export function renderProjectCard(project, { detailed = false } = {}) {
-  const href = project.featured ? `/projects/${encodeURIComponent(project.slug)}/` : '/projects/';
-  const tags = renderTags([...project.categories, ...project.technologies.slice(0, 3)]);
+export function renderProjectCard(project, { detailed = false, actionMode = 'link', detailLabel = '상세보기' } = {}) {
+  const canOpenDetail = project.detailReady !== false && project.slug;
+  const href = canOpenDetail ? `/projects/${encodeURIComponent(project.slug)}/` : '';
+  const tags = renderTags([...(project.categories ?? []), ...(project.technologies ?? []).slice(0, 3)]);
   const metric = project.metric ? `<p><strong>${escapeHtml(project.metric)}</strong></p>` : '';
+  const type = project.type ? `<span class="project-kind">${escapeHtml(project.type)}</span>` : '';
+  const metaLine = [project.company, project.period].filter(Boolean).join(' · ');
+  const eyebrow = metaLine ? `<p class="eyebrow">${escapeHtml(metaLine)}</p>` : '';
+  const detailAction = actionMode === 'modal' && project.slug
+    ? `<button class="button project-detail-button" type="button" data-project-detail="${escapeAttribute(project.slug)}">${escapeHtml(detailLabel)}</button>`
+    : canOpenDetail
+    ? `<a class="button project-detail-button" href="${href}">상세보기</a>`
+    : '<span class="button project-detail-button disabled" aria-disabled="true">상세 준비 중</span>';
+  const title = actionMode === 'modal' || !canOpenDetail
+    ? escapeHtml(project.title)
+    : `<a href="${href}">${escapeHtml(project.title)}</a>`;
 
   return `
     <article class="card project-card">
       <div class="project-card-top">
-        <p class="eyebrow">${escapeHtml(project.company)} · ${escapeHtml(project.period)}</p>
+        ${eyebrow}
+        ${type}
       </div>
-      <h3><a href="${href}">${escapeHtml(project.title)}</a></h3>
+      <h3>${title}</h3>
       <p>${escapeHtml(project.summary)}</p>
       ${detailed ? `<div class="metric">${metric}</div>` : ''}
       <div class="meta">${tags}</div>
+      <div class="card-actions">${detailAction}</div>
     </article>
   `;
 }
@@ -126,13 +140,59 @@ export function renderSkillGroups(groups) {
     .join('');
 }
 
-export function renderArchiveProject(project) {
+export function renderEmptyState(message) {
   return `
-    <article class="archive-item">
-      <span>${escapeHtml(project.period)}</span>
-      <strong>${escapeHtml(project.title)}</strong>
-      <em>${escapeHtml(project.metric)}</em>
+    <article class="empty-state">
+      <p>${escapeHtml(message)}</p>
     </article>
+  `;
+}
+
+function renderCaseStudySections(project, labels) {
+  const detailSections = [
+    { title: labels.problem, body: project.problem },
+    { title: labels.approach, body: project.approach },
+    { title: labels.implementation, body: project.implementation },
+    { title: labels.result, body: project.result },
+  ].filter((section) => section.body);
+
+  return detailSections.length
+    ? detailSections.map((section) => `
+        <div class="case-section">
+          <h2>${escapeHtml(section.title)}</h2>
+          <p>${escapeHtml(section.body)}</p>
+        </div>
+      `).join('')
+    : renderEmptyState(labels.emptyDetail);
+}
+
+export function renderProjectModal(project, labels) {
+  const closeButtonLabel = labels.closeButtonLabel ?? '닫기';
+
+  return `
+    <div class="project-modal-backdrop" data-modal-close></div>
+    <section class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+      <button class="modal-close" type="button" data-modal-close aria-label="${escapeAttribute(closeButtonLabel)}">×</button>
+      <header class="project-modal-header">
+        <p class="eyebrow">${escapeHtml(project.company)} · ${escapeHtml(project.period)}</p>
+        <h2 id="project-modal-title">${escapeHtml(project.title)}</h2>
+        <p>${escapeHtml(project.summary)}</p>
+        <div class="meta">
+          ${renderTags([...(project.categories ?? []), ...(project.technologies ?? [])])}
+        </div>
+      </header>
+      <div class="project-modal-body">
+        <div class="modal-case">
+          ${renderCaseStudySections(project, labels)}
+        </div>
+        <aside class="card compact">
+          <h3>${escapeHtml(labels.role)}</h3>
+          <p>${escapeHtml(project.role)}</p>
+          <h3>${escapeHtml(labels.metric)}</h3>
+          <p>${escapeHtml(project.metric)}</p>
+        </aside>
+      </div>
+    </section>
   `;
 }
 
@@ -144,29 +204,14 @@ export function renderProjectDetailPage(project, relatedRecords, labels) {
         <h1 class="page-title">${escapeHtml(project.title)}</h1>
         <p class="lead">${escapeHtml(project.summary)}</p>
         <div class="meta">
-          ${renderTags([...project.categories, ...project.technologies])}
+          ${renderTags([...(project.categories ?? []), ...(project.technologies ?? [])])}
         </div>
       </div>
     </section>
     <section class="section section-white">
       <div class="case-study site-shell">
         <div>
-          <div class="case-section">
-            <h2>${escapeHtml(labels.problem)}</h2>
-            <p>${escapeHtml(project.problem)}</p>
-          </div>
-          <div class="case-section">
-            <h2>${escapeHtml(labels.approach)}</h2>
-            <p>${escapeHtml(project.approach)}</p>
-          </div>
-          <div class="case-section">
-            <h2>${escapeHtml(labels.implementation)}</h2>
-            <p>${escapeHtml(project.implementation)}</p>
-          </div>
-          <div class="case-section">
-            <h2>${escapeHtml(labels.result)}</h2>
-            <p>${escapeHtml(project.result)}</p>
-          </div>
+          ${renderCaseStudySections(project, labels)}
         </div>
         <aside class="card compact">
           <h3>${escapeHtml(labels.role)}</h3>

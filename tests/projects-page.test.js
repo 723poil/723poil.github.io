@@ -38,6 +38,13 @@ describe('project catalog page', () => {
     const previousDocument = globalThis.document;
 
     globalThis.document = {
+      body: {
+        classList: {
+          add() {},
+          remove() {},
+        },
+      },
+      addEventListener() {},
       getElementById(id) {
         return id === 'project-filters' ? filters : list;
       },
