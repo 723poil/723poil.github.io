@@ -166,6 +166,19 @@
           return;
         }
 
+        const careerProjectToggle = event.target.closest('[data-career-project-toggle]');
+        if (careerProjectToggle) {
+          const projectList = byId(careerProjectToggle.getAttribute('aria-controls'));
+          if (!projectList) return;
+          const expanded = careerProjectToggle.getAttribute('aria-expanded') === 'true';
+          projectList.classList.toggle('is-collapsed', expanded);
+          careerProjectToggle.setAttribute('aria-expanded', String(!expanded));
+          careerProjectToggle.textContent = expanded
+            ? careerProjectToggle.dataset.expandLabel
+            : careerProjectToggle.dataset.collapseLabel;
+          return;
+        }
+
         const detailButton = event.target.closest('[data-project-detail]');
         if (detailButton) {
           openProjectModal(detailButton.dataset.projectDetail);

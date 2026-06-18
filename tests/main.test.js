@@ -256,12 +256,34 @@ describe('shared browser helpers', () => {
               summary: 'One line summary',
               points: ['Hidden detail point'],
             },
+            {
+              title: 'Project two',
+              period: '2025년 하반기',
+              summary: 'Two line summary',
+            },
+            {
+              title: 'Project three',
+              period: '2025년 상반기',
+              summary: 'Three line summary',
+            },
+            {
+              title: 'Project four',
+              period: '2024년 하반기',
+              summary: 'Four line summary',
+            },
+            {
+              title: 'Project five',
+              period: '2024년 상반기',
+              summary: 'Five line summary',
+            },
           ],
         },
       ],
       {
         skillMoreLabel: 'More skills',
         skillLessLabel: 'Less skills',
+        projectMoreLabel: 'More work',
+        projectLessLabel: 'Less work',
       },
     );
 
@@ -271,11 +293,16 @@ describe('shared browser helpers', () => {
     assert.match(html, /aria-expanded="false"/);
     assert.match(html, /More skills/);
     assert.match(html, /Less skills/);
+    assert.match(html, /class="career-projects is-collapsed"/);
     assert.match(html, /class="career-project-row"/);
     assert.match(html, /2024년 하반기 - 2025년 상반기/);
     assert.match(html, /class="career-project-copy"/);
     assert.match(html, /<strong>Project one<\/strong>/);
     assert.match(html, /One line summary/);
+    assert.match(html, /<strong>Project five<\/strong>/);
+    assert.match(html, /data-career-project-toggle/);
+    assert.match(html, /More work/);
+    assert.match(html, /Less work/);
     assert.doesNotMatch(html, /career-skill-section/);
     assert.doesNotMatch(html, /career-project"/);
     assert.doesNotMatch(html, /Hidden detail point/);

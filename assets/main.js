@@ -230,6 +230,8 @@ export function renderCareerTimeline(items, labels = {}) {
   return items.map((item, index) => renderCareerItem(item, labels, index)).join('');
 }
 
+const CAREER_PROJECT_VISIBLE_COUNT = 4;
+
 function getCareerSkillGroups(item) {
   const groups = item.skillGroups?.length
     ? item.skillGroups
@@ -270,9 +272,29 @@ function renderCareerSkillToggle(groups, labels, index) {
   `;
 }
 
+function renderCareerProjectToggle(projects, labels, index) {
+  if (projects.length <= CAREER_PROJECT_VISIBLE_COUNT) return '';
+
+  const expandLabel = labels.projectMoreLabel ?? '업무 더보기';
+  const collapseLabel = labels.projectLessLabel ?? '업무 접기';
+
+  return `
+    <button
+      class="career-project-toggle"
+      type="button"
+      data-career-project-toggle
+      data-expand-label="${escapeAttribute(expandLabel)}"
+      data-collapse-label="${escapeAttribute(collapseLabel)}"
+      aria-expanded="false"
+      aria-controls="career-projects-${index}"
+    >${escapeHtml(expandLabel)}</button>
+  `;
+}
+
 function renderCareerItem(item, labels, index) {
   const skillGroups = getCareerSkillGroups(item);
   const collapsedClass = skillGroups.length > 1 ? ' is-collapsed' : '';
+  const projectCollapsedClass = item.projects.length > CAREER_PROJECT_VISIBLE_COUNT ? ' is-collapsed' : '';
 
   return `
     <article class="career-card">
@@ -285,9 +307,10 @@ function renderCareerItem(item, labels, index) {
           <section class="career-skill-card${collapsedClass}" id="career-skill-card-${index}">${renderCareerSkillGroups(skillGroups)}</section>
           ${renderCareerSkillToggle(skillGroups, labels, index)}
         </header>
-        <div class="career-projects">
+        <div class="career-projects${projectCollapsedClass}" id="career-projects-${index}">
           ${item.projects.map(renderCareerProject).join('')}
         </div>
+        ${renderCareerProjectToggle(item.projects, labels, index)}
       </div>
     </article>
   `;

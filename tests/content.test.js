@@ -99,6 +99,8 @@ describe('profile and home content', () => {
     assert.equal(homeContent.sections.career.title, 'CAREER');
     assert.equal(homeContent.sections.career.skillMoreLabel, '스킬 더보기');
     assert.equal(homeContent.sections.career.skillLessLabel, '스킬 접기');
+    assert.equal(homeContent.sections.career.projectMoreLabel, '업무 더보기');
+    assert.equal(homeContent.sections.career.projectLessLabel, '업무 접기');
     assert.ok(homeContent.skillGroups.every((group) => group.skills.length > 0));
     assert.deepEqual(homeContent.skillGroups.map((group) => group.title), ['Languages & Frameworks', 'Database & Infra', 'Tools']);
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('GitLab')));

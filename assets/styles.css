@@ -634,6 +634,10 @@ a {
   margin-top: 28px;
 }
 
+.career-projects.is-collapsed .career-project-row:nth-child(n + 5) {
+  display: none;
+}
+
 .career-project-row {
   display: grid;
   gap: 8px;
@@ -669,6 +673,19 @@ a {
   color: #495057;
   line-height: 1.65;
   white-space: normal;
+}
+
+.career-project-toggle {
+  display: table;
+  margin: 14px auto 0;
+  min-height: 36px;
+  border: 0;
+  border-radius: var(--pill-radius);
+  background: var(--dark);
+  color: var(--white);
+  padding: 0 18px;
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .case-study {
