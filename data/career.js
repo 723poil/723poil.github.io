@@ -13,7 +13,7 @@ export const careerItems = [
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
       { title: 'Monitoring', skills: ['Grafana'] },
-      { title: 'Tools', skills: ['JIRA', 'Slack'] },
+      { title: 'Tools', skills: ['GitLab', 'JIRA', 'Slack'] },
     ],
     projects: [
       {
@@ -49,7 +49,8 @@ export const careerItems = [
       { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['NCP(네이버클라우드)', 'Docker'] },
-      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki', 'Promtail'] },
+      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki'] },
+      { title: 'Tools', skills: ['GitLab'] },
     ],
     projects: [
       {

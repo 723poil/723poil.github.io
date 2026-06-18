@@ -119,14 +119,15 @@ describe('profile and home content', () => {
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker', 'Kafka'] },
       { title: 'Monitoring', skills: ['Grafana'] },
-      { title: 'Tools', skills: ['JIRA', 'Slack'] },
+      { title: 'Tools', skills: ['GitLab', 'JIRA', 'Slack'] },
     ]);
 
     assert.deepEqual(shopchain.skillGroups, [
       { title: 'Frameworks', skills: ['NestJS', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['NCP(네이버클라우드)', 'Docker'] },
-      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki', 'Promtail'] },
+      { title: 'Monitoring', skills: ['Grafana', 'Prometheus', 'Loki'] },
+      { title: 'Tools', skills: ['GitLab'] },
     ]);
 
     assert.deepEqual(intern.skillGroups, [
@@ -152,6 +153,8 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry.Idempotency);
     assert.ok(!skillRegistry['Knowledge Base']);
     assert.ok(!skillRegistry['AI Tools']);
+    assert.ok(!skillRegistry.Promtail);
+    assert.ok(!skillRegistry.node_exporter);
     assert.ok(skillRegistry.Kafka);
     assert.ok(skillRegistry['NCP(네이버클라우드)']);
   });

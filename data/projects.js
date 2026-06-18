@@ -93,7 +93,7 @@ export const projects = [
     role: '인프라/운영 담당자',
     featured: false,
     categories: ['Ops'],
-    technologies: ['NestJS', 'Grafana', 'Prometheus', 'Loki', 'Promtail', 'node_exporter'],
+    technologies: ['NestJS', 'Grafana', 'Prometheus', 'Loki'],
     summary: '장애가 났을 때 여기저기 뒤지지 않도록 서버 메트릭과 로그를 한 화면에서 볼 수 있게 했습니다.',
     metric: '로그 탐색 20분 내외 → 5분 내외',
   },
