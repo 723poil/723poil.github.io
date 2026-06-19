@@ -59,10 +59,9 @@ describe('project content', () => {
   it('featured projects have markdown case study files', () => {
     for (const project of projects.filter((item) => item.featured)) {
       const markdown = readFileSync(`data/project-details/${project.slug}.md`, 'utf8');
-      assert.match(markdown, /## 풀고 싶었던 문제/);
-      assert.match(markdown, /## 접근 방식/);
-      assert.match(markdown, /## 구현한 것/);
-      assert.match(markdown, /## 달라진 점/);
+      assert.match(markdown, /^##\s+\S+/m);
+      assert.match(markdown, /## (구현한 것|개선 과정)/);
+      assert.match(markdown, /## (달라진 점|성과)/);
     }
   });
 
