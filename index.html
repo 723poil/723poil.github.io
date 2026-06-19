@@ -183,7 +183,8 @@
       };
 
       const loadProjectMarkdown = async (slug) => {
-        const response = await fetch(`/data/project-details/${encodeURIComponent(slug)}.md`);
+        const cacheKey = Date.now().toString();
+        const response = await fetch(`/data/project-details/${encodeURIComponent(slug)}.md?v=${cacheKey}`);
         if (!response.ok) throw new Error(`Project detail markdown not found: ${slug}`);
         return response.text();
       };

@@ -112,6 +112,13 @@ describe('static routes', () => {
     assert.match(css, /\.markdown-body\s*\{[^}]*max-height:\s*100%;[^}]*overflow-y:\s*auto;/s);
   });
 
+  it('busts cache when loading project detail markdown', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /const cacheKey = Date\.now\(\)\.toString\(\);/);
+    assert.match(html, /project-details\/\$\{encodeURIComponent\(slug\)\}\.md\?v=\$\{cacheKey\}/);
+  });
+
   it('home page uses company logo images in the career timeline', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
 
