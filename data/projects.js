@@ -3,7 +3,7 @@ export const projectCategories = ['All', 'Payment', 'Settlement', 'Ops', 'Androi
 export const projects = [
   {
     slug: 'pg-reconciliation',
-    title: 'PG 결제 내역 자동 대조',
+    title: '정산 프로세스 검증 자동화',
     company: '샵체인',
     period: '2024.12 - 2025.02',
     role: '풀스택 개발자',
