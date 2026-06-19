@@ -15,6 +15,126 @@ export function escapeHtml(value) {
   })[character]);
 }
 
+function slugifyHeading(value) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[`*_~]/g, '')
+    .replace(/[^\p{Letter}\p{Number}]+/gu, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function createHeadingId(title, usedIds) {
+  const baseId = slugifyHeading(title) || 'section';
+  const count = (usedIds.get(baseId) ?? 0) + 1;
+  usedIds.set(baseId, count);
+  return count === 1 ? baseId : `${baseId}-${count}`;
+}
+
+function renderInlineMarkdown(value) {
+  const codeSpans = [];
+  const withoutCode = String(value).replace(/`([^`]+)`/g, (_, code) => {
+    const token = `@@CODE_SPAN_${codeSpans.length}@@`;
+    codeSpans.push(`<code>${escapeHtml(code)}</code>`);
+    return token;
+  });
+
+  const html = escapeHtml(withoutCode)
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/@@CODE_SPAN_(\d+)@@/g, (_, index) => codeSpans[Number(index)] ?? '');
+
+  return html;
+}
+
+function renderMarkdownList(lines, startIndex, ordered) {
+  const itemPattern = ordered ? /^\d+\.\s+(.+)$/ : /^[-*]\s+(.+)$/;
+  const tag = ordered ? 'ol' : 'ul';
+  const items = [];
+  let index = startIndex;
+
+  while (index < lines.length) {
+    const match = lines[index].match(itemPattern);
+    if (!match) break;
+    items.push(`<li>${renderInlineMarkdown(match[1])}</li>`);
+    index += 1;
+  }
+
+  return {
+    html: `<${tag}>${items.join('')}</${tag}>`,
+    nextIndex: index,
+  };
+}
+
+function renderMarkdownParagraph(lines, startIndex) {
+  const paragraphLines = [];
+  let index = startIndex;
+
+  while (index < lines.length) {
+    const line = lines[index];
+    if (!line.trim()) break;
+    if (/^#{1,6}\s+/.test(line) || /^[-*]\s+/.test(line) || /^\d+\.\s+/.test(line)) break;
+    paragraphLines.push(line.trim());
+    index += 1;
+  }
+
+  return {
+    html: `<p>${renderInlineMarkdown(paragraphLines.join(' '))}</p>`,
+    nextIndex: index,
+  };
+}
+
+export function renderMarkdownDocument(markdown) {
+  const lines = String(markdown).replace(/\r\n?/g, '\n').split('\n');
+  const usedHeadingIds = new Map();
+  const toc = [];
+  const blocks = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+
+    if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      const level = heading[1].length;
+      const title = heading[2].trim();
+      const id = createHeadingId(title, usedHeadingIds);
+
+      if (level === 2) toc.push({ id, title });
+      blocks.push(`<h${level} id="${escapeAttribute(id)}">${renderInlineMarkdown(title)}</h${level}>`);
+      index += 1;
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(line)) {
+      const list = renderMarkdownList(lines, index, false);
+      blocks.push(list.html);
+      index = list.nextIndex;
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(line)) {
+      const list = renderMarkdownList(lines, index, true);
+      blocks.push(list.html);
+      index = list.nextIndex;
+      continue;
+    }
+
+    const paragraph = renderMarkdownParagraph(lines, index);
+    blocks.push(paragraph.html);
+    index = paragraph.nextIndex;
+  }
+
+  return {
+    html: blocks.join('\n'),
+    toc,
+  };
+}
+
 function escapeAttribute(value) {
   return escapeHtml(value);
 }
@@ -67,9 +187,8 @@ export function partitionProjectCards(projects, activeProjectTypes = '', visible
   };
 }
 
-export function renderProjectCard(project, { detailed = false, actionMode = 'link', detailLabel = '상세보기' } = {}) {
+export function renderProjectCard(project, { detailed = false, detailLabel = '상세보기' } = {}) {
   const canOpenDetail = project.detailReady !== false && project.slug;
-  const href = canOpenDetail ? `/projects/${encodeURIComponent(project.slug)}/` : '';
   const tags = renderTags((project.technologies ?? []).slice(0, 3));
   const metric = project.metric ? `<p><strong>${escapeHtml(project.metric)}</strong></p>` : '';
   const type = project.type
@@ -77,14 +196,9 @@ export function renderProjectCard(project, { detailed = false, actionMode = 'lin
     : '';
   const metaLine = [project.company, project.period].filter(Boolean).join(' · ');
   const eyebrow = metaLine ? `<p class="eyebrow">${escapeHtml(metaLine)}</p>` : '';
-  const detailAction = actionMode === 'modal' && project.slug
+  const detailAction = canOpenDetail
     ? `<button class="button project-detail-button" type="button" data-project-detail="${escapeAttribute(project.slug)}">${escapeHtml(detailLabel)}</button>`
-    : canOpenDetail
-    ? `<a class="button project-detail-button" href="${href}">상세보기</a>`
     : '<span class="button project-detail-button disabled" aria-disabled="true">상세 준비 중</span>';
-  const title = actionMode === 'modal' || !canOpenDetail
-    ? escapeHtml(project.title)
-    : `<a href="${href}">${escapeHtml(project.title)}</a>`;
 
   return `
     <article class="card project-card">
@@ -92,7 +206,7 @@ export function renderProjectCard(project, { detailed = false, actionMode = 'lin
         ${eyebrow}
         ${type}
       </div>
-      <h3>${title}</h3>
+      <h3>${escapeHtml(project.title)}</h3>
       <p>${escapeHtml(project.summary)}</p>
       ${detailed ? `<div class="metric">${metric}</div>` : ''}
       <div class="meta">${tags}</div>
@@ -101,31 +215,9 @@ export function renderProjectCard(project, { detailed = false, actionMode = 'lin
   `;
 }
 
-export function renderRecordCard(record) {
-  const tags = renderTags(record.tags);
-
-  return `
-    <article class="card compact">
-      <p class="eyebrow">${escapeHtml(record.category)} · ${escapeHtml(record.date)}</p>
-      <h3>${escapeHtml(record.title)}</h3>
-      <p>${escapeHtml(record.summary)}</p>
-      <div class="meta">${tags}</div>
-    </article>
-  `;
-}
-
 export function renderNavLinks(items) {
   return items
     .map((item) => `<a href="${escapeAttribute(item.href)}" data-section-link>${escapeHtml(item.label)}</a>`)
-    .join('');
-}
-
-export function renderPageNav(items, currentHref) {
-  return items
-    .map((item) => {
-      const current = item.href === currentHref ? ' aria-current="page"' : '';
-      return `<a href="${escapeAttribute(item.href)}"${current}>${escapeHtml(item.label)}</a>`;
-    })
     .join('');
 }
 
@@ -143,10 +235,6 @@ export function renderHero(hero) {
     <p>${renderLineBreakText(hero.bodyLines)}</p>
     ${action}
   `;
-}
-
-export function renderSimpleHero(hero) {
-  return `<h1 class="page-title">${escapeHtml(hero.title)}</h1>`;
 }
 
 export function renderProfileCards(cards) {
@@ -185,24 +273,6 @@ export function renderEmptyState(message) {
   `;
 }
 
-function renderCaseStudySections(project, labels) {
-  const detailSections = [
-    { title: labels.problem, body: project.problem },
-    { title: labels.approach, body: project.approach },
-    { title: labels.implementation, body: project.implementation },
-    { title: labels.result, body: project.result },
-  ].filter((section) => section.body);
-
-  return detailSections.length
-    ? detailSections.map((section) => `
-        <div class="case-section">
-          <h2>${escapeHtml(section.title)}</h2>
-          <p>${escapeHtml(section.body)}</p>
-        </div>
-      `).join('')
-    : renderEmptyState(labels.emptyDetail);
-}
-
 export function renderProjectModal(project, labels) {
   const closeButtonLabel = labels.closeButtonLabel ?? '닫기';
 
@@ -214,52 +284,44 @@ export function renderProjectModal(project, labels) {
         <p class="eyebrow">${escapeHtml(project.company)} · ${escapeHtml(project.period)}</p>
         <h2 id="project-modal-title">${escapeHtml(project.title)}</h2>
       </header>
-      <div class="project-modal-body project-modal-body-empty">
-        <div class="modal-case" data-project-detail-body></div>
+      <div class="project-modal-body project-modal-body-empty" data-project-modal-body>
+        <nav class="modal-toc" aria-label="프로젝트 목차" data-project-detail-toc></nav>
+        <article class="markdown-body" data-project-detail-body></article>
         <aside class="modal-skill-list" data-project-skill-list></aside>
       </div>
     </section>
   `;
 }
 
-export function renderProjectDetailPage(project, relatedRecords, labels) {
+export function renderProjectModalDetail(project, markdown, labels) {
+  const rendered = renderMarkdownDocument(markdown);
+  const tocLinks = rendered.toc.length
+    ? rendered.toc
+        .map((item) => `<a href="#${escapeAttribute(item.id)}">${escapeHtml(item.title)}</a>`)
+        .join('')
+    : `<span>${escapeHtml(labels.emptyDetail)}</span>`;
+  const content = rendered.html || renderEmptyState(labels.emptyDetail);
+
   return `
-    <section class="hero project-detail-hero">
-      <div class="hero-copy">
-        <p class="eyebrow">${escapeHtml(project.company)} · ${escapeHtml(project.period)}</p>
-        <h1 class="page-title">${escapeHtml(project.title)}</h1>
-        <p class="lead">${escapeHtml(project.summary)}</p>
+    <nav class="modal-toc" aria-label="프로젝트 목차" data-project-detail-toc>
+      <strong>목차</strong>
+      ${tocLinks}
+    </nav>
+    <article class="markdown-body" data-project-detail-body>
+      ${content}
+    </article>
+    <aside class="modal-skill-list" data-project-skill-list>
+      <div class="modal-fact">
+        <h3>${escapeHtml(labels.role)}</h3>
+        <p>${escapeHtml(project.role)}</p>
+      </div>
+      <div class="modal-fact">
+        <h3>${escapeHtml(labels.skills)}</h3>
         <div class="meta">
-          ${renderTags([...(project.categories ?? []), ...(project.technologies ?? [])])}
+          ${renderTags(project.technologies ?? [])}
         </div>
       </div>
-    </section>
-    <section class="section section-white">
-      <div class="case-study site-shell">
-        <div>
-          ${renderCaseStudySections(project, labels)}
-        </div>
-        <aside class="card compact">
-          <h3>${escapeHtml(labels.role)}</h3>
-          <p>${escapeHtml(project.role)}</p>
-          <h3>${escapeHtml(labels.metric)}</h3>
-          <p>${escapeHtml(project.metric)}</p>
-        </aside>
-      </div>
-    </section>
-    <section class="section section-gray">
-      <div class="section-heading site-shell">
-        <h2>${escapeHtml(labels.records)}</h2>
-        <a class="text-link" href="/records/">${escapeHtml(labels.allRecords)}</a>
-      </div>
-      <div class="grid two site-shell">
-        ${
-          relatedRecords.length
-            ? relatedRecords.map(renderRecordCard).join('')
-            : `<article class="card compact"><p>${escapeHtml(labels.emptyRecords)}</p></article>`
-        }
-      </div>
-    </section>
+    </aside>
   `;
 }
 
@@ -371,66 +433,6 @@ export function applyDocumentMeta(profile) {
   document.title = profile.siteTitle;
   const description = document.querySelector('meta[name="description"]');
   if (description) description.setAttribute('content', profile.description);
-}
-
-export function applyPageMeta(page) {
-  if (typeof document === 'undefined') return;
-
-  document.title = page.title;
-  if (typeof document.querySelector !== 'function') return;
-  const description = document.querySelector('meta[name="description"]');
-  if (description) description.setAttribute('content', page.description);
-}
-
-export function renderSiteChrome({ profile, navItems, currentHref }) {
-  const brand = byId('brand-link');
-  const footerBrand = byId('footer-brand');
-  const nav = byId('site-nav');
-
-  if (brand) brand.textContent = profile.brand;
-  if (footerBrand) footerBrand.textContent = profile.brand;
-  if (nav) nav.innerHTML = renderPageNav(navItems, currentHref);
-}
-
-export function renderAboutPage(aboutPage) {
-  const heroTarget = byId('about-hero');
-  const sectionsTarget = byId('about-sections');
-  const contactTitle = byId('about-contact-title');
-  const contactLink = byId('about-contact-link');
-
-  if (heroTarget) heroTarget.innerHTML = `<h1 class="page-title">${escapeHtml(aboutPage.hero.title)}</h1>`;
-  if (sectionsTarget) {
-    sectionsTarget.innerHTML = aboutPage.sections
-      .map((section) => `
-        <section class="section">
-          <div class="section-heading">
-            <h2>${escapeHtml(section.title)}</h2>
-          </div>
-          <div class="grid two">
-            ${section.cards.map(renderAboutCard).join('')}
-          </div>
-        </section>
-      `)
-      .join('');
-  }
-  if (contactTitle) contactTitle.textContent = aboutPage.contact.title;
-  if (contactLink) {
-    contactLink.href = `mailto:${aboutPage.contact.email}`;
-    contactLink.textContent = aboutPage.contact.email;
-  }
-}
-
-function renderAboutCard(card) {
-  const body = card.skills?.length
-    ? `<div class="meta">${renderTags(card.skills)}</div>`
-    : `<p>${escapeHtml(card.body)}</p>`;
-
-  return `
-    <article class="card compact">
-      <h3>${escapeHtml(card.title)}</h3>
-      ${body}
-    </article>
-  `;
 }
 
 export function setupFooterYear() {

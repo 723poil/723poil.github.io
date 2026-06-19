@@ -1,12 +1,11 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { projectCategories, projects } from '../data/projects.js';
-import { recordCategories, records } from '../data/records.js';
 import { careerItems } from '../data/career.js';
 import { homeContent } from '../data/home.js';
-import { aboutPage, profile, profileCards } from '../data/profile.js';
-import { pageContent, secondaryNav } from '../data/site.js';
+import { profile, profileCards } from '../data/profile.js';
+import { pageContent } from '../data/site.js';
 import { getSkill, portfolioSkillNames, skillRegistry } from '../data/skills.js';
 
 describe('project content', () => {
@@ -30,9 +29,13 @@ describe('project content', () => {
   it('separates project card metadata from future detail content', () => {
     assert.ok(projects.every((project) => ['회사 프로젝트', '팀 프로젝트'].includes(project.type)));
     assert.ok(projects.every((project) => project.detailReady));
+    assert.ok(projects.every((project) => project.problem === undefined));
+    assert.ok(projects.every((project) => project.approach === undefined));
+    assert.ok(projects.every((project) => project.implementation === undefined));
+    assert.ok(projects.every((project) => project.result === undefined));
   });
 
-  it('includes the 알려줄게 team project with a detail page', () => {
+  it('includes the 알려줄게 team project with markdown detail content', () => {
     const project = projects.find((item) => item.slug === 'recycling-guide-app');
 
     assert.ok(project);
@@ -42,9 +45,7 @@ describe('project content', () => {
     assert.ok(project.categories.includes('Android'));
     assert.ok(project.technologies.includes('Kotlin'));
     assert.ok(project.technologies.includes('TensorFlow'));
-    assert.ok(project.problem.length > 20);
-    assert.ok(project.implementation.length > 20);
-    assert.ok(existsSync('projects/recycling-guide-app/index.html'));
+    assert.match(readFileSync('data/project-details/recycling-guide-app.md', 'utf8'), /## 구현한 것/);
   });
 
   it('uses stable unique slugs', () => {
@@ -55,42 +56,24 @@ describe('project content', () => {
     assert.ok(slugs.includes('payment-reliability'));
   });
 
-  it('featured projects have case study sections', () => {
+  it('featured projects have markdown case study files', () => {
     for (const project of projects.filter((item) => item.featured)) {
-      assert.ok(project.problem.length > 20);
-      assert.ok(project.approach.length > 20);
-      assert.ok(project.implementation.length > 20);
-      assert.ok(project.result.length > 20);
+      const markdown = readFileSync(`data/project-details/${project.slug}.md`, 'utf8');
+      assert.match(markdown, /## 풀고 싶었던 문제/);
+      assert.match(markdown, /## 접근 방식/);
+      assert.match(markdown, /## 구현한 것/);
+      assert.match(markdown, /## 달라진 점/);
     }
   });
-});
 
-describe('record content', () => {
-  it('starts with expected record categories', () => {
-    assert.deepEqual(recordCategories, ['All', 'Work Logs', 'Learning Notes', 'Retrospectives']);
-  });
+  it('keeps project modal detail content in markdown files with level two headings', () => {
+    for (const project of projects.filter((item) => item.detailReady)) {
+      const markdownPath = `data/project-details/${project.slug}.md`;
+      assert.ok(existsSync(markdownPath), `${markdownPath} should exist`);
 
-  it('contains one record for each non-All category', () => {
-    const countsByCategory = records.reduce((counts, record) => {
-      counts[record.category] = (counts[record.category] ?? 0) + 1;
-      return counts;
-    }, {});
-
-    assert.equal(records.length, 3);
-    assert.deepEqual(countsByCategory, {
-      'Learning Notes': 1,
-      Retrospectives: 1,
-      'Work Logs': 1,
-    });
-  });
-
-  it('uses stable unique slugs', () => {
-    const slugs = records.map((record) => record.slug);
-    assert.equal(new Set(slugs).size, slugs.length);
-  });
-
-  it('links at least one record to a featured project', () => {
-    assert.ok(records.some((record) => record.relatedProject === 'pg-reconciliation'));
+      const markdown = readFileSync(markdownPath, 'utf8');
+      assert.match(markdown, /^##\s+\S+/m, `${markdownPath} should expose level two headings for the modal toc`);
+    }
   });
 });
 
@@ -124,7 +107,6 @@ describe('profile and home content', () => {
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Slack')));
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Vue3')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Vue')));
-    assert.ok(aboutPage.sections.every((section) => section.cards.every((card) => !card.skills?.includes('Vue'))));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Pushgateway')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Loki')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Obsidian')));
@@ -141,14 +123,12 @@ describe('profile and home content', () => {
     assert.deepEqual(missingSkillNames, []);
   });
 
-  it('keeps secondary page navigation and page labels in a data module', () => {
-    assert.deepEqual(secondaryNav.map((item) => item.label), ['Home', 'Projects', 'Records', 'About']);
-    assert.equal(pageContent.projects.hero.title, '만든 것보다, 왜 그렇게 만들었는지를 더 남기고 싶었습니다.');
-    assert.equal(pageContent.records.hero.title, '완성된 결과 뒤에 남은 생각들을 따로 쌓습니다.');
-    assert.equal(pageContent.projectDetail.fallback, '프로젝트를 찾을 수 없습니다.');
+  it('keeps project modal labels in a data module', () => {
     assert.equal(pageContent.projectDetail.detailButtonLabel, '상세보기');
     assert.equal(pageContent.projectDetail.closeButtonLabel, '닫기');
     assert.equal(pageContent.projectDetail.sections.emptyDetail, '상세 내용은 아직 정리 중입니다.');
+    assert.equal(pageContent.projectDetail.sections.role, '담당');
+    assert.equal(pageContent.projectDetail.sections.skills, '스킬');
   });
 
   it('keeps career companies and nested projects in a dedicated data module', () => {

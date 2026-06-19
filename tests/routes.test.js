@@ -10,10 +10,14 @@ const isFile = (path) => existsSync(path) && statSync(path).isFile();
 
 const requiredRoutes = [
   'index.html',
+];
+
+const removedRoutes = [
   'projects/index.html',
   'projects/pg-reconciliation/index.html',
   'projects/settlement-platform/index.html',
   'projects/payment-reliability/index.html',
+  'projects/recycling-guide-app/index.html',
   'records/index.html',
   'about/index.html',
 ];
@@ -22,6 +26,12 @@ describe('static routes', () => {
   for (const route of requiredRoutes) {
     it(`${route} exists`, () => {
       assert.ok(isFile(join(root, route)), `${route} should exist`);
+    });
+  }
+
+  for (const route of removedRoutes) {
+    it(`${route} is not kept as a secondary page`, () => {
+      assert.equal(existsSync(join(root, route)), false, `${route} should not exist`);
     });
   }
 
@@ -94,6 +104,14 @@ describe('static routes', () => {
     assert.match(html, /id="project-modal"/);
   });
 
+  it('project modal keeps scrolling inside the markdown body only', () => {
+    const css = readFileSync(join(root, 'assets/styles.css'), 'utf8');
+
+    assert.match(css, /\.project-modal-panel\s*\{[^}]*display:\s*grid;[^}]*overflow:\s*hidden;/s);
+    assert.match(css, /\.project-modal-body\s*\{[^}]*align-items:\s*start;[^}]*min-height:\s*0;[^}]*overflow:\s*hidden;/s);
+    assert.match(css, /\.markdown-body\s*\{[^}]*max-height:\s*100%;[^}]*overflow-y:\s*auto;/s);
+  });
+
   it('home page uses company logo images in the career timeline', () => {
     const html = readFileSync(join(root, 'index.html'), 'utf8');
 
@@ -102,12 +120,12 @@ describe('static routes', () => {
     assert.doesNotMatch(html, /<div class="company-icon" aria-hidden="true">(CA|SC)<\/div>/);
   });
 
-  it('route html files keep display labels in scripts and data modules', () => {
-    const displayCopy = /723poil|Home|Projects|Records|About|만든 것보다|완성된 결과|프로젝트 사례 연구|결제, 정산|작업일지|이상협|씨앤에이아이|샵체인|NestJS/;
+  it('home page does not import secondary page scripts', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
 
-    for (const route of requiredRoutes) {
-      const html = readFileSync(join(root, route), 'utf8');
-      assert.doesNotMatch(html, displayCopy, `${route} should not hardcode display copy`);
-    }
+    assert.doesNotMatch(html, /about-page\.js/);
+    assert.doesNotMatch(html, /projects-page\.js/);
+    assert.doesNotMatch(html, /records-page\.js/);
+    assert.doesNotMatch(html, /project-detail\.js/);
   });
 });

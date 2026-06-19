@@ -3,13 +3,12 @@ import assert from 'node:assert/strict';
 
 describe('shared browser helpers', () => {
   it('can be imported and setup in Node without document', async () => {
-    const { createTag, partitionProjectCards, renderEmptyState, renderProjectCard, renderProjectModal, renderRecordCard, setupFooterYear, toggleProjectTypeSelection } = await import('../assets/main.js');
+    const { createTag, partitionProjectCards, renderEmptyState, renderProjectCard, renderProjectModal, setupFooterYear, toggleProjectTypeSelection } = await import('../assets/main.js');
 
     assert.equal(typeof createTag, 'function');
     assert.equal(typeof renderEmptyState, 'function');
     assert.equal(typeof renderProjectCard, 'function');
     assert.equal(typeof renderProjectModal, 'function');
-    assert.equal(typeof renderRecordCard, 'function');
     assert.equal(typeof partitionProjectCards, 'function');
     assert.equal(typeof toggleProjectTypeSelection, 'function');
     assert.doesNotThrow(() => setupFooterYear());
@@ -30,7 +29,7 @@ describe('shared browser helpers', () => {
     assert.equal(createTag('NestJS'), '<span class="tag" style="--tag-color: #e0234e">NestJS</span>');
   });
 
-  it('escapes project card text and encodes featured slugs', async () => {
+  it('escapes project card text and renders modal actions', async () => {
     const { renderProjectCard } = await import('../assets/main.js');
     const html = renderProjectCard(
       {
@@ -48,7 +47,8 @@ describe('shared browser helpers', () => {
       { detailed: true },
     );
 
-    assert.match(html, /href="\/projects\/case%20study%2Fa%26b\/"/);
+    assert.match(html, /<button class="button project-detail-button"/);
+    assert.match(html, /data-project-detail="case study\/a&amp;b"/);
     assert.match(html, /A&amp;B &quot;&lt;script&gt;&quot;/);
     assert.match(html, /Summary &lt;script&gt; &quot;quoted&quot;/);
     assert.match(html, /Metric A&amp;B &quot;wins&quot;/);
@@ -72,7 +72,7 @@ describe('shared browser helpers', () => {
         categories: [],
         technologies: [],
       },
-      { actionMode: 'modal', detailLabel: 'Open detail' },
+      { detailLabel: 'Open detail' },
     );
 
     assert.match(html, /<button class="button project-detail-button"/);
@@ -107,95 +107,56 @@ describe('shared browser helpers', () => {
     assert.doesNotMatch(html, /<archive>/);
   });
 
-  it('escapes record card text', async () => {
-    const { renderRecordCard } = await import('../assets/main.js');
-    const html = renderRecordCard({
-      category: 'Work & Logs',
-      date: '2026 "Q2"',
-      title: 'Record <script>',
-      summary: 'A&B summary',
-      tags: ['Tag "one"', '<two>'],
-    });
+  it('renders markdown content and extracts only level two headings for the table of contents', async () => {
+    const { renderMarkdownDocument } = await import('../assets/main.js');
+    const result = renderMarkdownDocument(`
+# Case Study
 
-    assert.match(html, /Work &amp; Logs · 2026 &quot;Q2&quot;/);
-    assert.match(html, /Record &lt;script&gt;/);
-    assert.match(html, /A&amp;B summary/);
-    assert.match(html, /Tag &quot;one&quot;/);
-    assert.match(html, /&lt;two&gt;/);
-    assert.doesNotMatch(html, /<script>/);
+Intro with **bold text** and \`inline code\`.
+
+## 문제 정의
+
+- First item
+- Second <unsafe> item
+
+### 세부 구현
+
+Nested heading stays in content only.
+
+## 결과
+
+Closing paragraph.
+`);
+
+    assert.deepEqual(result.toc, [
+      { id: '문제-정의', title: '문제 정의' },
+      { id: '결과', title: '결과' },
+    ]);
+    assert.match(result.html, /<h1 id="case-study">Case Study<\/h1>/);
+    assert.match(result.html, /<h2 id="문제-정의">문제 정의<\/h2>/);
+    assert.match(result.html, /<h3 id="세부-구현">세부 구현<\/h3>/);
+    assert.match(result.html, /<strong>bold text<\/strong>/);
+    assert.match(result.html, /<code>inline code<\/code>/);
+    assert.match(result.html, /Second &lt;unsafe&gt; item/);
+    assert.doesNotMatch(result.html, /<unsafe>/);
   });
 
-  it('renders project detail pages with the portfolio section design', async () => {
-    const { renderProjectDetailPage } = await import('../assets/main.js');
-    const html = renderProjectDetailPage(
-      {
-        company: 'A&B <Company>',
-        period: '2026 "Q2"',
-        title: 'Project <Title>',
-        summary: 'Summary & intro',
-        categories: ['Payment'],
-        technologies: ['NestJS'],
-        problem: 'Problem text',
-        approach: 'Approach text',
-        implementation: 'Implementation text',
-        result: 'Result text',
-        role: 'Backend',
-        metric: 'Fast',
-      },
-      [],
-      {
-        problem: 'Problem',
-        approach: 'Approach',
-        implementation: 'Implementation',
-        result: 'Result',
-        role: 'Role',
-        metric: 'Metric',
-        records: 'Records',
-        allRecords: 'All records',
-        emptyRecords: 'No records',
-      },
-    );
+  it('deduplicates repeated markdown heading ids', async () => {
+    const { renderMarkdownDocument } = await import('../assets/main.js');
+    const result = renderMarkdownDocument(`
+## 결과
+First result.
 
-    assert.match(html, /class="hero project-detail-hero"/);
-    assert.match(html, /class="hero-copy"/);
-    assert.match(html, /class="section section-white"/);
-    assert.match(html, /class="case-study site-shell"/);
-    assert.match(html, /class="section section-gray"/);
-    assert.match(html, /Project &lt;Title&gt;/);
-    assert.match(html, /A&amp;B &lt;Company&gt;/);
-    assert.doesNotMatch(html, /<Company>/);
-  });
+## 결과
+Second result.
+`);
 
-  it('renders an empty state for project detail pages without case study content', async () => {
-    const { renderProjectDetailPage } = await import('../assets/main.js');
-    const html = renderProjectDetailPage(
-      {
-        company: 'Company',
-        period: '2026.01',
-        title: 'Project',
-        summary: 'Summary',
-        categories: [],
-        technologies: [],
-        role: 'Backend',
-        metric: 'Metric',
-      },
-      [],
-      {
-        problem: 'Problem',
-        approach: 'Approach',
-        implementation: 'Implementation',
-        result: 'Result',
-        emptyDetail: 'Detail is empty',
-        role: 'Role',
-        metric: 'Metric',
-        records: 'Records',
-        allRecords: 'All records',
-        emptyRecords: 'No records',
-      },
-    );
-
-    assert.match(html, /Detail is empty/);
-    assert.doesNotMatch(html, /undefined/);
+    assert.deepEqual(result.toc, [
+      { id: '결과', title: '결과' },
+      { id: '결과-2', title: '결과' },
+    ]);
+    assert.match(result.html, /<h2 id="결과">결과<\/h2>/);
+    assert.match(result.html, /<h2 id="결과-2">결과<\/h2>/);
   });
 
   it('keeps project modal body and skill area empty for manual editing', async () => {
@@ -228,6 +189,7 @@ describe('shared browser helpers', () => {
     assert.match(html, /aria-label="Close"/);
     assert.match(html, /Project &lt;Modal&gt;/);
     assert.match(html, /Company &lt;One&gt;/);
+    assert.match(html, /data-project-detail-toc/);
     assert.match(html, /data-project-detail-body/);
     assert.match(html, /data-project-skill-list/);
     assert.doesNotMatch(html, /Summary/);
@@ -236,6 +198,46 @@ describe('shared browser helpers', () => {
     assert.doesNotMatch(html, /Role/);
     assert.doesNotMatch(html, /Metric/);
     assert.doesNotMatch(html, /<Modal>/);
+  });
+
+  it('renders markdown-backed project modal detail content with a level two table of contents', async () => {
+    const { renderProjectModalDetail } = await import('../assets/main.js');
+    const html = renderProjectModalDetail(
+      {
+        categories: ['Payment'],
+        technologies: ['NestJS'],
+        role: 'Backend <Dev>',
+        metric: '10초 이내',
+      },
+      `
+## 문제
+수기 대조가 오래 걸렸습니다.
+
+### 제외되는 제목
+목차에는 들어가지 않습니다.
+
+## 결과
+검증 시간이 줄었습니다.
+`,
+      {
+        role: '담당',
+        skills: '스킬',
+        emptyDetail: '상세 내용 없음',
+      },
+    );
+
+    assert.match(html, /class="modal-toc"/);
+    assert.match(html, /href="#문제"/);
+    assert.match(html, /href="#결과"/);
+    assert.doesNotMatch(html, /제외되는 제목<\/a>/);
+    assert.match(html, /class="markdown-body"/);
+    assert.match(html, /<h2 id="문제">문제<\/h2>/);
+    assert.match(html, /Backend &lt;Dev&gt;/);
+    assert.match(html, /스킬/);
+    assert.match(html, /NestJS/);
+    assert.doesNotMatch(html, /Payment/);
+    assert.doesNotMatch(html, /10초 이내/);
+    assert.doesNotMatch(html, /<Dev>/);
   });
 
   it('splits home projects by featured state before a type filter is selected', async () => {

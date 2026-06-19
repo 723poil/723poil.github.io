@@ -14,10 +14,6 @@ export const projects = [
     technologies: ['NestJS', 'Vue3', 'MySQL'],
     summary: '매번 엑셀로 맞춰보던 PG 결제 내역을 내부 데이터와 자동으로 대조하도록 바꾼 작업입니다.',
     metric: '조회 60초 이상 → 10초 이내, 검증 1시간~1일 → 30분 이내',
-    problem: '운영 담당자가 결제 내역을 느리게 조회하고 엑셀로 수기 대조해야 해서 정산 검증 시간이 길고 오류 가능성이 있었습니다.',
-    approach: '정산 검증용 데이터를 별도로 적재하고, PG 결제 내역 파일과 내부 결제 내역을 1:1로 비교하는 흐름을 만들었습니다.',
-    implementation: 'NestJS Scheduler로 검증 데이터를 생성하고 Vue3 관리자 화면에서 파일 업로드와 대조 결과 확인 흐름을 제공했습니다.',
-    result: '결제 내역 조회 시간은 60초 이상에서 10초 이내로 줄었고, 정산 검증 업무는 1시간~1일에서 30분 이내로 단축됐습니다.',
   },
   {
     slug: 'settlement-platform',
@@ -32,10 +28,6 @@ export const projects = [
     technologies: ['NestJS', 'Vue3', 'MySQL'],
     summary: '고객사마다 다른 정산 기준과 수수료 정책을 한 플랫폼 안에서 안정적으로 다루도록 만든 작업입니다.',
     metric: '월 매출 약 5천만 원 규모 운영',
-    problem: '고객사마다 정산 기준, 수수료율, 지급 기준이 달라 설정 변경 이후에도 과거 정산 기준을 안정적으로 보존해야 했습니다.',
-    approach: '정산 생성 시점의 수수료율과 매장 설정을 스냅샷으로 저장하고, 검증은 집계 데이터를 활용하도록 구조를 나눴습니다.',
-    implementation: '정산 도메인 모델과 MySQL 스키마를 설계하고, NestJS API와 Vue3 관리자 화면으로 운영 기능을 구현했습니다.',
-    result: '설정 변경 이후에도 과거 정산 기준을 유지하며 월 매출 약 5천만 원 규모의 정산 대행 서비스를 운영할 수 있었습니다.',
   },
   {
     slug: 'payment-reliability',
@@ -50,10 +42,6 @@ export const projects = [
     technologies: ['NestJS', 'PostgreSQL', 'Redis'],
     summary: '중복 승인, 내부 처리 실패처럼 결제에서 가장 곤란한 순간을 덜 위험하게 만들기 위해 흐름을 나눈 작업입니다.',
     metric: 'Redis Lock, 멱등키, 실패 보상 처리',
-    problem: 'PG 승인 요청이 중복되거나 승인 이후 내부 처리에 실패하면 결제 데이터 불일치가 생길 수 있었습니다.',
-    approach: '단건 결제와 정기구독 결제 흐름을 분리하고, 주문 단위 멱등키와 Redis Lock으로 중복 처리를 제어했습니다.',
-    implementation: 'PG 승인, 내부 주문 처리, 실패 보상 단계를 분리하고 내부 처리 실패 시 PG 취소 API를 호출하도록 구성했습니다.',
-    result: '중복 결제와 결제 데이터 불일치 가능성을 줄이고 결제 실패 상황을 보상 처리할 수 있는 기반을 만들었습니다.',
   },
   {
     slug: 'dreampay',
@@ -138,9 +126,5 @@ export const projects = [
     technologies: ['Kotlin', 'Node.js', 'TensorFlow', 'Google Cloud', 'Docker'],
     summary: '사진으로 재활용 물품을 판별하고 지역 기준에 맞는 분리수거 방법을 안내하는 Android 팀 프로젝트입니다.',
     metric: '프론트엔드 2명, 백엔드 2명 팀 프로젝트',
-    problem: '분리수거 앱들이 품목별 정보 전달에 머무르는 경우가 많아, 사용자가 사진을 찍어 자신의 지역 기준에 맞는 분류 방법을 바로 확인하기 어려웠습니다.',
-    approach: '재활용 물품 사진을 서버로 전송하면 딥러닝 모델이 물품을 분류하고, 서버가 지역별 분리수거 기준에 맞는 안내를 내려주는 흐름으로 설계했습니다.',
-    implementation: 'Node.js 서버와 Google Cloud 기반 배포 환경을 구성하고, TensorFlow 모델 탐색 및 적용, Android 앱의 API 연동과 버퍼링 기능 구현을 담당했습니다.',
-    result: '짧은 개발 기간 안에 대구 지역 기준의 분리수거 안내를 제공하는 앱 흐름을 구현했고, 팀원과 함께 발표 자료와 프로젝트 제안 발표까지 마무리했습니다.',
   },
 ];

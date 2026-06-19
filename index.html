@@ -77,10 +77,11 @@
         renderProfileCards,
         renderProjectCard,
         renderProjectModal,
+        renderProjectModalDetail,
         renderSkillGroups,
         partitionProjectCards,
         toggleProjectTypeSelection,
-      } from '/assets/main.js?v=20260618-project-type-filter';
+      } from '/assets/main.js?v=20260619-md-detail';
 
       applyDocumentMeta(profile);
       byId('brand-link').textContent = profile.brand;
@@ -177,16 +178,46 @@
       const closeProjectModal = () => {
         projectModal.hidden = true;
         projectModal.innerHTML = '';
+        delete projectModal.dataset.activeProjectSlug;
         document.body.classList.remove('modal-open');
       };
 
-      const openProjectModal = (slug) => {
+      const loadProjectMarkdown = async (slug) => {
+        const response = await fetch(`/data/project-details/${encodeURIComponent(slug)}.md`);
+        if (!response.ok) throw new Error(`Project detail markdown not found: ${slug}`);
+        return response.text();
+      };
+
+      const openProjectModal = async (slug) => {
         const project = projects.find((item) => item.slug === slug);
         if (!project) return;
         projectModal.innerHTML = renderProjectModal(project, modalLabels);
         projectModal.hidden = false;
+        projectModal.dataset.activeProjectSlug = slug;
         document.body.classList.add('modal-open');
         projectModal.querySelector('[data-modal-close]')?.focus();
+
+        const modalBody = projectModal.querySelector('[data-project-modal-body]');
+        if (modalBody) {
+          modalBody.innerHTML = '<div class="modal-loading">상세 내용을 불러오는 중입니다.</div>';
+        }
+
+        try {
+          const markdown = await loadProjectMarkdown(slug);
+          if (projectModal.dataset.activeProjectSlug !== slug) return;
+          const activeModalBody = projectModal.querySelector('[data-project-modal-body]');
+          if (activeModalBody) activeModalBody.innerHTML = renderProjectModalDetail(project, markdown, modalLabels);
+        } catch {
+          if (projectModal.dataset.activeProjectSlug !== slug) return;
+          const activeModalBody = projectModal.querySelector('[data-project-modal-body]');
+          if (activeModalBody) {
+            activeModalBody.innerHTML = renderProjectModalDetail(
+              project,
+              `## 상세 내용\n${modalLabels.emptyDetail}`,
+              modalLabels,
+            );
+          }
+        }
       };
 
       document.addEventListener('click', (event) => {
