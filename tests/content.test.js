@@ -64,13 +64,14 @@ describe('project content', () => {
     assert.equal(project.title, '차량용 AI 사물인식 플랫폼 개발');
     assert.equal(project.company, '경북대학교 / 산학협력사 (주)휴컨');
     assert.equal(project.type, '팀 프로젝트');
-    assert.equal(project.role, 'TOPST 보드 IPC 통신 제어 및 모델 이미지 라벨링 담당');
+    assert.equal(project.role, '팀장, TOPST 보드 IPC 통신 제어 및 모델 이미지 라벨링 담당');
     assert.ok(project.categories.includes('Data'));
     assert.ok(project.categories.includes('Ops'));
     assert.deepEqual(project.technologies, ['Python', 'C', 'TCP/IP', 'IPC', 'TOPST']);
     assert.deepEqual(project.links.map((link) => link.url), ['assets/docs/vehicle-ai-object-platform-presentation.pdf']);
     assert.ok(existsSync('assets/docs/vehicle-ai-object-platform-presentation.pdf'));
     assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /main-core와 MCU 코어 간 IPC 통신 제어/);
+    assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /팀장으로/);
     assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /이미지 라벨링 작업/);
     assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /산학협력사 일정상/);
   });
