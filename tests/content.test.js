@@ -223,6 +223,7 @@ describe('profile and home content', () => {
       '2026년 상반기 - 퇴사',
       '2025년 하반기',
       '2025년 하반기',
+      '2025년 하반기',
       '2025년 상반기',
       '2024년 하반기 - 퇴사',
       '2024년 상반기 - 퇴사',
@@ -238,6 +239,7 @@ describe('profile and home content', () => {
     assert.deepEqual(shopchain.projects.map((project) => project.title), [
       '단맛 프로젝트 개발 참여',
       'AX 도입 및 도메인 지식 문서화 담당',
+      '픽업프렌즈 프로젝트 개발',
       '정산 대행 플랫폼 개발',
       '드림페이 개발',
       '네이버페이 결제 도입',
@@ -250,6 +252,7 @@ describe('profile and home content', () => {
       '2026년 상반기 - 퇴사',
       '2025년 하반기',
       '2025년 하반기',
+      '2025년 하반기',
       '2025년 상반기',
       '2024년 하반기 - 퇴사',
       '2024년 상반기 - 퇴사',
@@ -258,6 +261,9 @@ describe('profile and home content', () => {
     assert.match(shopchain.projects[0].summary, /단골 맛집 리워드 앱/);
     assert.match(shopchain.projects[0].summary, /포인트/);
     assert.match(shopchain.projects[0].summary, /추천/);
+    assert.match(shopchain.projects[2].summary, /포장주문 앱/);
+    assert.match(shopchain.projects[2].summary, /지도와 매장 목록/);
+    assert.match(shopchain.projects[2].summary, /매장 픽업/);
   });
 
   it('groups career skills by company context', () => {
