@@ -14,7 +14,7 @@ describe('project content', () => {
   });
 
   it('contains all resume-derived projects', () => {
-    assert.equal(projects.length, 11);
+    assert.equal(projects.length, 12);
   });
 
   it('has the expected featured projects', () => {
@@ -55,6 +55,24 @@ describe('project content', () => {
     assert.ok(project.technologies.includes('Kotlin'));
     assert.ok(project.technologies.includes('TensorFlow'));
     assert.match(readFileSync('data/project-details/recycling-guide-app.md', 'utf8'), /## (?:\S+ )?(구현한 것|개선 과정)/);
+  });
+
+  it('includes the vehicle AI object platform team project with TOPST IPC focus', () => {
+    const project = projects.find((item) => item.slug === 'vehicle-ai-object-platform');
+
+    assert.ok(project);
+    assert.equal(project.title, '차량용 AI 사물인식 플랫폼 개발');
+    assert.equal(project.company, '경북대학교 / 산학협력사 (주)휴컨');
+    assert.equal(project.type, '팀 프로젝트');
+    assert.equal(project.role, 'TOPST 보드 IPC 통신 제어 및 모델 이미지 라벨링 담당');
+    assert.ok(project.categories.includes('Data'));
+    assert.ok(project.categories.includes('Ops'));
+    assert.deepEqual(project.technologies, ['Python', 'C', 'TCP/IP', 'IPC', 'TOPST']);
+    assert.deepEqual(project.links.map((link) => link.url), ['assets/docs/vehicle-ai-object-platform-presentation.pdf']);
+    assert.ok(existsSync('assets/docs/vehicle-ai-object-platform-presentation.pdf'));
+    assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /main-core와 MCU 코어 간 IPC 통신 제어/);
+    assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /이미지 라벨링 작업/);
+    assert.match(readFileSync('data/project-details/vehicle-ai-object-platform.md', 'utf8'), /산학협력사 일정상/);
   });
 
   it('includes the 수성구 카페 상권 분석 team project with source links', () => {
@@ -99,6 +117,7 @@ describe('project content', () => {
     assert.ok(slugs.includes('pg-reconciliation'));
     assert.ok(slugs.includes('settlement-platform'));
     assert.ok(slugs.includes('payment-reliability'));
+    assert.ok(slugs.includes('vehicle-ai-object-platform'));
     assert.ok(slugs.includes('suseong-cafe-market-analysis'));
     assert.ok(slugs.includes('cims-project'));
   });

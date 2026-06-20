@@ -148,6 +148,31 @@ export const projects = [
     metric: '반복 질의 중심 업무를 문서 기반 확인 구조로 전환',
   },
   {
+    slug: 'vehicle-ai-object-platform',
+    title: '차량용 AI 사물인식 플랫폼 개발',
+    company: '경북대학교 / 산학협력사 (주)휴컨',
+    period: '2023.03 - 2023.05',
+    role: 'TOPST 보드 IPC 통신 제어 및 모델 이미지 라벨링 담당',
+    type: '팀 프로젝트',
+    featured: false,
+    detailReady: true,
+    categories: ['Data', 'Ops'],
+    technologies: ['Python', 'C', 'TCP/IP', 'IPC', 'TOPST'],
+    links: [
+      {
+        label: '최종보고 발표자료 PDF',
+        url: 'assets/docs/vehicle-ai-object-platform-presentation.pdf',
+      },
+    ],
+    summary: [
+      'Python, C 기반 차량용 AI 사물인식 플랫폼 개발',
+      'TOPST 보드의 main-core와 MCU 코어 간 IPC 통신 흐름 구현',
+      '차량·사람 검출 모델 학습을 위한 이미지 라벨링 수행',
+      'MCU 코어에서 수신 데이터 파싱 및 CAN 전송 직전 단계 검증',
+    ],
+    metric: '5인 팀 프로젝트, TOPST 보드 IPC 통신 제어 및 모델 이미지 라벨링',
+  },
+  {
     slug: 'recycling-guide-app',
     title: '알려줄게',
     company: '경북대학교',

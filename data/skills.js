@@ -30,6 +30,10 @@ export const portfolioSkillNames = [
   'Node.js',
   'TensorFlow',
   'Google Cloud',
+  'C',
+  'TCP/IP',
+  'IPC',
+  'TOPST',
   // Kafka는 학습 중이라 포트폴리오 노출에서 잠시 제외합니다.
   // 'Kafka',
 ];
@@ -64,6 +68,10 @@ export const skillRegistry = {
   'Node.js': { color: '#339933' },
   TensorFlow: { color: '#ff6f00' },
   'Google Cloud': { color: '#4285f4' },
+  C: { color: '#5c6bc0' },
+  'TCP/IP': { color: '#0f766e' },
+  IPC: { color: '#7c2d12' },
+  TOPST: { color: '#334155' },
   // Kafka: { color: '#231f20' },
 };
 
