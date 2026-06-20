@@ -1,4 +1,4 @@
-export const projectCategories = ['All', 'Payment', 'Settlement', 'Ops', 'Android', 'Documentation'];
+export const projectCategories = ['All', 'Payment', 'Settlement', 'Ops', 'Android', 'Documentation', 'Data'];
 
 export const projects = [
   {
@@ -9,10 +9,15 @@ export const projects = [
     role: '풀스택 개발자',
     type: '회사 프로젝트',
     featured: true,
+    majorProject: true,
     detailReady: true,
     categories: ['Payment', 'Settlement', 'Ops'],
     technologies: ['NestJS', 'Vue3', 'MySQL'],
-    summary: '매번 엑셀로 맞춰보던 PG 결제 내역을 내부 데이터와 자동으로 대조하도록 바꾼 작업입니다.',
+    summary: [
+      'NestJS, Vue3, MySQL 기반 정산 검증 자동화 개발',
+      'PG 결제 내역-내부 결제 데이터 대조 로직 설계',
+      '검증 시간 단축 및 운영 확인 흐름 개선',
+    ],
     metric: '조회 60초 이상 → 10초 이내, 검증 1시간~1일 → 30분 이내',
   },
   {
@@ -23,10 +28,15 @@ export const projects = [
     role: '풀스택 개발자',
     type: '회사 프로젝트',
     featured: true,
+    majorProject: true,
     detailReady: true,
     categories: ['Settlement', 'Payment'],
     technologies: ['NestJS', 'Vue3', 'MySQL'],
-    summary: '고객사마다 다른 정산 기준과 수수료 정책을 한 플랫폼 안에서 안정적으로 다루도록 만든 작업입니다.',
+    summary: [
+      'NestJS, Vue3, MySQL 기반 정산 대행 플랫폼 개발',
+      '고객사별 수수료·정산 기준 관리 구조 설계',
+      '정산 데이터 생성 및 운영 관리 흐름 구현',
+    ],
     metric: '월 매출 약 5천만 원 규모 운영',
   },
   {
@@ -40,7 +50,11 @@ export const projects = [
     detailReady: true,
     categories: ['Payment'],
     technologies: ['NestJS', 'PostgreSQL', 'Redis'],
-    summary: '중복 승인, 내부 처리 실패처럼 결제에서 가장 곤란한 순간을 덜 위험하게 만들기 위해 흐름을 나눈 작업입니다.',
+    summary: [
+      'NestJS, PostgreSQL, Redis 기반 결제 안정성 구조 개발',
+      '중복 승인 방지 및 멱등 처리 흐름 설계',
+      '실패 보상 처리로 결제 운영 리스크 완화',
+    ],
     metric: 'Redis Lock, 멱등키, 실패 보상 처리',
   },
   {
@@ -54,12 +68,16 @@ export const projects = [
     detailReady: true,
     categories: ['Payment'],
     technologies: ['NestJS', 'MySQL'],
-    summary: '비사업자도 결제를 받을 수 있도록 PG 결제, 한도, 현금영수증 발급 흐름을 연결했습니다.',
+    summary: [
+      'NestJS, MySQL 기반 비사업자 결제 서비스 개발',
+      'PG 결제·한도·현금영수증 발급 흐름 구현',
+      '월 매출 2~4천만 원 규모 운영 기반 구축',
+    ],
     metric: '월 매출 약 2~4천만 원 규모 운영 기반',
   },
   {
     slug: 'naverpay-pos-kiosk',
-    title: 'POS·KIOSK 네이버페이 결제 프로세스',
+    title: 'POS·KIOSK·테이블오더 네이버페이 결제수단 도입',
     company: '샵체인',
     period: '2025.01 - 2025.04',
     role: '풀스택 개발자',
@@ -68,8 +86,12 @@ export const projects = [
     detailReady: true,
     categories: ['Payment', 'Android'],
     technologies: ['PHP', 'Java(Android)'],
-    summary: '기존 결제 흐름은 흔들지 않으면서 POS와 KIOSK에 네이버페이 결제 진입점을 붙였습니다.',
-    metric: '기존 신용카드·현금 결제 영향 최소화',
+    summary: [
+      'PHP, Java 기반 POS·KIOSK·테이블오더 네이버페이 결제수단 도입',
+      '기존 결제 흐름과 분리된 네이버페이 진입 구조 설계',
+      '기존 결제 흐름 영향 최소화',
+    ],
+    metric: '기존 결제 흐름 영향 최소화',
   },
   {
     slug: 'delivery-pos-integration',
@@ -82,12 +104,16 @@ export const projects = [
     detailReady: true,
     categories: ['Android', 'Ops'],
     technologies: ['PHP', 'Java(Android)'],
-    summary: '외부 배달 주문이 POS 안에서 자연스럽게 주문과 매출로 이어지도록 중계 흐름을 붙였습니다.',
+    summary: [
+      'PHP, Java 기반 외부 배달앱 주문 POS 연동 개발',
+      '주문 수신·매출 반영 중계 흐름 설계',
+      '테스트 매장 실제 주문 처리 검증',
+    ],
     metric: '테스트 매장 실제 주문 수신·처리 검증',
   },
   {
     slug: 'monitoring-logs',
-    title: '모니터링 및 로그 조회 환경',
+    title: '모니터링 및 로그 조회 환경 구축',
     company: '샵체인',
     period: '2024.10 - 2024.11',
     role: '인프라/운영 담당자',
@@ -96,21 +122,29 @@ export const projects = [
     detailReady: true,
     categories: ['Ops'],
     technologies: ['NestJS', 'Grafana', 'Prometheus'],
-    summary: '장애가 났을 때 여기저기 뒤지지 않도록 서버 메트릭과 로그를 한 화면에서 볼 수 있게 했습니다.',
+    summary: [
+      'Grafana, Prometheus 기반 모니터링 환경 구축',
+      '서버 메트릭·로그 조회 흐름 구성',
+      '로그 탐색 시간 20분 내외 → 5분 내외',
+    ],
     metric: '로그 탐색 20분 내외 → 5분 내외',
   },
   {
     slug: 'domain-knowledge-base',
-    title: 'AI 기반 도메인 지식베이스',
+    title: '도메인 지식베이스 구축 및 AI 활용 기반 정리',
     company: '샵체인',
     period: '2026.01 - 2026.02',
-    role: 'AX 담당자',
+    role: '도메인 문서화 담당',
     type: '회사 프로젝트',
     featured: false,
     detailReady: true,
     categories: ['Documentation', 'Ops'],
-    technologies: [],
-    summary: '주문·결제·정산 지식을 다시 찾기 쉬운 문서로 묶고, 개발할 때 바로 참고할 수 있게 정리했습니다.',
+    technologies: ['Obsidian'],
+    summary: [
+      'Obsidian 기반 주문·결제·정산 도메인 지식베이스 구축',
+      '반복 질의 중심 업무 문서화 구조 설계',
+      'AI 활용을 위한 문서 연결 기반 정리',
+    ],
     metric: '반복 질의 중심 업무를 문서 기반 확인 구조로 전환',
   },
   {
@@ -124,7 +158,73 @@ export const projects = [
     detailReady: true,
     categories: ['Android', 'Ops'],
     technologies: ['Kotlin', 'Node.js', 'TensorFlow', 'Google Cloud', 'Docker'],
-    summary: '사진으로 재활용 물품을 판별하고 지역 기준에 맞는 분리수거 방법을 안내하는 Android 팀 프로젝트입니다.',
+    links: [
+      {
+        label: 'GitHub README',
+        url: 'https://github.com/723poil/moapp_1#%EA%B0%9C%EB%B0%9C%EB%B0%B0%EA%B2%BD',
+      },
+    ],
+    summary: [
+      'Kotlin, Node.js 기반 분리수거 안내 앱 개발',
+      '이미지 판별 결과와 지역별 배출 기준 연동',
+      '서버 구축 및 Android API 연동 담당',
+    ],
     metric: '프론트엔드 2명, 백엔드 2명 팀 프로젝트',
+  },
+  {
+    slug: 'suseong-cafe-market-analysis',
+    title: '수성구 카페 상권 분석',
+    company: '경북대학교',
+    period: '2022.09 - 2022.12',
+    role: '데이터 수집·분석 및 서버 구축 담당',
+    type: '팀 프로젝트',
+    featured: false,
+    detailReady: true,
+    categories: ['Data', 'Ops'],
+    technologies: ['Python', 'Selenium', 'Pandas', 'Node.js', 'TensorFlow', 'Google Cloud', 'Docker'],
+    links: [
+      {
+        label: 'GitHub',
+        url: 'https://github.com/JoWonYeong/market-analysis/',
+      },
+      {
+        label: '팀 Notion',
+        url: 'https://app.notion.com/p/4-b5804aeb23fd4505a7b2343ea6cef846?source=copy_link',
+      },
+      {
+        label: '크롤링 정리 글',
+        url: 'https://velog.io/@723poil/%EC%9B%B9%ED%81%AC%EB%A1%A4%EB%A7%81-%EC%88%98%EC%84%B1%EA%B5%AC-CCTV-%EC%83%81%EA%B6%8C%EB%B6%84%EC%84%9D-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81-%ED%95%98%EA%B8%B0',
+      },
+    ],
+    summary: [
+      'Python, Selenium 기반 수성구 상권 데이터 수집',
+      '공공데이터·판매 데이터 분석 및 예측 모델 연동',
+      'Google Cloud, Docker 기반 분석 서비스 서버 구축',
+    ],
+    metric: 'UCWIT 2022 한국정보과학회 학술심포지엄 논문 기재',
+  },
+  {
+    slug: 'cims-project',
+    title: 'COVID19 정보 관리 시스템',
+    company: '경북대학교',
+    period: '2021.12 - 2021.12',
+    role: '백엔드 개발 및 Firebase 연동 담당',
+    type: '팀 프로젝트',
+    featured: false,
+    detailReady: true,
+    categories: ['Ops'],
+    technologies: ['Python', 'PyQt5', 'Firebase'],
+    links: [
+      {
+        label: 'GitHub',
+        url: 'https://github.com/723poil/CIMS_project',
+      },
+    ],
+    summary: [
+      'Python, PyQt5 기반 COVID19 정보 관리 시스템 개발',
+      'Firebase 기반 사용자·장소·신고·알림 데이터 관리',
+      'FCM 제약을 우회한 DB 기반 알림 흐름 구현',
+    ],
+    metric: '4인 팀 프로젝트',
   },
 ];

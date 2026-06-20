@@ -10,11 +10,11 @@ import { getSkill, portfolioSkillNames, skillRegistry } from '../data/skills.js'
 
 describe('project content', () => {
   it('starts with expected project categories', () => {
-    assert.deepEqual(projectCategories, ['All', 'Payment', 'Settlement', 'Ops', 'Android', 'Documentation']);
+    assert.deepEqual(projectCategories, ['All', 'Payment', 'Settlement', 'Ops', 'Android', 'Documentation', 'Data']);
   });
 
   it('contains all resume-derived projects', () => {
-    assert.equal(projects.length, 9);
+    assert.equal(projects.length, 11);
   });
 
   it('has the expected featured projects', () => {
@@ -24,6 +24,15 @@ describe('project content', () => {
       .sort();
 
     assert.deepEqual(featuredSlugs, ['payment-reliability', 'pg-reconciliation', 'settlement-platform']);
+  });
+
+  it('has the expected major projects', () => {
+    const majorProjectSlugs = projects
+      .filter((project) => project.majorProject)
+      .map((project) => project.slug)
+      .sort();
+
+    assert.deepEqual(majorProjectSlugs, ['pg-reconciliation', 'settlement-platform']);
   });
 
   it('separates project card metadata from future detail content', () => {
@@ -45,7 +54,43 @@ describe('project content', () => {
     assert.ok(project.categories.includes('Android'));
     assert.ok(project.technologies.includes('Kotlin'));
     assert.ok(project.technologies.includes('TensorFlow'));
-    assert.match(readFileSync('data/project-details/recycling-guide-app.md', 'utf8'), /## 구현한 것/);
+    assert.match(readFileSync('data/project-details/recycling-guide-app.md', 'utf8'), /## (?:\S+ )?(구현한 것|개선 과정)/);
+  });
+
+  it('includes the 수성구 카페 상권 분석 team project with source links', () => {
+    const project = projects.find((item) => item.slug === 'suseong-cafe-market-analysis');
+
+    assert.ok(project);
+    assert.equal(project.title, '수성구 카페 상권 분석');
+    assert.equal(project.type, '팀 프로젝트');
+    assert.equal(project.role, '데이터 수집·분석 및 서버 구축 담당');
+    assert.ok(project.categories.includes('Data'));
+    assert.ok(project.technologies.includes('Python'));
+    assert.ok(project.technologies.includes('Selenium'));
+    assert.ok(project.technologies.includes('TensorFlow'));
+    assert.deepEqual(project.links.map((link) => link.url), [
+      'https://github.com/JoWonYeong/market-analysis/',
+      'https://app.notion.com/p/4-b5804aeb23fd4505a7b2343ea6cef846?source=copy_link',
+      'https://velog.io/@723poil/%EC%9B%B9%ED%81%AC%EB%A1%A4%EB%A7%81-%EC%88%98%EC%84%B1%EA%B5%AC-CCTV-%EC%83%81%EA%B6%8C%EB%B6%84%EC%84%9D-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81-%ED%95%98%EA%B8%B0',
+    ]);
+    assert.match(readFileSync('data/project-details/suseong-cafe-market-analysis.md', 'utf8'), /공공데이터/);
+    assert.match(readFileSync('data/project-details/suseong-cafe-market-analysis.md', 'utf8'), /크롤링/);
+  });
+
+  it('includes the COVID19 information management system team project with source link', () => {
+    const project = projects.find((item) => item.slug === 'cims-project');
+
+    assert.ok(project);
+    assert.equal(project.title, 'COVID19 정보 관리 시스템');
+    assert.equal(project.type, '팀 프로젝트');
+    assert.equal(project.role, '백엔드 개발 및 Firebase 연동 담당');
+    assert.ok(project.categories.includes('Ops'));
+    assert.ok(project.technologies.includes('Python'));
+    assert.ok(project.technologies.includes('PyQt5'));
+    assert.ok(project.technologies.includes('Firebase'));
+    assert.deepEqual(project.links.map((link) => link.url), ['https://github.com/723poil/CIMS_project']);
+    assert.match(readFileSync('data/project-details/cims-project.md', 'utf8'), /FCM/);
+    assert.match(readFileSync('data/project-details/cims-project.md', 'utf8'), /read flag/);
   });
 
   it('uses stable unique slugs', () => {
@@ -54,14 +99,16 @@ describe('project content', () => {
     assert.ok(slugs.includes('pg-reconciliation'));
     assert.ok(slugs.includes('settlement-platform'));
     assert.ok(slugs.includes('payment-reliability'));
+    assert.ok(slugs.includes('suseong-cafe-market-analysis'));
+    assert.ok(slugs.includes('cims-project'));
   });
 
   it('featured projects have markdown case study files', () => {
     for (const project of projects.filter((item) => item.featured)) {
       const markdown = readFileSync(`data/project-details/${project.slug}.md`, 'utf8');
       assert.match(markdown, /^##\s+\S+/m);
-      assert.match(markdown, /## (구현한 것|개선 과정)/);
-      assert.match(markdown, /## (달라진 점|성과)/);
+      assert.match(markdown, /## (?:\S+ )?(구현한 것|개선 과정)/);
+      assert.match(markdown, /## (?:\S+ )?(달라진 점|성과)/);
     }
   });
 
@@ -92,9 +139,7 @@ describe('profile and home content', () => {
     assert.equal(homeContent.sections.projects.filterLabel, '프로젝트 유형 필터');
     assert.equal(homeContent.sections.projects.moreButtonLabel, '프로젝트 더보기');
     assert.equal(homeContent.sections.projects.lessButtonLabel, '접기');
-    assert.equal(homeContent.sections.archive.title, 'ARCHIVING');
-    assert.deepEqual(homeContent.sections.archive.items, []);
-    assert.equal(homeContent.sections.archive.emptyMessage, '아직 공개된 아카이빙이 없습니다.');
+    assert.equal(homeContent.sections.archive, undefined);
     assert.equal(homeContent.sections.career.title, 'CAREER');
     assert.equal(homeContent.sections.career.skillMoreLabel, '더보기');
     assert.equal(homeContent.sections.career.skillLessLabel, '접기');
@@ -105,10 +150,11 @@ describe('profile and home content', () => {
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('GitLab')));
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Slack')));
     assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Vue3')));
+    assert.ok(homeContent.skillGroups.some((group) => group.skills.includes('Python')));
+    assert.ok(homeContent.skillGroups.find((group) => group.title === 'Tools').skills.includes('Obsidian'));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Vue')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Pushgateway')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Loki')));
-    assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Obsidian')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Markdown')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('Codex')));
     assert.ok(homeContent.skillGroups.every((group) => !group.skills.includes('백엔드 개발')));
@@ -122,12 +168,29 @@ describe('profile and home content', () => {
     assert.deepEqual(missingSkillNames, []);
   });
 
+  it('presents the domain knowledge base as documentation and AI usage groundwork', () => {
+    const project = projects.find((item) => item.slug === 'domain-knowledge-base');
+
+    assert.ok(project);
+    assert.equal(project.title, '도메인 지식베이스 구축 및 AI 활용 기반 정리');
+    assert.equal(project.role, '도메인 문서화 담당');
+    assert.ok(project.technologies.includes('Obsidian'));
+
+    const markdown = readFileSync('data/project-details/domain-knowledge-base.md', 'utf8');
+    assert.match(markdown, /Obsidian/);
+    assert.match(markdown, /문서 간 연결/);
+    assert.match(markdown, /AI 활용 기반/);
+    assert.match(markdown, /동료 개발자/);
+    assert.match(markdown, /질의를 하지 않고/);
+  });
+
   it('keeps project modal labels in a data module', () => {
     assert.equal(pageContent.projectDetail.detailButtonLabel, '상세보기');
     assert.equal(pageContent.projectDetail.closeButtonLabel, '닫기');
     assert.equal(pageContent.projectDetail.sections.emptyDetail, '상세 내용은 아직 정리 중입니다.');
     assert.equal(pageContent.projectDetail.sections.role, '담당');
     assert.equal(pageContent.projectDetail.sections.skills, '스킬');
+    assert.equal(pageContent.projectDetail.sections.links, '관련 링크');
   });
 
   it('keeps career companies and nested projects in a dedicated data module', () => {
@@ -155,6 +218,7 @@ describe('profile and home content', () => {
     assert.deepEqual(projectPeriods, [
       '2026년 상반기',
       '2026년 상반기 - 퇴사',
+      '2026년 상반기 - 퇴사',
       '2025년 하반기',
       '2025년 하반기',
       '2025년 상반기',
@@ -170,6 +234,7 @@ describe('profile and home content', () => {
     const shopchain = careerItems[1];
 
     assert.deepEqual(shopchain.projects.map((project) => project.title), [
+      '단맛 프로젝트 개발 참여',
       'AX 도입 및 도메인 지식 문서화 담당',
       '정산 대행 플랫폼 개발',
       '드림페이 개발',
@@ -180,6 +245,7 @@ describe('profile and home content', () => {
     ]);
     assert.deepEqual(shopchain.projects.map((project) => project.period), [
       '2026년 상반기 - 퇴사',
+      '2026년 상반기 - 퇴사',
       '2025년 하반기',
       '2025년 하반기',
       '2025년 상반기',
@@ -187,6 +253,9 @@ describe('profile and home content', () => {
       '2024년 상반기 - 퇴사',
       '2024년 상반기',
     ]);
+    assert.match(shopchain.projects[0].summary, /단골 맛집 리워드 앱/);
+    assert.match(shopchain.projects[0].summary, /포인트/);
+    assert.match(shopchain.projects[0].summary, /추천/);
   });
 
   it('groups career skills by company context', () => {
@@ -235,7 +304,6 @@ describe('skill registry', () => {
     assert.ok(!skillRegistry.Kafka);
     assert.ok(!skillRegistry.Pushgateway);
     assert.ok(!skillRegistry.Loki);
-    assert.ok(!skillRegistry.Obsidian);
     assert.ok(!skillRegistry.Markdown);
     assert.ok(!skillRegistry.Codex);
     assert.ok(!skillRegistry['NCP(네이버클라우드)']);

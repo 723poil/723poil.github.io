@@ -40,6 +40,11 @@ export const careerItems = [
     ],
     projects: [
       {
+        title: '단맛 프로젝트 개발 참여',
+        period: '2026년 상반기 - 퇴사',
+        summary: '단골 맛집 리워드 앱의 상점목록, 포인트, 추천 프로그램 등 사용자 혜택 흐름 개발 참여',
+      },
+      {
         title: 'AX 도입 및 도메인 지식 문서화 담당',
         period: '2026년 상반기 - 퇴사',
         summary: '팀 내 지식 공유와 도메인 문서화를 통해 업무 효율 개선 및 LLM 활용 기반 마련',

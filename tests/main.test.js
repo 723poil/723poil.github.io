@@ -36,7 +36,7 @@ describe('shared browser helpers', () => {
         featured: true,
         slug: 'case study/a&b',
         title: 'A&B "<script>"',
-        summary: 'Summary <script> "quoted"',
+        summary: ['Summary <script> "quoted"', 'Second A&B'],
         metric: 'Metric A&B "wins"',
         company: 'Company <script>',
         period: '2026.01',
@@ -51,7 +51,9 @@ describe('shared browser helpers', () => {
     assert.match(html, /data-project-detail="case study\/a&amp;b"/);
     assert.match(html, /A&amp;B &quot;&lt;script&gt;&quot;/);
     assert.match(html, /Summary &lt;script&gt; &quot;quoted&quot;/);
-    assert.match(html, /Metric A&amp;B &quot;wins&quot;/);
+    assert.match(html, /Second A&amp;B/);
+    assert.match(html, /class="project-summary-list"/);
+    assert.doesNotMatch(html, /Metric A&amp;B &quot;wins&quot;/);
     assert.match(html, /Company &lt;script&gt; · 2026.01/);
     assert.match(html, /data-project-type="회사 &lt;프로젝트&gt;"/);
     assert.match(html, /회사 &lt;프로젝트&gt;/);
@@ -79,6 +81,30 @@ describe('shared browser helpers', () => {
     assert.match(html, /data-project-detail="modal-detail"/);
     assert.match(html, /Open detail/);
     assert.doesNotMatch(html, /href="\/projects\/modal-detail\/"/);
+  });
+
+  it('renders a star marker only for major project cards', async () => {
+    const { renderProjectCard } = await import('../assets/main.js');
+    const majorHtml = renderProjectCard({
+      majorProject: true,
+      slug: 'major-project',
+      title: 'Major project',
+      summary: 'Summary',
+      categories: [],
+      technologies: [],
+    });
+    const regularHtml = renderProjectCard({
+      slug: 'regular-project',
+      title: 'Regular project',
+      summary: 'Summary',
+      categories: [],
+      technologies: [],
+    });
+
+    assert.match(majorHtml, /class="major-project-mark"/);
+    assert.match(majorHtml, /aria-label="주요 프로젝트"/);
+    assert.match(majorHtml, />★</);
+    assert.doesNotMatch(regularHtml, /major-project-mark/);
   });
 
   it('renders disabled project detail actions when detail content is not ready', async () => {
@@ -208,6 +234,7 @@ Second result.
         technologies: ['NestJS'],
         role: 'Backend <Dev>',
         metric: '10초 이내',
+        links: [{ label: 'Repo <Link>', url: 'https://example.com?a=1&b=2' }],
       },
       `
 ## 문제
@@ -222,6 +249,7 @@ Second result.
       {
         role: '담당',
         skills: '스킬',
+        links: '관련 링크',
         emptyDetail: '상세 내용 없음',
       },
     );
@@ -235,24 +263,30 @@ Second result.
     assert.match(html, /Backend &lt;Dev&gt;/);
     assert.match(html, /스킬/);
     assert.match(html, /NestJS/);
+    assert.match(html, /관련 링크/);
+    assert.match(html, /Repo &lt;Link&gt;/);
+    assert.match(html, /href="https:\/\/example\.com\?a=1&amp;b=2"/);
+    assert.match(html, /rel="noopener noreferrer"/);
     assert.doesNotMatch(html, /Payment/);
     assert.doesNotMatch(html, /10초 이내/);
     assert.doesNotMatch(html, /<Dev>/);
   });
 
-  it('splits home projects by featured state before a type filter is selected', async () => {
+  it('shows the first two featured-first home projects before a type filter is selected', async () => {
     const { partitionProjectCards } = await import('../assets/main.js');
     const result = partitionProjectCards([
       { title: 'Company featured', type: '회사 프로젝트', featured: true },
+      { title: 'Team featured', type: '팀 프로젝트', featured: true },
+      { title: 'Ops featured', type: '회사 프로젝트', featured: true },
       { title: 'Team project', type: '팀 프로젝트', featured: false },
       { title: 'Company archive', type: '회사 프로젝트', featured: false },
     ]);
 
-    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured']);
-    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Team project', 'Company archive']);
+    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured', 'Team featured']);
+    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Ops featured', 'Team project', 'Company archive']);
   });
 
-  it('shows the first three filtered projects above the more button regardless of featured state', async () => {
+  it('shows the first two filtered projects above the more button regardless of featured state', async () => {
     const { partitionProjectCards } = await import('../assets/main.js');
     const result = partitionProjectCards(
       [
@@ -265,11 +299,11 @@ Second result.
       '회사 프로젝트',
     );
 
-    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured', 'Company one', 'Company two']);
-    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Company three']);
+    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured', 'Company one']);
+    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Company two', 'Company three']);
   });
 
-  it('combines multiple selected project type filters before splitting the first three cards', async () => {
+  it('combines multiple selected project type filters before splitting the first two cards', async () => {
     const { partitionProjectCards } = await import('../assets/main.js');
     const result = partitionProjectCards(
       [
@@ -281,8 +315,24 @@ Second result.
       new Set(['회사 프로젝트', '팀 프로젝트']),
     );
 
-    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured', 'Company one', 'Team project']);
-    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Company two']);
+    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Company featured', 'Company one']);
+    assert.deepEqual(result.secondaryItems.map((project) => project.title), ['Team project', 'Company two']);
+  });
+
+  it('filters home projects to explicitly marked major project items', async () => {
+    const { partitionProjectCards } = await import('../assets/main.js');
+    const result = partitionProjectCards(
+      [
+        { title: 'Company featured', type: '회사 프로젝트', featured: true, majorProject: false },
+        { title: 'Company one', type: '회사 프로젝트', featured: false },
+        { title: 'Team major', type: '팀 프로젝트', featured: false, majorProject: true },
+        { title: 'Team project', type: '팀 프로젝트', featured: false },
+      ],
+      '주요 프로젝트',
+    );
+
+    assert.deepEqual(result.primaryItems.map((project) => project.title), ['Team major']);
+    assert.deepEqual(result.secondaryItems.map((project) => project.title), []);
   });
 
   it('toggles project type selection off when clicking the same filter again', async () => {

@@ -49,8 +49,8 @@ describe('static routes', () => {
     assert.match(html, /id="about-snapshot"/);
     assert.match(html, /id="core-skills"/);
     assert.match(html, /id="featured-projects"/);
-    assert.match(html, /id="project-archive-preview"/);
     assert.match(html, /id="experience"/);
+    assert.doesNotMatch(html, /id="project-archive-preview"/);
     assert.doesNotMatch(html, /id="recent-records"/);
   });
 
@@ -93,20 +93,27 @@ describe('static routes', () => {
     assert.match(html, /id="skill-list"/);
     assert.match(html, /id="projects-title"/);
     assert.match(html, /id="project-type-filters"/);
-    assert.match(html, /id="featured-project-list"/);
+    assert.match(html, /class="grid two project-grid site-shell" id="featured-project-list"/);
     assert.match(html, /id="additional-projects"/);
-    assert.match(html, /id="additional-project-list"/);
+    assert.match(html, /class="grid two project-grid" id="additional-project-list"/);
     assert.match(html, /id="project-more-button"/);
-    assert.match(html, /id="archive-title"/);
-    assert.match(html, /id="archive-project-list"/);
+    assert.doesNotMatch(html, /id="archive-title"/);
+    assert.doesNotMatch(html, /id="archive-project-list"/);
     assert.match(html, /id="career-title"/);
     assert.match(html, /id="career-list"/);
     assert.match(html, /id="project-modal"/);
   });
 
+  it('starts the home project filter on major projects', () => {
+    const html = readFileSync(join(root, 'index.html'), 'utf8');
+
+    assert.match(html, /const activeProjectTypes = new Set\(\[majorProjectFilter\]\);/);
+  });
+
   it('project modal keeps scrolling inside the markdown body only', () => {
     const css = readFileSync(join(root, 'assets/styles.css'), 'utf8');
 
+    assert.match(css, /\[hidden\]\s*\{[^}]*display:\s*none\s*!important;/s);
     assert.match(css, /\.project-modal-panel\s*\{[^}]*display:\s*grid;[^}]*overflow:\s*hidden;/s);
     assert.match(css, /\.project-modal-body\s*\{[^}]*align-items:\s*start;[^}]*min-height:\s*0;[^}]*overflow:\s*hidden;/s);
     assert.match(css, /\.markdown-body\s*\{[^}]*max-height:\s*100%;[^}]*overflow-y:\s*auto;/s);

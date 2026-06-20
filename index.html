@@ -6,7 +6,7 @@
     <title></title>
     <meta name="description" content="">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="assets/styles.css?v=20260618-project-type-filter">
+    <link rel="stylesheet" href="assets/styles.css?v=20260620-major-projects">
   </head>
   <body>
     <header class="site-header">
@@ -36,18 +36,13 @@
           <h2 class="section-title" id="projects-title"></h2>
           <div class="project-filter-list" id="project-type-filters"></div>
         </div>
-        <div class="grid three site-shell" id="featured-project-list"></div>
+        <div class="grid two project-grid site-shell" id="featured-project-list"></div>
         <div class="project-more site-shell" id="additional-projects" hidden>
-          <div class="grid three" id="additional-project-list"></div>
+          <div class="grid two project-grid" id="additional-project-list"></div>
         </div>
         <div class="project-actions site-shell">
           <button class="button secondary" id="project-more-button" type="button" aria-expanded="false"></button>
         </div>
-      </section>
-
-      <section class="section section-dark" id="project-archive-preview">
-        <h2 class="section-title" id="archive-title"></h2>
-        <div class="archive-list site-shell" id="archive-project-list"></div>
       </section>
 
       <section class="section section-gray" id="experience">
@@ -63,14 +58,13 @@
 
     <script type="module">
       import { careerItems } from '/data/career.js?v=20260618-skill-cleanup';
-      import { homeContent } from '/data/home.js?v=20260618-skill-cleanup';
+      import { homeContent } from '/data/home.js?v=20260620-major-projects';
       import { profile, profileCards } from '/data/profile.js';
-      import { projects } from '/data/projects.js?v=20260618-skill-cleanup';
+      import { projects } from '/data/projects.js?v=20260620-major-projects';
       import { pageContent } from '/data/site.js';
       import {
         applyDocumentMeta,
         byId,
-        renderEmptyState,
         renderCareerTimeline,
         renderHero,
         renderNavLinks,
@@ -79,9 +73,10 @@
         renderProjectModal,
         renderProjectModalDetail,
         renderSkillGroups,
+        majorProjectFilter,
         partitionProjectCards,
         toggleProjectTypeSelection,
-      } from '/assets/main.js?v=20260619-md-detail';
+      } from '/assets/main.js?v=20260620-major-projects';
 
       applyDocumentMeta(profile);
       byId('brand-link').textContent = profile.brand;
@@ -94,12 +89,11 @@
       byId('skill-list').innerHTML = renderSkillGroups(homeContent.skillGroups);
       byId('projects-title').textContent = homeContent.sections.projects.title;
       byId('project-type-filters').setAttribute('aria-label', homeContent.sections.projects.filterLabel);
-      byId('archive-title').textContent = homeContent.sections.archive.title;
       byId('career-title').textContent = homeContent.sections.career.title;
       byId('career-list').innerHTML = renderCareerTimeline(careerItems, homeContent.sections.career);
 
-      const projectTypes = [...new Set(projects.map((project) => project.type).filter(Boolean))];
-      const activeProjectTypes = new Set();
+      const projectTypes = [majorProjectFilter, ...new Set(projects.map((project) => project.type).filter(Boolean))];
+      const activeProjectTypes = new Set([majorProjectFilter]);
       let showSecondaryItems = false;
       const projectTypeFilters = byId('project-type-filters');
       const featuredProjectList = byId('featured-project-list');
@@ -170,10 +164,6 @@
         showSecondaryItems = !showSecondaryItems;
         renderFilteredItems();
       });
-
-      byId('archive-project-list').innerHTML = homeContent.sections.archive.items.length
-        ? homeContent.sections.archive.items.map((item) => renderProjectCard(item)).join('')
-        : renderEmptyState(homeContent.sections.archive.emptyMessage);
 
       const closeProjectModal = () => {
         projectModal.hidden = true;

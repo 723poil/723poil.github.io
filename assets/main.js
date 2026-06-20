@@ -169,17 +169,25 @@ export function toggleProjectTypeSelection(selectedTypes, type) {
   return selectedTypes;
 }
 
-export function partitionProjectCards(projects, activeProjectTypes = '', visibleCount = 3) {
+export const majorProjectFilter = '주요 프로젝트';
+
+export function partitionProjectCards(projects, activeProjectTypes = '', visibleCount = 2) {
   const selectedTypes = createProjectTypeSet(activeProjectTypes);
 
   if (selectedTypes.size === 0) {
+    const featuredItems = projects.filter((project) => project.featured);
+    const regularItems = projects.filter((project) => !project.featured);
+    const orderedItems = [...featuredItems, ...regularItems];
+
     return {
-      primaryItems: projects.filter((project) => project.featured),
-      secondaryItems: projects.filter((project) => !project.featured),
+      primaryItems: orderedItems.slice(0, visibleCount),
+      secondaryItems: orderedItems.slice(visibleCount),
     };
   }
 
-  const filteredItems = projects.filter((project) => selectedTypes.has(project.type));
+  const filteredItems = projects.filter((project) => (
+    selectedTypes.has(project.type) || (selectedTypes.has(majorProjectFilter) && project.majorProject)
+  ));
 
   return {
     primaryItems: filteredItems.slice(0, visibleCount),
@@ -190,7 +198,12 @@ export function partitionProjectCards(projects, activeProjectTypes = '', visible
 export function renderProjectCard(project, { detailed = false, detailLabel = '상세보기' } = {}) {
   const canOpenDetail = project.detailReady !== false && project.slug;
   const tags = renderTags((project.technologies ?? []).slice(0, 3));
-  const metric = project.metric ? `<p><strong>${escapeHtml(project.metric)}</strong></p>` : '';
+  const summary = Array.isArray(project.summary)
+    ? `<ul class="project-summary-list">${project.summary
+      .filter(Boolean)
+      .map((item) => `<li>${escapeHtml(item)}</li>`)
+      .join('')}</ul>`
+    : `<p>${escapeHtml(project.summary ?? '')}</p>`;
   const type = project.type
     ? `<span class="project-kind" data-project-type="${escapeAttribute(project.type)}">${escapeHtml(project.type)}</span>`
     : '';
@@ -199,6 +212,9 @@ export function renderProjectCard(project, { detailed = false, detailLabel = '�
   const detailAction = canOpenDetail
     ? `<button class="button project-detail-button" type="button" data-project-detail="${escapeAttribute(project.slug)}">${escapeHtml(detailLabel)}</button>`
     : '<span class="button project-detail-button disabled" aria-disabled="true">상세 준비 중</span>';
+  const majorProjectMark = project.majorProject
+    ? '<span class="major-project-mark" aria-label="주요 프로젝트">★</span>'
+    : '';
 
   return `
     <article class="card project-card">
@@ -206,9 +222,8 @@ export function renderProjectCard(project, { detailed = false, detailLabel = '�
         ${eyebrow}
         ${type}
       </div>
-      <h3>${escapeHtml(project.title)}</h3>
-      <p>${escapeHtml(project.summary)}</p>
-      ${detailed ? `<div class="metric">${metric}</div>` : ''}
+      <h3>${majorProjectMark}${escapeHtml(project.title)}</h3>
+      ${summary}
       <div class="meta">${tags}</div>
       <div class="card-actions">${detailAction}</div>
     </article>
@@ -301,6 +316,14 @@ export function renderProjectModalDetail(project, markdown, labels) {
         .join('')
     : `<span>${escapeHtml(labels.emptyDetail)}</span>`;
   const content = rendered.html || renderEmptyState(labels.emptyDetail);
+  const projectLinks = (project.links ?? [])
+    .filter((link) => link?.url && link?.label)
+    .map((link) => `
+      <a class="modal-link" href="${escapeAttribute(link.url)}" target="_blank" rel="noopener noreferrer">
+        ${escapeHtml(link.label)}
+      </a>
+    `)
+    .join('');
 
   return `
     <nav class="modal-toc" aria-label="프로젝트 목차" data-project-detail-toc>
@@ -321,6 +344,14 @@ export function renderProjectModalDetail(project, markdown, labels) {
           ${renderTags(project.technologies ?? [])}
         </div>
       </div>
+      ${projectLinks ? `
+        <div class="modal-fact">
+          <h3>${escapeHtml(labels.links ?? '관련 링크')}</h3>
+          <div class="modal-links">
+            ${projectLinks}
+          </div>
+        </div>
+      ` : ''}
     </aside>
   `;
 }

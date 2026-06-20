@@ -26,11 +26,6 @@ export const homeContent = {
       moreButtonLabel: '프로젝트 더보기',
       lessButtonLabel: '접기',
     },
-    archive: {
-      title: 'ARCHIVING',
-      items: [],
-      emptyMessage: '아직 공개된 아카이빙이 없습니다.',
-    },
     career: {
       title: 'CAREER',
       skillMoreLabel: '더보기',
@@ -42,7 +37,7 @@ export const homeContent = {
   skillGroups: [
     {
       title: 'Languages & Frameworks',
-      skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'],
+      skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)', 'Python'],
     },
     {
       title: 'Database & Infra',
@@ -51,7 +46,7 @@ export const homeContent = {
     },
     {
       title: 'Tools',
-      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'JIRA', 'Slack'],
+      skills: ['GitLab', 'Jenkins', 'Grafana', 'Prometheus', 'JIRA', 'Slack', 'Obsidian'],
     },
   ],
 };

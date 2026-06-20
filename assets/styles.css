@@ -22,6 +22,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -221,6 +225,18 @@ a {
   color: #495057;
 }
 
+.project-summary-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+  color: #495057;
+}
+
+.project-summary-list li {
+  line-height: 1.55;
+}
+
 .card .eyebrow,
 .timeline-item .eyebrow {
   margin: 0 0 10px;
@@ -229,15 +245,23 @@ a {
   font-weight: 800;
 }
 
-.project-card .metric {
-  margin-top: 12px;
-  color: var(--black);
-  font-weight: 800;
-}
-
 .project-card {
   display: flex;
   flex-direction: column;
+  min-height: 340px;
+}
+
+.project-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.major-project-mark {
+  flex: 0 0 auto;
+  color: var(--red);
+  font-size: 0.9em;
+  line-height: 1;
 }
 
 .project-card-top {
@@ -298,6 +322,11 @@ a {
   color: #2f8f5b;
 }
 
+.project-filter-button[data-project-type="주요 프로젝트"] {
+  border-color: var(--red);
+  color: var(--red);
+}
+
 .project-filter-button[aria-pressed="true"] {
   background: var(--black);
   color: var(--white);
@@ -309,6 +338,10 @@ a {
 
 .project-filter-button[data-project-type="팀 프로젝트"][aria-pressed="true"] {
   background: #2f8f5b;
+}
+
+.project-filter-button[data-project-type="주요 프로젝트"][aria-pressed="true"] {
+  background: var(--red);
 }
 
 .card-actions {
@@ -563,6 +596,25 @@ a {
   line-height: 1.65;
 }
 
+.modal-links {
+  display: grid;
+  gap: 8px;
+}
+
+.modal-link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 34px;
+  border-bottom: 2px solid var(--red);
+  color: var(--black);
+  font-weight: 800;
+}
+
+.modal-link:hover {
+  color: var(--red);
+}
+
 .meta {
   display: flex;
   flex-wrap: wrap;
@@ -621,12 +673,6 @@ a {
 
 .filter-button[aria-pressed="true"] {
   background: var(--red);
-}
-
-.archive-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
 }
 
 .empty-state {
@@ -883,7 +929,6 @@ main.site-shell .section {
 @media (max-width: 900px) {
   .grid.three,
   .grid.two,
-  .archive-list,
   .career-skill-row,
   .career-project-row,
   .project-modal-body {
