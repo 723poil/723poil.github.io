@@ -128,7 +128,9 @@ describe('profile and home content', () => {
     assert.equal(profile.name, '이상협');
     assert.equal(profile.email, 'leetkdguq73@naver.com');
     assert.equal(profile.education, '경북대학교(컴퓨터학부)');
-    assert.deepEqual(profileCards.map((item) => item.label), ['이름', '이메일', '학력']);
+    assert.equal(profile.github, 'https://github.com/723poil');
+    assert.deepEqual(profileCards.map((item) => item.label), ['이름', '이메일', '학력', 'GitHub']);
+    assert.equal(profileCards.find((item) => item.label === 'GitHub').href, profile.github);
   });
 
   it('keeps home labels and portfolio skill groups in data modules', () => {
