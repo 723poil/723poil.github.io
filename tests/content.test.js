@@ -273,14 +273,14 @@ describe('profile and home content', () => {
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript'] },
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'Jenkins', 'Infisical', 'JIRA', 'Slack'] },
     ]);
 
     assert.deepEqual(shopchain.skillGroups, [
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'GitLab', 'Jenkins'] },
     ]);
 
     assert.deepEqual(intern.skillGroups, [

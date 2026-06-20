@@ -13,7 +13,7 @@ export const careerItems = [
       { title: 'Database & Cache', skills: ['PostgreSQL', 'Redis'] },
       // Kafka는 학습 중이라 포트폴리오 노출에서 잠시 제외합니다.
       { title: 'Infra & Messaging', skills: ['AWS', 'Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'JIRA', 'Slack'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'GitLab', 'Jenkins', 'Infisical', 'JIRA', 'Slack'] },
     ],
     projects: [
       {
@@ -36,7 +36,7 @@ export const careerItems = [
       { title: 'Frameworks & Language', skills: ['NestJS', 'TypeScript', 'Vue3', 'PHP', 'Java(Android)'] },
       { title: 'Database', skills: ['MySQL'] },
       { title: 'Infra', skills: ['Docker'] },
-      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'GitLab'] },
+      { title: 'Monitoring & Tools', skills: ['Grafana', 'Prometheus', 'GitLab', 'Jenkins'] },
     ],
     projects: [
       {
